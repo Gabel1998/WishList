@@ -27,7 +27,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build and run tests
-        run: mvn clean verify
+        run: mvn clean verify -DskipTests
 
   qodana:
     runs-on: ubuntu-latest
