@@ -1,24 +1,84 @@
+name: Auto-Assign when item moved to In Progress
+
 on:
-  create:
-    ref_type: branch
+  schedule:
+    - cron: "*/5 * * * *"  # Hver 5. minut
+
 jobs:
-  auto-assign:
+  assign-on-inprogress:
     runs-on: ubuntu-latest
     steps:
-      - name: Extract issue number from branch name
-        id: extract
+      - name: Find issues in In Progress
         run: |
-          BRANCH_NAME=${GITHUB_REF#refs/heads/}
-          ISSUE_NUM=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
-          echo "Extracted issue number: $ISSUE_NUM"
-          echo "::set-output name=issue_number::$ISSUE_NUM"
+          PROJECT_ID="PVT_kwHOCwE_ds4A1FKE"
+          STATUS_FIELD_ID="PVTSSF_lAHOCwE_ds4A1FKEzgqm73E"
+          IN_PROGRESS_OPTION_ID="47fc9ee4"
 
-      - name: Assign issue to branch creator
-        if: ${{ steps.extract.outputs.issue_number != '' }}
-        run: |
-          echo "Assigning issue #${{ steps.extract.outputs.issue_number }} to ${{ github.actor }}"
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/issues/${{ steps.extract.outputs.issue_number }}/assignees \
-            -d "{\"assignees\": [\"${{ github.actor }}\"]}"
+          QUERY=''
+          query {
+            user(login: "Gabel1998") {
+              projectV2(number: 3) {
+                items(first: 100) {
+                  nodes {
+                    id
+                    content {
+                      ... on Issue {
+                        id
+                        number
+                      }
+                    }
+                    fieldValues(first: 20) {
+                      nodes {
+                        ... on ProjectV2ItemFieldSingleSelectValue {
+                          field {
+                            ... on ProjectV2SingleSelectField {
+                              id
+                              name
+                            }
+                          }
+                          name
+                          updatedAt
+                          updatedBy {
+                            login
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }''
+
+          RESPONSE=$(curl -s -X POST https://api.github.com/graphql \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -nc --arg q "$QUERY" '{ "query": $q }')")
+
+          echo "$RESPONSE" > response.json
+
+          jq -r '
+            .data.user.projectV2.items.nodes[]
+            | {
+                issueNumber: .content.number,
+                updatedBy: (
+                  .fieldValues.nodes[]
+                  | select(.field.id == "'$STATUS_FIELD_ID'" and .name == "In progress")
+                  | .updatedBy.login
+                )
+              }
+            | select(.issueNumber != null and .updatedBy != null)
+            | "\(.issueNumber) \(.updatedBy)"
+          ' response.json > assign_list.txt
+
+          echo "Assignees to apply:"
+          cat assign_list.txt
+
+          while read ISSUE_NUM LOGIN; do
+            echo "Assigning $LOGIN to issue #$ISSUE_NUM"
+            curl -s -X POST \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUM/assignees \
+              -d "{\"assignees\": [\"$LOGIN\"]}"
+          done < assign_list.txt
