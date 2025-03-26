@@ -1,0 +1,118 @@
+name: Project Automation (New Projects)
+
+on:
+  # Kører når "CI Pipeline" er færdig (uanset om den er success/failure)
+  workflow_run:
+    workflows: ["CI Pipeline"]  # <-- SKAL matche navnet på din CI-pipeline
+    types: [completed]
+
+jobs:
+  update-project-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract branch info and pipeline result
+        id: info
+        run: |
+          echo "Branch name: ${{ github.event.workflow_run.head_branch }}"
+          BRANCH_NAME="${{ github.event.workflow_run.head_branch }}"
+
+          # Uddrag det FØRSTE tal i branch-navnet (fx '35' fra '35-testing-...')
+          ISSUE_NUM=$(echo "$BRANCH_NAME" | grep -oE '^[0-9]+')
+
+          echo "Extracted issue number: $ISSUE_NUM"
+          echo "::set-output name=issue_number::$ISSUE_NUM"
+          echo "::set-output name=pipeline_conclusion::${{ github.event.workflow_run.conclusion }}"
+
+      - name: Find itemId in the project
+        id: find_item
+        if: ${{ steps.info.outputs.issue_number != '' }}
+        run: |
+          ISSUE_NUM="${{ steps.info.outputs.issue_number }}"
+
+          # GraphQL-query: henter projekt #3 under user(login: "Gabel1998")
+          # og leder efter det item, hvor content.number == ISSUE_NUM
+          QUERY='
+          query($login: String!, $projectNumber: Int!, $issueNumber: Int!) {
+            user(login: $login) {
+              projectV2(number: $projectNumber) {
+                id
+                items(first: 100) {
+                  nodes {
+                    id
+                    content {
+                      __typename
+                      ... on Issue {
+                        number
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }'
+
+          RESPONSE=$(curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/vnd.github.next+json" \
+            -d "{\"query\": \"$QUERY\", \"variables\": {\"login\": \"Gabel1998\", \"projectNumber\": 3, \"issueNumber\": $ISSUE_NUM}}" \
+            https://api.github.com/graphql)
+
+          echo "Response: $RESPONSE"
+
+          # Uddrag det item, hvor content.number == ISSUE_NUM
+          ITEM_ID=$(echo "$RESPONSE" | jq -r ".data.user.projectV2.items.nodes[] | select(.content.number == $ISSUE_NUM) | .id")
+
+          echo "Found itemId: $ITEM_ID"
+          echo "::set-output name=item_id::$ITEM_ID"
+
+      - name: Update status field (GraphQL mutation)
+        if: ${{ steps.find_item.outputs.item_id != '' }}
+        run: |
+          ITEM_ID="${{ steps.find_item.outputs.item_id }}"
+          PIPELINE_RESULT="${{ steps.info.outputs.pipeline_conclusion }}"
+
+          # Vælg status baseret på pipeline-resultatet
+          if [ "$PIPELINE_RESULT" = "success" ]; then
+            SELECT_OPTION_ID="aba860b9"  # "In review"
+            echo "Pipeline successful - setting status to 'In review'"
+          else
+            SELECT_OPTION_ID="812a1021"  # "Ready for Test"
+            echo "Pipeline failed - setting status to 'Ready for Test'"
+          fi
+
+          # Her bruger vi dine ID'er:
+          PROJECT_ID="PVT_kwHOCwE_ds4A1FKE"
+          STATUS_FIELD_ID="PVTSSF_lAHOCwE_ds4A1FKEzgqm73E"
+
+          MUTATION='
+          mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $optionId: String!) {
+            updateProjectV2ItemFieldValue(
+              input: {
+                projectId: $projectId
+                itemId: $itemId
+                fieldId: $fieldId
+                value: { singleSelectOptionId: $optionId }
+              }
+            ) {
+              projectV2Item {
+                id
+              }
+            }
+          }'
+
+          # Udfør mutation
+          curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/vnd.github.next+json" \
+            -d "{
+              \"query\": \"$MUTATION\",
+              \"variables\": {
+                \"projectId\": \"$PROJECT_ID\",
+                \"itemId\": \"$ITEM_ID\",
+                \"fieldId\": \"$STATUS_FIELD_ID\",
+                \"optionId\": \"$SELECT_OPTION_ID\"
+              }
+            }" \
+            https://api.github.com/graphql
