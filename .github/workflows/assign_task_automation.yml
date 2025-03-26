@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Find issues in In Progress
         run: |
+          ACTOR="${{ github.actor }}"
           PROJECT_ID="PVT_kwHOCwE_ds4A1FKE"
           STATUS_FIELD_ID="PVTSSF_lAHOCwE_ds4A1FKEzgqm73E"
 
@@ -100,10 +101,10 @@ jobs:
           echo "--- END ---"
 
           while read ISSUE_NUM; do
-            echo "Assigning ${{ github.actor }} to issue #$ISSUE_NUM"
+            echo "Assigning $ACTOR to issue #$ISSUE_NUM"
             curl -s -X POST \
               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
               -H "Accept: application/vnd.github+json" \
               https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUM/assignees \
-              -d "{\"assignees\": [\"${{ github.actor }}\"]}" || echo "Failed to assign ${{ github.actor }} to issue #$ISSUE_NUM"
+              -d "{\"assignees\": [\"$ACTOR\"]}" || echo "Failed to assign $ACTOR to issue #$ISSUE_NUM"
           done < assign_list.txt
