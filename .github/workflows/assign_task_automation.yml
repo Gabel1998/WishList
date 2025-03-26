@@ -70,7 +70,7 @@ jobs:
           echo "$RESPONSE" > response.json
 
           echo "Parsing response with jq..."
-          echo "$RESPONSE" | jq -r '
+          jq -r '
             .data.user.projectV2.items.nodes[]? 
             | select(.content != null and .fieldValues != null)
             | {
@@ -83,7 +83,7 @@ jobs:
               }
             | select(.issueNumber != null and .updatedBy != null)
             | "\(.issueNumber) \(.updatedBy)"
-          ' > assign_list.txt
+          ' response.json > assign_list.txt
 
           STATUS=$?
           if [ $STATUS -ne 0 ]; then
