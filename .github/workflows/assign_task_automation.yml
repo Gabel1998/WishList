@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Find issues in In Progress
-                run: |
+        run: |
           PROJECT_ID="PVT_kwHOCwE_ds4A1FKE"
           STATUS_FIELD_ID="PVTSSF_lAHOCwE_ds4A1FKEzgqm73E"
           IN_PROGRESS_OPTION_ID="47fc9ee4"
@@ -50,7 +50,7 @@ jobs:
               }
             }
           }
-EOF
+          EOF
 
           echo "Sending GraphQL query..."
           RESPONSE=$(curl -s -X POST https://api.github.com/graphql \
