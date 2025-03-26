@@ -2,8 +2,8 @@ name: Auto-Assign when item moved to In Progress
 
 on:
   schedule:
-    - cron: "*/5 * * * *"  # Every 5 minutes
-  workflow_dispatch:  # Manual trigger
+    - cron: "*/5 * * * *"  # Hver 5. minut
+  workflow_dispatch:  # Manuel afvikling
 
 jobs:
   assign-on-inprogress:
@@ -13,7 +13,6 @@ jobs:
         run: |
           PROJECT_ID="PVT_kwHOCwE_ds4A1FKE"
           STATUS_FIELD_ID="PVTSSF_lAHOCwE_ds4A1FKEzgqm73E"
-          IN_PROGRESS_OPTION_ID="47fc9ee4"
 
           read -r -d '' QUERY <<EOF
           query {
@@ -38,10 +37,6 @@ jobs:
                             }
                           }
                           name
-                          updatedAt
-                          updatedBy {
-                            login
-                          }
                         }
                       }
                     }
@@ -70,25 +65,27 @@ jobs:
           echo "$RESPONSE" > response.json
 
           echo "Parsing response with jq..."
-          jq -r '
+          echo "$RESPONSE" | jq -r '
             .data.user.projectV2.items.nodes[]? 
             | select(.content != null and .fieldValues != null)
             | {
                 issueNumber: .content.number, 
-                updatedBy: (
+                statusMatch: (
                   .fieldValues.nodes[]? 
                   | select(.field.id == "'$STATUS_FIELD_ID'" and .name == "In progress") 
-                  | .updatedBy.login
+                  | .name
                 )
               }
-            | select(.issueNumber != null and .updatedBy != null)
-            | "\(.issueNumber) \(.updatedBy)"
-          ' response.json > assign_list.txt
+            | select(.statusMatch == "In progress")
+            | "\(.issueNumber)"
+          ' > assign_list.txt
 
           STATUS=$?
           if [ $STATUS -ne 0 ]; then
             echo "❌ jq parsing failed with status $STATUS"
+            echo "--- response.json ---"
             cat response.json
+            echo "--- END ---"
             exit 1
           fi
 
@@ -102,15 +99,11 @@ jobs:
           cat assign_list.txt
           echo "--- END ---"
 
-          while read ISSUE_NUM LOGIN; do
-            if [[ -n "$ISSUE_NUM" && -n "$LOGIN" ]]; then
-              echo "Assigning $LOGIN to issue #$ISSUE_NUM"
-              curl -s -X POST \
-                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                -H "Accept: application/vnd.github+json" \
-                https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUM/assignees \
-                -d "{\"assignees\": [\"$LOGIN\"]}" || echo "Failed to assign $LOGIN to issue #$ISSUE_NUM"
-            else
-              echo "Invalid data: ISSUE_NUM=\"$ISSUE_NUM\", LOGIN=\"$LOGIN\""
-            fi
+          while read ISSUE_NUM; do
+            echo "Assigning ${{ github.actor }} to issue #$ISSUE_NUM"
+            curl -s -X POST \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUM/assignees \
+              -d "{\"assignees\": [\"${{ github.actor }}\"]}" || echo "Failed to assign ${{ github.actor }} to issue #$ISSUE_NUM"
           done < assign_list.txt
