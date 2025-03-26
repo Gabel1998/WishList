@@ -10,12 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Find issues in In Progress
-        run: |
+                run: |
           PROJECT_ID="PVT_kwHOCwE_ds4A1FKE"
           STATUS_FIELD_ID="PVTSSF_lAHOCwE_ds4A1FKEzgqm73E"
           IN_PROGRESS_OPTION_ID="47fc9ee4"
 
-          read -r -d '' QUERY << EOF
+          read -r -d '' QUERY <<EOF
           query {
             user(login: "Gabel1998") {
               projectV2(number: 3) {
@@ -50,40 +50,43 @@ jobs:
               }
             }
           }
-          EOF
+EOF
 
+          echo "Sending GraphQL query..."
           RESPONSE=$(curl -s -X POST https://api.github.com/graphql \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "$(jq -nc --arg q \"$QUERY\" '{ \"query\": $q }')")
+            -d "$(jq -nc --arg q "$QUERY" '{ "query": $q }')")
 
-          echo "Raw GraphQL response:"
+          echo "=== Raw GraphQL Response ==="
           echo "$RESPONSE"
 
-          echo "$RESPONSE" > response.json || exit 1
+          echo "$RESPONSE" > response.json
 
+          echo "=== Parsed issues to assign ==="
           jq -r '
-            .data.user.projectV2.items.nodes[]?
+            .data.user.projectV2.items.nodes[]? 
             | {
-                issueNumber: .content.number,
+                issueNumber: .content.number, 
                 updatedBy: (
-                  .fieldValues.nodes[]?
-                  | select(.field.id == "'$STATUS_FIELD_ID'" and .name == "In progress")
+                  .fieldValues.nodes[]? 
+                  | select(.field.id == "'$STATUS_FIELD_ID'" and .name == "In progress") 
                   | .updatedBy.login
                 )
               }
             | select(.issueNumber != null and .updatedBy != null)
             | "\(.issueNumber) \(.updatedBy)"
-          ' response.json > assign_list.txt || exit 1
+          ' response.json > assign_list.txt
 
-          echo "Assignees to apply:"
-          cat assign_list.txt || exit 1
+          cat assign_list.txt
 
+          echo "=== Assigning users ==="
           while read ISSUE_NUM LOGIN; do
             echo "Assigning $LOGIN to issue #$ISSUE_NUM"
             curl -s -X POST \
               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
               -H "Accept: application/vnd.github+json" \
               https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUM/assignees \
-              -d "{\"assignees\": [\"$LOGIN\"]}" || echo "Failed to assign $LOGIN to issue #$ISSUE_NUM"
+              -d "{\"assignees\": [\"$LOGIN\"]}"
           done < assign_list.txt
+
