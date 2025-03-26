@@ -2,8 +2,8 @@ name: Auto-Assign when item moved to In Progress
 
 on:
   schedule:
-    - cron: "*/5 * * * *"  # Hver 5. minut
-  workflow_dispatch:  # Manuel afvikling
+    - cron: "*/5 * * * *"  # Every 5 minutes
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   assign-on-inprogress:
