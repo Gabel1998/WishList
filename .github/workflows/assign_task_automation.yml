@@ -69,7 +69,8 @@ jobs:
 
           echo "$RESPONSE" > response.json
 
-          jq -r '
+          echo "Parsing response with jq..."
+          echo "$RESPONSE" | jq -r '
             .data.user.projectV2.items.nodes[]? 
             | select(.content != null and .fieldValues != null)
             | {
@@ -82,11 +83,14 @@ jobs:
               }
             | select(.issueNumber != null and .updatedBy != null)
             | "\(.issueNumber) \(.updatedBy)"
-          ' response.json > assign_list.txt || {
-            echo "❌ Could not extract assign list"
+          ' > assign_list.txt
+
+          STATUS=$?
+          if [ $STATUS -ne 0 ]; then
+            echo "❌ jq parsing failed with status $STATUS"
             cat response.json
             exit 1
-          }
+          fi
 
           if [ ! -s assign_list.txt ]; then
             echo "⚠️ No items to assign."
@@ -94,7 +98,9 @@ jobs:
           fi
 
           echo "=== Assigning users ==="
+          echo "--- assign_list.txt ---"
           cat assign_list.txt
+          echo "--- END ---"
 
           while read ISSUE_NUM LOGIN; do
             echo "Assigning $LOGIN to issue #$ISSUE_NUM"
