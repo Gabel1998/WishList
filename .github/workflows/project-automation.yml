@@ -25,9 +25,9 @@ jobs:
       - name: Get item ID from GitHub Project
         id: find_item
         if: ${{ steps.extract.outputs.issue_number != '' }}
-        run: >-
-          ISSUE_NUM=${{ steps.extract.outputs.issue_number }}
-
+        run: |-
+          ISSUE_NUM="${{ steps.extract.outputs.issue_number }}"
+        
           read -r -d '' QUERY <<'EOF'
           {
             "query": "query($login: String!, $projectNumber: Int!, $issueNumber: Int!) {
@@ -49,22 +49,22 @@ jobs:
             "variables": {
               "login": "Gabel1998",
               "projectNumber": 3,
-              "issueNumber": '"$ISSUE_NUM"'
+              "issueNumber": "'"$ISSUE_NUM"'"
             }
           }
-EOF
-
+          EOF
+        
           RESPONSE=$(curl -s -X POST \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
             -H "Accept: application/vnd.github.next+json" \
             -d "$QUERY" \
             https://api.github.com/graphql)
-
-          echo "Response: $RESPONSE"
-
+        
           ITEM_ID=$(echo "$RESPONSE" | jq -r ".data.user.projectV2.items.nodes[] | select(.content.number == $ISSUE_NUM) | .id")
           echo "item_id=$ITEM_ID" >> $GITHUB_OUTPUT
+
+
 
       - name: Update status to TESTING
         if: ${{ steps.find_item.outputs.item_id != '' }}
@@ -136,7 +136,7 @@ EOF
               "issueNumber": '"$ISSUE_NUM"'
             }
           }
-EOF
+          EOF
 
           RESPONSE=$(curl -s -X POST \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
