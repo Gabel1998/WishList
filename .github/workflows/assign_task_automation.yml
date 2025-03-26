@@ -55,26 +55,29 @@ jobs:
           RESPONSE=$(curl -s -X POST https://api.github.com/graphql \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "$(jq -nc --arg q \"$QUERY\" '{ "query": $q }')")
+            -d "$(jq -nc --arg q \"$QUERY\" '{ \"query\": $q }')")
 
-          echo "$RESPONSE" > response.json
+          echo "Raw GraphQL response:"
+          echo "$RESPONSE"
+
+          echo "$RESPONSE" > response.json || exit 1
 
           jq -r '
-            .data.user.projectV2.items.nodes[]
+            .data.user.projectV2.items.nodes[]?
             | {
                 issueNumber: .content.number,
                 updatedBy: (
-                  .fieldValues.nodes[]
+                  .fieldValues.nodes[]?
                   | select(.field.id == "'$STATUS_FIELD_ID'" and .name == "In progress")
                   | .updatedBy.login
                 )
               }
             | select(.issueNumber != null and .updatedBy != null)
             | "\(.issueNumber) \(.updatedBy)"
-          ' response.json > assign_list.txt
+          ' response.json > assign_list.txt || exit 1
 
           echo "Assignees to apply:"
-          cat assign_list.txt
+          cat assign_list.txt || exit 1
 
           while read ISSUE_NUM LOGIN; do
             echo "Assigning $LOGIN to issue #$ISSUE_NUM"
@@ -82,5 +85,5 @@ jobs:
               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
               -H "Accept: application/vnd.github+json" \
               https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUM/assignees \
-              -d "{\"assignees\": [\"$LOGIN\"]}"
+              -d "{\"assignees\": [\"$LOGIN\"]}" || echo "Failed to assign $LOGIN to issue #$ISSUE_NUM"
           done < assign_list.txt
