@@ -56,16 +56,22 @@ jobs:
           RESPONSE=$(curl -s -X POST https://api.github.com/graphql \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "$(jq -nc --arg q "$QUERY" '{ "query": $q }')")
+            -d "$(jq -nc --arg q \"$QUERY\" '{ "query": $q }')")
 
           echo "=== Raw GraphQL Response ==="
           echo "$RESPONSE"
 
+          if [[ "$RESPONSE" == *"errors"* ]]; then
+            echo "❌ GraphQL returned errors:"
+            echo "$RESPONSE"
+            exit 1
+          fi
+
           echo "$RESPONSE" > response.json
 
-          echo "=== Parsed issues to assign ==="
           jq -r '
             .data.user.projectV2.items.nodes[]? 
+            | select(.content != null and .fieldValues != null)
             | {
                 issueNumber: .content.number, 
                 updatedBy: (
@@ -76,17 +82,25 @@ jobs:
               }
             | select(.issueNumber != null and .updatedBy != null)
             | "\(.issueNumber) \(.updatedBy)"
-          ' response.json > assign_list.txt
+          ' response.json > assign_list.txt || {
+            echo "❌ Could not extract assign list"
+            cat response.json
+            exit 1
+          }
 
-          cat assign_list.txt
+          if [ ! -s assign_list.txt ]; then
+            echo "⚠️ No items to assign."
+            exit 0
+          fi
 
           echo "=== Assigning users ==="
+          cat assign_list.txt
+
           while read ISSUE_NUM LOGIN; do
             echo "Assigning $LOGIN to issue #$ISSUE_NUM"
             curl -s -X POST \
               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
               -H "Accept: application/vnd.github+json" \
               https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUM/assignees \
-              -d "{\"assignees\": [\"$LOGIN\"]}"
+              -d "{\"assignees\": [\"$LOGIN\"]}" || echo "Failed to assign $LOGIN to issue #$ISSUE_NUM"
           done < assign_list.txt
-
