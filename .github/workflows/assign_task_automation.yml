@@ -15,7 +15,7 @@ jobs:
           STATUS_FIELD_ID="PVTSSF_lAHOCwE_ds4A1FKEzgqm73E"
           IN_PROGRESS_OPTION_ID="47fc9ee4"
 
-          QUERY=''
+          read -r -d '' QUERY << EOF
           query {
             user(login: "Gabel1998") {
               projectV2(number: 3) {
@@ -49,12 +49,13 @@ jobs:
                 }
               }
             }
-          }''
+          }
+          EOF
 
           RESPONSE=$(curl -s -X POST https://api.github.com/graphql \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "$(jq -nc --arg q "$QUERY" '{ "query": $q }')")
+            -d "$(jq -nc --arg q \"$QUERY\" '{ "query": $q }')")
 
           echo "$RESPONSE" > response.json
 
