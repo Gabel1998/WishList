@@ -103,10 +103,14 @@ jobs:
           echo "--- END ---"
 
           while read ISSUE_NUM LOGIN; do
-            echo "Assigning $LOGIN to issue #$ISSUE_NUM"
-            curl -s -X POST \
-              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Accept: application/vnd.github+json" \
-              https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUM/assignees \
-              -d "{\"assignees\": [\"$LOGIN\"]}" || echo "Failed to assign $LOGIN to issue #$ISSUE_NUM"
+            if [[ -n "$ISSUE_NUM" && -n "$LOGIN" ]]; then
+              echo "Assigning $LOGIN to issue #$ISSUE_NUM"
+              curl -s -X POST \
+                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                -H "Accept: application/vnd.github+json" \
+                https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUM/assignees \
+                -d "{\"assignees\": [\"$LOGIN\"]}" || echo "Failed to assign $LOGIN to issue #$ISSUE_NUM"
+            else
+              echo "Invalid data: ISSUE_NUM=\"$ISSUE_NUM\", LOGIN=\"$LOGIN\""
+            fi
           done < assign_list.txt
