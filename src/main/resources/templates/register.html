@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
+<!--
+    ===========================================
+    =            user registration form       =
+    ===========================================
+                                               -->
   <head>
     <meta charset="UTF-8">
     <title>Opret profil</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
   </head>
-            <!--
-                ===========================================
-                =            user registration form       =
-                ===========================================
-                                                            -->
   <body>
+    <!-- ======== FEEDBACK MESSAGES (FLASH) ======== -->
+  <!-- Viser enten succes- eller fejlbesked fra backend -->
+  <div class="feedback-wrapper">
+    <div th:if="${successMessage}" class="feedback success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="feedback error" th:text="${errorMessage}"></div>
+  </div>
+
     <div class="register-container">
       <h2>Opret Profil</h2>
         <form th:action="@{/api/register}" method="post" th:object="${user}">
