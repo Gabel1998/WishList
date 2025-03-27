@@ -4,7 +4,7 @@
 /// ==========================================
 package Controller;
 
-import DTO.UserDto;
+import DTO.UserDTO;
 import Service.UserService;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+@SuppressWarnings("unused") /// MIDLERTIDIG SUPPRESSER TIL MVC ERROR PÅ LINJE 29 !!!
 @Controller
 public class RegistrationController {
 
@@ -24,12 +25,12 @@ public class RegistrationController {
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
-        model.addAttribute("user", new UserDto());
+        model.addAttribute("user", new UserDTO());
         return "register";
     }
 
     @PostMapping("/register")
-    public String handleRegisterForm(@ModelAttribute("user") UserDto userDto,
+    public String handleRegisterForm(@ModelAttribute("user") UserDTO userDto,
                                      RedirectAttributes redirectAttributes) {
 
         //Kontrollere om email'en allerede er registreret i systemet
@@ -39,7 +40,7 @@ public class RegistrationController {
             redirectAttributes.addFlashAttribute("errorMessage", "Email findes allerede.");
             return "redirect:/register";
         }
-        /// Registrerer bruger i databasen
+        // Registrerer bruger i databasen
         userService.registerUser(userDto);
 
         /// gemmer en success-besked til visning efter redirect
