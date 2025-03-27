@@ -20,4 +20,10 @@ public class UserService {
         jdbcTemplate.update(sql, userDto.getName(), userDto.getEmail(), userDto.getPassword());
     }
 
+    public boolean emailExists(String email) {
+        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
+    }
+
 }
