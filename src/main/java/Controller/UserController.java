@@ -1,6 +1,6 @@
 package Controller;
 
-import DTO.UserDto;
+import DTO.UserDTO;
 import Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class UserController {
 
    //registrer Bruger (user) objekt
    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserDto userDto){
+    public ResponseEntity<String> registerUser(@RequestBody UserDTO userDto){
 
        //Kontrollere om email'en allerede er registreret i systemet
        if (userService.emailExists(userDto.getEmail())){

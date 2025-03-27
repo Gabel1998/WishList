@@ -1,7 +1,7 @@
 package DTO;
 
 //Data transfer object - Vi skal transporterer noget data mellem flere klasser (god dammeldags objekt konstruktor klasse)
-public class UserDto {
+public class UserDTO {
 
     private String name;
     private String email;

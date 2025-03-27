@@ -1,6 +1,6 @@
 package Service;
 
-import DTO.UserDto;
+import DTO.UserDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class UserService {
     }
 
     //Vores insert statement til mySql. Vi bruger ikke row mapper, da vi kun skal lave insert, og ikke mere
-    public void registerUser(UserDto userDto) {
+    public void registerUser(UserDTO userDto) {
         String sql = "INSERT INTO users (name, email, password) values (?, ?, ?)"; // ? referer til de values vi får fra frontend, gennem RequestParam
         jdbcTemplate.update(sql, userDto.getName(), userDto.getEmail(), userDto.getPassword());
     }
