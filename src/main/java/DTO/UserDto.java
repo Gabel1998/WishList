@@ -1,5 +1,5 @@
 package DTO;
-
+//I en DTO henter man nogle bestemte objekter fra databasen som man skal bruge
 //Data transfer object - Vi skal transporterer noget data mellem flere klasser (god dammeldags objekt konstruktor klasse)
 public class UserDto {
 
