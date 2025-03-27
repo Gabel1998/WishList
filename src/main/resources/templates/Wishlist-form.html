@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<!--
+    ===========================================
+    =            user registration form       =
+    ===========================================
+                                               -->
+<head>
+    <meta charset="UTF-8">
+    <title>Opret Ønskeseddel</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<
+<body>
+
+<h1>Opret ønskeseddel</h1>
+
+<!-- Feedback-beskeder -->
+<div class="feedback-wrapper">
+    <div th:if="${successMessage}" class="feedback success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="feedback error" th:text="${errorMessage}"></div>
+</div>
+<!-- Formular -->
+<form th:action="@{/wishlists}" th:object="${wishlist}" method="post">
+    <label for="title">Titel på ønskeseddel</label><br/>
+    <input type="text" th:field="*{title}" id="title" placeholder="F.eks. Juleønsker" required/><br/><br/>
+    <button type="submit">Opret ønskeseddel</button>
+</form>
+
+</body>
+</html>
