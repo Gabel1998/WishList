@@ -1,3 +1,6 @@
+/// ============================================
+/// =   JDBC-metoder til håndtering af items   =
+/// ============================================
 package Service;
 
 import DTO.WishListDTO;

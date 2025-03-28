@@ -1,7 +1,7 @@
 package DTO;
 
-
 public class ItemDTO {
+
 
     private String name;
     private String description;

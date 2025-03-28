@@ -23,6 +23,7 @@ public class UserController {
    @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody RegisterDTO registerDTO){
 
+
        //Kontrollere om email'en allerede er registreret i systemet
        if (userService.emailExists(registerDTO.getEmail())){
            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists"); //Burde give fejlkode 409

@@ -62,7 +62,7 @@ jobs:
             -d "$QUERY" \
             https://api.github.com/graphql)
 
-          ITEM_ID=$(echo "$RESPONSE" | jq -r --argjson issue_num "$ISSUE_NUM" '.data.user.projectV2.items.nodes[] | select(.content.number == $issue_num) | .id')
+          ITEM_ID=$(echo "$RESPONSE" | jq -r ".data.user.projectV2.items.nodes[] | select(.content.number == $ISSUE_NUM) | .id")
           echo "item_id=$ITEM_ID" >> $GITHUB_OUTPUT
 
       - name: Update status to TESTING
@@ -147,7 +147,7 @@ jobs:
 
           echo "Response: $RESPONSE"
 
-          ITEM_ID=$(echo "$RESPONSE" | jq -r --argjson issue_num "$ISSUE_NUM" '.data.user.projectV2.items.nodes[] | select(.content.number == $issue_num) | .id')
+          ITEM_ID=$(echo "$RESPONSE" | jq -r ".data.user.projectV2.items.nodes[] | select(.content.number == $ISSUE_NUM) | .id")
           echo "item_id=$ITEM_ID" >> $GITHUB_OUTPUT
 
       - name: Update status based on CI result
