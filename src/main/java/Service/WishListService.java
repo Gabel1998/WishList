@@ -4,6 +4,7 @@
 package Service;
 
 import DTO.ItemDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class WishListService {
@@ -25,5 +26,11 @@ private JdbcTemplate jdbcTemplate;
     public void deleteItem(int itemId) {
         String sql = "DELETE FROM items WHERE id = ?";
         jdbcTemplate.update(sql, itemId);
+    }
+
+    //reserver produkt i databasen
+    public void reserveItem(int reservation_id, int rsv_items_id) {
+        String sql = "INSERT INTO tb_reservations (reservation_id, rsv_items_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, reservation_id, rsv_items_id);
     }
 }
