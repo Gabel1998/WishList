@@ -8,21 +8,23 @@ public class Item {
     private double price;
     private int quantity;
     private String link;
+    private boolean reserved;
 
     public Item(int itemId, WishList wishlistId, String name, String description, double price, int quantity, String link){
-       this.itemId = itemId;
-       this.wishlistId = wishlistId;
-       this.name = name;
-       this.description = description;
-       this.price = price;
-       this.quantity = quantity;
-       this.link = link;
+        this.itemId = itemId;
+        this.wishlistId = wishlistId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.link = link;
     }
 
     public Item(){
 
     }
 
+    // Getters og Setters
     public int getItemId() {
         return itemId;
     }
@@ -30,9 +32,12 @@ public class Item {
     public void setItemId(int itemId) {
         this.itemId = itemId;
     }
-
     public String getName() {
         return name;
+    }
+
+    public void setWishList(WishList wishList) {
+        this.wishlistId = wishList;
     }
 
     public void setName(String name) {
@@ -70,6 +75,15 @@ public class Item {
     public void setLink(String link) {
         this.link = link;
     }
+
+    public boolean isReserved() {
+        return reserved;
+    }
+
+    public void setReserved(boolean reserved) {
+        this.reserved = reserved;
+    }
+
 
     @Override
     public String toString(){
