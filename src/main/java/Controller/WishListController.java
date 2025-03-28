@@ -37,4 +37,12 @@ private final WishListService wishListService;
         wishListService.deleteItem(itemId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item deleted");
     }
+
+    // reserver eksisterende produkt
+    @PutMapping("/wishlist/item/{id}/reserve")
+    public ResponseEntity<String> reserveItem(@PathVariable("id") int reservation_id, @RequestParam("item_id") int rsv_items_id) {
+        wishListService.reserveItem(reservation_id, rsv_items_id);
+        return ResponseEntity.status(HttpStatus.OK).body("Item reserved");
+    }
+
 }

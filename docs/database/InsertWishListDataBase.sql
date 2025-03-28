@@ -48,7 +48,8 @@ VALUES
   (1000, 10001, 'Sokker', 'Uldsokker til vinter', 79.50, 3, 'https://example.com/socks');
 
 -- Antag shared_item_id 10000 og 10001
-INSERT INTO reservations (shared_item_id, reserved_quantity)
+INSERT INTO tb_reservations (reservation_id, rsv_items_id)
 VALUES
+
   (10000, 1),  -- Bluetooth Speaker reserveret
   (10001, 2);  -- 2 ud af 3 sokker reserveret
