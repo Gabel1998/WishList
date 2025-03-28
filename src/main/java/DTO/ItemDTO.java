@@ -1,6 +1,5 @@
 package DTO;
 
-import Model.WishList;
 
 public class ItemDTO {
 

@@ -1,23 +1,22 @@
 package Repository;
 
 import DTO.WishListDTO;
-import Model.WishList;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
 
+@Repository
 public class WishListRepository {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public WishListRepository(JdbcTemplate jdbcTemplate) {
+
+    public WishListRepository(JdbcTemplate jdbcTemplate) {
       this.jdbcTemplate = jdbcTemplate;
   }
 
 
-    public WishListDTO createWishList(){
-        String sql ="INSERT INTO tb_wishlists(wishlist_id, )";
-
+    public void insertWishList(WishListDTO wishListDTO) {
+        String sql ="INSERT INTO tb_wishlists(wishlist_id, name) VALUES (?, ?)" ;
+        jdbcTemplate.update(sql, wishListDTO.getWishListId(), wishListDTO.getName());
     }
 }

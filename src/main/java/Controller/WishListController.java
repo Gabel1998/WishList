@@ -1,5 +1,6 @@
 package Controller;
 
+import DTO.WishListDTO;
 import Model.WishList;
 import Service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.sql.SQLException;
 
 @Controller
 @RequestMapping("/")
@@ -25,10 +25,12 @@ public class WishListController {
 
     @PostMapping("/create")
     public String createWishList(@PathVariable("userId") int userId, @ModelAttribute WishList wishList, Model model){
+        //konverterer wishlist til wishlistDTO
+        WishListDTO wishListDTO = new WishListDTO(wishList.getWishListId(), wishList.getName());
         try {
-            wishListService.createWishlist(wishList, userId);
+            wishListService.createWishList(wishListDTO);
             model.addAttribute("message", "Ønskeseddel blev oprettet: " + wishList.getWishListId());
-        } catch (SQLException e) {
+        } catch (Exception e) {
             model.addAttribute("message", "Fejl ved oprettelse: " + e.getMessage());
         }
         return "redirect:/" + userId + "/wishlist";

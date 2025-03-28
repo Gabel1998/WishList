@@ -5,7 +5,6 @@
 package Controller;
 
 import DTO.RegisterDTO;
-import DTO.UserDTO;
 import Service.UserService;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
 package Service;
 
-import Model.WishList;
+import DTO.WishListDTO;
 import Repository.WishListRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,8 @@ public class WishListService {
         this.wishListRepository = wishListRepository;
     }
 
-    public void createWishlist(WishList wishList, int userId) {
-        return wishListRepository.createWishList;
+    public void createWishList(WishListDTO wishListDTO) {
+        wishListRepository.insertWishList(wishListDTO);
     }
 }
+
