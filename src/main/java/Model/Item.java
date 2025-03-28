@@ -2,14 +2,14 @@ package Model;
 
 public class Item {
     private int itemId;
-    private int wishlistId;
+    private WishList wishlistId;
     private String name;
     private String description;
     private double price;
     private int quantity;
     private String link;
 
-    public Item(int itemId, int wishlistId, String name, String description, double price, int quantity, String link){
+    public Item(int itemId, WishList wishlistId, String name, String description, double price, int quantity, String link){
        this.itemId = itemId;
        this.wishlistId = wishlistId;
        this.name = name;
@@ -29,14 +29,6 @@ public class Item {
 
     public void setItemId(int itemId) {
         this.itemId = itemId;
-    }
-
-    public int getWishlistId() {
-        return wishlistId;
-    }
-
-    public void setWishlistId(int wishlistId) {
-        this.wishlistId = wishlistId;
     }
 
     public String getName() {

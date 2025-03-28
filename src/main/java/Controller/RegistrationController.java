@@ -4,7 +4,7 @@
 /// ==========================================
 package Controller;
 
-import DTO.UserDTO;
+import DTO.RegisterDTO;
 import Service.UserService;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -25,23 +25,25 @@ public class RegistrationController {
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
-        model.addAttribute("user", new UserDTO());
+        model.addAttribute("user", new RegisterDTO());
         return "register";
     }
 
     @PostMapping("/register")
-    public String handleRegisterForm(@ModelAttribute("user") UserDTO userDto,
+    public String handleRegisterForm(@ModelAttribute("user") RegisterDTO registerDTO,
+
                                      RedirectAttributes redirectAttributes) {
 
         //Kontrollere om email'en allerede er registreret i systemet
-        if (userService.emailExists(userDto.getEmail())) {
+        if (userService.emailExists(registerDTO.getEmail())) {
 
             // gemmer fejlbesked midlertidigt, som vises efter redirect <> flash attribute leveres kun én gang - perfekt til popups
             redirectAttributes.addFlashAttribute("errorMessage", "Email findes allerede.");
             return "redirect:/register";
         }
-        // Registrerer bruger i databasen
-        userService.registerUser(userDto);
+        /// Registrerer bruger i databasen
+        userService.registerUser(registerDTO);
+
 
         /// gemmer en success-besked til visning efter redirect
         redirectAttributes.addFlashAttribute("successMessage", "Bruger oprettet!");
