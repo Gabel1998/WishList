@@ -6,6 +6,7 @@ import Model.WishList;
 import Rowmappers.ItemRowMapper;
 import Rowmappers.WishListRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 
 @Repository
