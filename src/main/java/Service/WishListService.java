@@ -3,7 +3,10 @@
 /// ============================================
 package Service;
 
+import DTO.ItemDTO;
 import DTO.WishListDTO;
+import Model.Item;
+import Model.WishList;
 import Repository.WishListRepository;
 import org.springframework.stereotype.Service;
 

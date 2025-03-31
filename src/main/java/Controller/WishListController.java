@@ -7,6 +7,7 @@ package Controller;
 import DTO.ItemDTO;
 import DTO.WishListDTO;
 import Model.WishList;
+import Repository.WishListRepository;
 import Service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,12 @@ import org.springframework.web.bind.annotation.*;
 
 public class WishListController {
 private final WishListService wishListService;
+private final WishListRepository wishListRepository;
 
     @Autowired
-    public WishListController(WishListService wishListService){
-        this.wishListService = wishListService; 
+    public WishListController(WishListService wishListService, WishListRepository wishListRepository){
+        this.wishListService = wishListService;
+        this.wishListRepository = wishListRepository;
     }
 
     // tilføj nyt produkt til ønskeliste
