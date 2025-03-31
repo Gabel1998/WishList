@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@SuppressWarnings("unused") /// MIDLERTIDIG SUPPRESSER TIL MVC ERROR PÅ LINJE 29 !!!
+@SuppressWarnings("unused")
+/// MIDLERTIDIG SUPPRESSER TIL MVC ERROR PÅ LINJE 29 !!!
 @Controller
 public class RegistrationController {
 
@@ -30,9 +31,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String handleRegisterForm(@ModelAttribute("user") RegisterDTO registerDTO,
-
-                                     RedirectAttributes redirectAttributes) {
+    public String handleRegisterForm(@ModelAttribute("user") RegisterDTO registerDTO, RedirectAttributes redirectAttributes) {
 
         //Kontrollere om email'en allerede er registreret i systemet
         if (userService.emailExists(registerDTO.getEmail())) {
