@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ønskeseddel</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/test/wishlist.css}">
+</head>
+<body>
+<!-- ======== HEADER ======== -->
+<div th:replace="~{header}"></div>
+
+<!-- ======== WISHLIST (name) ======== -->
+<h1 th:text="${wishlist.name}">Ønskeseddel</h1>
+
+<!-- ======== WISHLIST (view) ======== -->
+
+<!-- Besked efter reservation -->
+<div th:if="${message}">
+    <p th:text="${message}"></p>
+</div>
+
+<!-- Vis hvert ønske som et "kort" -->
+<div th:each="item : ${items}">
+    <div>
+        <h2 th:text="${item.name}">Ønskenavn</h2>
+        <p th:text="${item.description}">Beskrivelse</p>
+        <p>Pris: <span th:text="${item.price}">0.00</span></p>
+        <p>
+            <a th:href="${item.url}" target="_blank">Gå til link</a>
+        </p>
+
+        <!-- Vis reserver-knap kun hvis ikke reserveret -->
+        <div th:if="${!item.reserved}">
+            <form th:action="@{/reserve}" method="post">
+                <input type="hidden" name="itemId" th:value="${item.id}" />
+                <input type="hidden" name="shareToken" th:value="${shareToken}" />
+                <button type="submit">Reserver</button>
+            </form>
+        </div>
+        <div th:if="${item.reserved}">
+            <p><strong>Allerede reserveret</strong></p>
+        </div>
+    </div>
+    <hr/>
+</div>
+
+<!-- ======== FOOTER ======== -->
+<div th:replace="~{footer}"></div>
+
+<!-- i stedet for at have pop-up, ville det være smart at lave "blur transition", når man har reserveret et ønske -->
+</body>
+</html>

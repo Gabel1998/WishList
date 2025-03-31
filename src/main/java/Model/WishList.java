@@ -4,12 +4,13 @@ public class WishList {
     private int wishListId;
     private User userId;
     private String name;
-    private String uniqueURL;
+    private String share_token;
 
-    public WishList(int wishListId, User userId, String name){
+    public WishList(int wishListId, User userId, String name,  String share_token) {
         this.wishListId = wishListId;
         this.userId = userId;
         this.name = name;
+        this.share_token = share_token;
     }
 
     public WishList(){
@@ -36,12 +37,12 @@ public class WishList {
         this.name = name;
     }
 
-    public String getUniqueURL() {
-        return uniqueURL;
+    public String getShare_token() {
+        return share_token;
     }
 
-    public void setUniqueURL(String uniqueURL) {
-        this.uniqueURL = uniqueURL;
+    public void setShare_token(String uniqueURL) {
+        this.share_token = share_token;
     }
 
     @Override

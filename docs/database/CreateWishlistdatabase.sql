@@ -72,7 +72,7 @@ CREATE TABLE shared_items
 CREATE TABLE tb_reservations
 (
     reservation_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    rsv_items_id   BIGINT NOT NULL,
+    rsv_items_id   BIGINT UNIQUE NOT NULL,
     reserved_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (rsv_items_id) REFERENCES shared_items (id) ON DELETE CASCADE
 ) AUTO_INCREMENT = 100000;
