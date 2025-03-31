@@ -3,7 +3,10 @@
 /// ============================================
 package Service;
 
+import DTO.ItemDTO;
 import DTO.WishListDTO;
+import Model.Item;
+import Model.WishList;
 import Repository.WishListRepository;
 import org.springframework.stereotype.Service;
 
@@ -72,17 +75,29 @@ public class WishListService {
         }
     }
 
-    //Generer en unik URL til read-only ønskelister
-    public void generateUniqueURL(WishListDTO wishListDTO) {
-        //Generér unique URL
-        String uniqueURL = UUID.randomUUID().toString();
+    //read-only ønskelister
+    public WishListDTO getWishListByShareToken(String shareToken) {
+        WishList wishList = wishListRepository.findByShareToken(shareToken);
 
-        //Opret objekt og set uniqueURL
-        WishList wishList = new WishList();
-        wishList.setName(wishListDTO.getName());
-        wishList.setUniqueURL(uniqueURL);
+        WishListDTO wishListDTO = new WishListDTO();
+        wishListDTO.setId(wishList.getWishListId());
+        wishListDTO.setName(wishList.getName());
+        wishListDTO.setShareToken(wishList.getShare_token());
 
-        wishListRepository.insertWishList(wishList);
+        return wishListDTO;
+    }
+
+    public String shareWishlist(long wishlistId) {
+        wishListRepository.insertSharedWishlist(wishlistId);
+
+        // Hent token der blev genereret af databasen
+        String shareToken = wishListRepository.findShareTokenByOriginalWishlistId(wishlistId);
+        // Hent ID på shared_wishlist
+        Long sharedWishlistId = wishListRepository.findSharedWishlistIdByToken(shareToken);
+        // Kopiér items
+        wishListRepository.copyItemsToSharedItems(wishlistId, sharedWishlistId);
+
+        return shareToken;
     }
 
     public WishList findByShareToken(String shareToken) {
@@ -90,4 +105,5 @@ public class WishListService {
     }
 
 }
+
 

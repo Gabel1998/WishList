@@ -58,20 +58,37 @@ public class WishListRepository {
     }
 
     public void insertWishList(WishList wishList) {
-        String sql ="INSERT INTO tb_wishlists(wishlist_id, name, unique_url) VALUES (?, ?, ?)" ;
-        jdbcTemplate.update(sql, wishList.getWishListId(), wishList.getName(), wishList.getUniqueURL());
+        String sql ="INSERT INTO tb_wishlists(wishlist_id, name, share_token) VALUES (?, ?, ?)" ;
+        jdbcTemplate.update(sql, wishList.getWishListId(), wishList.getName(), wishList.getShare_token());
     }
 
-    // Find ønskeseddel ud fra Unique URL
-    public WishList findByShareToken(String shareToken) {
-        String sql = "SELECT * FROM tb_wishlists WHERE unique_url = ?";
-        try {
-            return jdbcTemplate.queryForObject(sql, new Object[]{shareToken}, new WishListRowMapper());
-        } catch (EmptyResultDataAccessException e) {
-            //ingen ønskeliste fundet med det angivne token
-            return null;
-        }
-
+    public  WishList findByShareToken(String shareToken) {
+        String sql = "SELECT * FROM tb_wishlists WHERE share_token = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{shareToken}, new WishListRowMapper());
     }
 
+    public void insertSharedWishlist(long originalWishlistId) {
+        String sql = "INSERT INTO shared_wishlists (original_wishlist_id, share_token) VALUES (?, UUID())";
+        jdbcTemplate.update(sql, originalWishlistId);
+    }
+
+    public void copyItemsToSharedItems(long originalWishlistId, long sharedWishlistId) {
+        String sql = """
+        INSERT INTO shared_items (shared_wishlist_id, original_item_id, name, description, price, url)
+        SELECT ?, item_id, name, description, price, url
+        FROM tb_items
+        WHERE it_wishlist_id = ?
+    """;
+        jdbcTemplate.update(sql, sharedWishlistId, originalWishlistId);
+    }
+
+    public String findShareTokenByOriginalWishlistId(long originalWishlistId) {
+        String sql = "SELECT share_token FROM shared_wishlists WHERE original_wishlist_id = ?";
+        return jdbcTemplate.queryForObject(sql, String.class, originalWishlistId);
+    }
+
+    public Long findSharedWishlistIdByToken(String shareToken) {
+        String sql = "SELECT id FROM shared_wishlists WHERE share_token = ?";
+        return jdbcTemplate.queryForObject(sql, Long.class, shareToken);
+    }
 }

@@ -7,6 +7,7 @@ package Controller;
 import DTO.ItemDTO;
 import DTO.WishListDTO;
 import Model.WishList;
+import Repository.WishListRepository;
 import Service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,12 @@ import org.springframework.web.bind.annotation.*;
 
 public class WishListController {
 private final WishListService wishListService;
+private final WishListRepository wishListRepository;
 
     @Autowired
-    public WishListController(WishListService wishListService){
-        this.wishListService = wishListService; 
+    public WishListController(WishListService wishListService, WishListRepository wishListRepository){
+        this.wishListService = wishListService;
+        this.wishListRepository = wishListRepository;
     }
 
     // tilføj nyt produkt til ønskeliste
@@ -47,8 +50,6 @@ private final WishListService wishListService;
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item deleted");
     }
 
-    
-
     // reserver eksisterende produkt
     @PutMapping("/wishlist/item/{id}/reserve")
     public ResponseEntity<String> reserveItem(@PathVariable("id") int reservation_id, @RequestParam("item_id") int rsv_items_id) {
@@ -59,7 +60,7 @@ private final WishListService wishListService;
     @PostMapping("/create")
     public String createWishList(@PathVariable("userId") int userId, @ModelAttribute WishList wishList, Model model){
         //konverterer wishlist til wishlistDTO
-        WishListDTO wishListDTO = new WishListDTO(wishList.getWishListId(), wishList.getName());
+        WishListDTO wishListDTO = new WishListDTO(wishList.getWishListId(), wishList.getName(), wishList.getShare_token());
         try {
             wishListService.createWishList(wishListDTO);
             model.addAttribute("message", "Ønskeseddel blev oprettet: " + wishList.getWishListId());
@@ -69,18 +70,20 @@ private final WishListService wishListService;
         return "redirect:/" + userId + "/wishlist";
     }
 
-    // genereret read-only side til "unknown" brugere
-    @GetMapping("/view/{share_token}")
-    public String viewReadOnly(@PathVariable String share_token, Model model) {
-
-        WishList wishList = wishListService.findByShareToken(share_token);
-
-        if(wishList != null) {
-            model.addAttribute("wishList", wishList);
-            return "wishlist-readonly";
-        } else {
-            model.addAttribute("error", "Ønskeseddel ikke fundet");
-            return "error";
-        }
+@GetMapping("/view/{share_token}")
+public String viewReadOnly(@PathVariable String share_token, Model model) {
+    Long sharedWishlistId = wishListRepository.findSharedWishlistIdByToken(share_token);
+    
+    if (sharedWishlistId == null) {
+        model.addAttribute("error", "Ønskeseddel ikke fundet");
+        return "error";
     }
+
+    List<SharedItem> items = wishListRepository.findSharedItemsBySharedWishlistId(sharedWishlistId);
+    model.addAttribute("items", items);
+    model.addAttribute("shareToken", share_token); // så du kan bruge det i fx reservation
+
+    return "wishlist-readonly";
+}
+
 }

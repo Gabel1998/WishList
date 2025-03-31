@@ -27,5 +27,11 @@
     <button type="submit">Opret ønskeseddel</button>
 </form>
 
+<!--DELKNAP-->
+<form th:action="@{/wishlist/share/{share_token}(id=${wishlist.share_token})}" method="post">
+    <button type="submit">Del ønskeseddel</button>
+</form>
+
+
 </body>
 </html>
