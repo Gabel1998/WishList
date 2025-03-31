@@ -5,8 +5,6 @@ import Model.Item;
 import Model.WishList;
 import Rowmappers.ItemRowMapper;
 import Rowmappers.WishListRowMapper;
-import org.springframework.dao.EmptyResultDataAccessException;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
@@ -57,10 +55,6 @@ public class WishListRepository {
         jdbcTemplate.update(sql, itemId);
     }
 
-    public void insertWishList(WishList wishList) {
-        String sql ="INSERT INTO tb_wishlists(wishlist_id, name, share_token) VALUES (?, ?, ?)" ;
-        jdbcTemplate.update(sql, wishList.getWishListId(), wishList.getName(), wishList.getShare_token());
-    }
 
     public  WishList findByShareToken(String shareToken) {
         String sql = "SELECT * FROM tb_wishlists WHERE share_token = ?";
@@ -91,4 +85,12 @@ public class WishListRepository {
         String sql = "SELECT id FROM shared_wishlists WHERE share_token = ?";
         return jdbcTemplate.queryForObject(sql, Long.class, shareToken);
     }
+
+    public void insertReservation(long sharedItemId) {
+        String sql = "INSERT INTO tb_reservations (rsv_items_id) VALUES (?)";
+        jdbcTemplate.update(sql, sharedItemId);
+    }
+
+
+
 }
