@@ -60,4 +60,7 @@ public class ItemDTO {
     public void setLink(String link) {
         this.link = link;
     }
+
+    public Object getItemId() {
+    }
 }
