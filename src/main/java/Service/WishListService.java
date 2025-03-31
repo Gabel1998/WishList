@@ -32,8 +32,8 @@ public class WishListService {
         wishListRepository.insertWishList(wishListDTO);
     }
 
-    public void deleteItem(int id) {
-        wishListRepository.deleteItem(id);
+    public void deleteItem(int ItemId) {
+        wishListRepository.deleteItem(ItemId);
     }
 
     public void updateItem(int id, ItemDTO itemDTO) {

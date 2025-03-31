@@ -9,8 +9,6 @@ import Rowmappers.WishListRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 
 @Repository
 public class WishListRepository {
@@ -28,7 +26,7 @@ public class WishListRepository {
         jdbcTemplate.update(sql, wishListDTO.getWishListId(), wishListDTO.getName());
     }
 
-    public void deleteItem(int id) {
+    public void deleteWishlist(int id) {
         String sql = "DELETE FROM tb_wishlists WHERE wishlist_id = ?";
         jdbcTemplate.update(sql, id);
     }
@@ -38,7 +36,7 @@ public class WishListRepository {
         jdbcTemplate.update(sql, id, itemDTO.getItemId(), itemDTO.getName(), itemDTO.getQuantity());
     }
 
-    public void updateItem(int id, ItemDTO itemDTO) {
+    public void updateWishList(int id, ItemDTO itemDTO) {
         String sql = "UPDATE tb_wishlists SET name = ? WHERE wishlist_id = ?";
         jdbcTemplate.update(sql, itemDTO.getName(), id);
     }
