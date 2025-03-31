@@ -77,17 +77,22 @@ public class WishListService {
         }
     }
 
-    //Generer en unik URL til read-only ønskelister
-    public void generateUniqueURL(WishListDTO wishListDTO) {
-        //Generér unique URL
-        String uniqueURL = UUID.randomUUID().toString();
+    //read-only ønskelister
+    public WishListDTO getWishListByShareToken(String shareToken) {
+        WishList wishList = wishListRepository.findByShareToken(shareToken);
 
-        //Opret objekt og set uniqueURL
-        WishList wishList = new WishList();
-        wishList.setName(wishListDTO.getName());
-        wishList.setUniqueURL(uniqueURL);
+        WishListDTO wishListDTO = new WishListDTO();
+        wishListDTO.setId(wishList.getWishListId());
+        wishListDTO.setName(wishList.getName());
+        wishListDTO.setShareToken(wishList.getShare_token());
 
-        wishListRepository.insertWishList(wishList);
+        return wishListDTO;
     }
+
+
+
+
+
 }
+
 

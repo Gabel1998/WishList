@@ -47,8 +47,6 @@ private final WishListService wishListService;
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Item deleted");
     }
 
-    
-
     // reserver eksisterende produkt
     @PutMapping("/wishlist/item/{id}/reserve")
     public ResponseEntity<String> reserveItem(@PathVariable("id") int reservation_id, @RequestParam("item_id") int rsv_items_id) {
@@ -59,7 +57,7 @@ private final WishListService wishListService;
     @PostMapping("/create")
     public String createWishList(@PathVariable("userId") int userId, @ModelAttribute WishList wishList, Model model){
         //konverterer wishlist til wishlistDTO
-        WishListDTO wishListDTO = new WishListDTO(wishList.getWishListId(), wishList.getName());
+        WishListDTO wishListDTO = new WishListDTO(wishList.getWishListId(), wishList.getName(), wishList.getShare_token());
         try {
             wishListService.createWishList(wishListDTO);
             model.addAttribute("message", "Ønskeseddel blev oprettet: " + wishList.getWishListId());
@@ -68,4 +66,14 @@ private final WishListService wishListService;
         }
         return "redirect:/" + userId + "/wishlist";
     }
+
+
+//    gå fra controller, til wishlist-readonly.html(Ikke lavet endnu), hente sharetoken fra servicelaget, med repo imellem,
+@GetMapping("/wishlist/shared/{token}")
+public String viewSharedWishList(@PathVariable("token") String shareToken, Model model) {
+    WishListDTO wishList = wishListService.getWishListByShareToken(shareToken);
+    model.addAttribute("wishList", wishList);
+    return "read-only"; // HTML template navn
+}
+
 }

@@ -57,7 +57,13 @@ public class WishListRepository {
     }
 
     public void insertWishList(WishList wishList) {
-        String sql ="INSERT INTO tb_wishlists(wishlist_id, name, unique_url) VALUES (?, ?, ?)" ;
-        jdbcTemplate.update(sql, wishList.getWishListId(), wishList.getName(), wishList.getUniqueURL());
+        String sql ="INSERT INTO tb_wishlists(wishlist_id, name, share_token) VALUES (?, ?, ?)" ;
+        jdbcTemplate.update(sql, wishList.getWishListId(), wishList.getName(), wishList.getShare_token());
     }
+
+    public  WishList findByShareToken(String shareToken) {
+        String sql = "SELECT * FROM tb_wishlists WHERE share_token = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{shareToken}, new WishListRowMapper());
+    }
+
 }
