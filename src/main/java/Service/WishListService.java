@@ -3,14 +3,9 @@
 /// ============================================
 package Service;
 
-import DTO.ItemDTO;
 import DTO.WishListDTO;
-import Model.Item;
-import Model.WishList;
 import Repository.WishListRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 public class WishListService {
@@ -102,10 +97,9 @@ public class WishListService {
         return shareToken;
     }
 
-
-
-
-
+    public WishList findByShareToken(String shareToken) {
+        return wishListRepository.findByShareToken(shareToken);
+    }
 
 }
 

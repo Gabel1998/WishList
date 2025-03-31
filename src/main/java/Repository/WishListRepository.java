@@ -5,19 +5,20 @@ import Model.Item;
 import Model.WishList;
 import Rowmappers.ItemRowMapper;
 import Rowmappers.WishListRowMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
+
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 
 
 @Repository
 public class WishListRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+  private final JdbcTemplate jdbcTemplate;
 
 
     public WishListRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+      this.jdbcTemplate = jdbcTemplate;
+  }
 
 
     public void insertWishList(WishListDTO wishListDTO) {
@@ -90,7 +91,4 @@ public class WishListRepository {
         String sql = "SELECT id FROM shared_wishlists WHERE share_token = ?";
         return jdbcTemplate.queryForObject(sql, Long.class, shareToken);
     }
-
-
-
 }

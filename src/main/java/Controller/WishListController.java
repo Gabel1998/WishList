@@ -67,13 +67,20 @@ private final WishListService wishListService;
         return "redirect:/" + userId + "/wishlist";
     }
 
+@GetMapping("/view/{share_token}")
+public String viewReadOnly(@PathVariable String share_token, Model model) {
+    Long sharedWishlistId = wishListRepository.findSharedWishlistIdByToken(share_token);
+    
+    if (sharedWishlistId == null) {
+        model.addAttribute("error", "Ønskeseddel ikke fundet");
+        return "error";
+    }
 
-//    gå fra controller, til wishlist-readonly.html(Ikke lavet endnu), hente sharetoken fra servicelaget, med repo imellem,
-@GetMapping("/wishlist/shared/{token}")
-public String viewSharedWishList(@PathVariable("token") String shareToken, Model model) {
-    WishListDTO wishList = wishListService.getWishListByShareToken(shareToken);
-    model.addAttribute("wishList", wishList);
-    return "read-only"; // HTML template navn
+    List<SharedItem> items = wishListRepository.findSharedItemsBySharedWishlistId(sharedWishlistId);
+    model.addAttribute("items", items);
+    model.addAttribute("shareToken", share_token); // så du kan bruge det i fx reservation
+
+    return "wishlist-readonly";
 }
 
 }

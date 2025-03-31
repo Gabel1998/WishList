@@ -19,6 +19,7 @@ public class WishListRowMapper implements RowMapper<WishList> {
         wishList.setName(rs.getString("title"));
         wishList.setShare_token(rs.getString("share_token"));
 
+
         //map User
         User user = new User();
         user.setUserId(rs.getInt("user_id"));
@@ -26,6 +27,8 @@ public class WishListRowMapper implements RowMapper<WishList> {
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
         wishList.setUserId(user);
+
+        // map item
 
         return wishList;
 
