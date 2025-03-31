@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ønskeseddel</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/test/wishlist.css}">
+</head>
+<body>
+<!-- ======== HEADER ======== -->
+<div th:replace="~{header}"></div>
+
+<!-- ======== WISHLIST (name) ======== -->
+<h1 th:text="${wishlist.name}">Ønskeseddel</h1>
+
+<!-- ======== WISHLIST (view) ======== -->
+<div class="items-container">
+  <div th:each="item : ${wishList.items}">
+    <div class="product-box">
+      <!-- ITEM Information-->
+      <h3 th:text="${item.name}">Produktnavn</h3>
+        <p th:text="${item.description}">Beskrivelse</p>
+        <p th:text="${item.price}">Pris</p>
+
+      <!-- ======== RESERVE (knap) ======== -->
+      <div th:if="${not item.reserved}">
+        <form th:action="@{/reserve/${item.id}}" method="post">
+          <button type="submit">Reserver</button>
+        </form>
+      </div>
+      <div th:if="${item.reserved}">
+        <p>Reserveret</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======== FOOTER ======== -->
+<div th:replace="~{footer}"></div>
+
+<!-- i stedet for at have pop-up, ville det være smart at lave "blur transition", når man har reserveret et ønske -->
+</body>
+</html>

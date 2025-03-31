@@ -5,6 +5,7 @@ import Model.Item;
 import Model.WishList;
 import Rowmappers.ItemRowMapper;
 import Rowmappers.WishListRowMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -59,5 +60,17 @@ public class WishListRepository {
     public void insertWishList(WishList wishList) {
         String sql ="INSERT INTO tb_wishlists(wishlist_id, name, unique_url) VALUES (?, ?, ?)" ;
         jdbcTemplate.update(sql, wishList.getWishListId(), wishList.getName(), wishList.getUniqueURL());
+    }
+
+    // Find ønskeseddel ud fra Unique URL
+    public WishList findByShareToken(String shareToken) {
+        String sql = "SELECT * FROM tb_wishlists WHERE unique_url = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{shareToken}, new WishListRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            //ingen ønskeliste fundet med det angivne token
+            return null;
+        }
+
     }
 }

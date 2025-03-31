@@ -89,5 +89,9 @@ public class WishListService {
 
         wishListRepository.insertWishList(wishList);
     }
+
+    public WishList findByShareToken(String shareToken) {
+        return wishListRepository.findByShareToken(shareToken);
+    }
 }
 

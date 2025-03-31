@@ -68,4 +68,19 @@ private final WishListService wishListService;
         }
         return "redirect:/" + userId + "/wishlist";
     }
+
+    // genereret read-only side til "unknown" brugere
+    @GetMapping("/view/{share_token}")
+    public String viewReadOnly(@PathVariable String share_token, Model model) {
+
+        WishList wishList = wishListService.findByShareToken(share_token);
+
+        if(wishList != null) {
+            model.addAttribute("wishList", wishList);
+            return "wishlist-readonly";
+        } else {
+            model.addAttribute("error", "Ønskeseddel ikke fundet");
+            return "error";
+        }
+    }
 }
