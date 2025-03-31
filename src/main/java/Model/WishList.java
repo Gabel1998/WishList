@@ -4,6 +4,7 @@ public class WishList {
     private int wishListId;
     private User userId;
     private String name;
+    private String uniqueURL;
 
     public WishList(int wishListId, User userId, String name){
         this.wishListId = wishListId;
@@ -35,6 +36,14 @@ public class WishList {
         this.name = name;
     }
 
+    public String getUniqueURL() {
+        return uniqueURL;
+    }
+
+    public void setUniqueURL(String uniqueURL) {
+        this.uniqueURL = uniqueURL;
+    }
+
     @Override
     public String toString(){
         return "User{" +
@@ -43,4 +52,5 @@ public class WishList {
                 ", name='" + name + '\'' +
                 '}';
     }
+
 }
