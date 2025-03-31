@@ -7,26 +7,29 @@ package Controller;
 import DTO.ItemDTO;
 import DTO.WishListDTO;
 import Model.WishList;
+import Model.SharedItem;
 import Repository.WishListRepository;
 import Service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
 
 public class WishListController {
 private final WishListService wishListService;
-private final WishListRepository wishListRepository;
 
     @Autowired
     public WishListController(WishListService wishListService, WishListRepository wishListRepository){
         this.wishListService = wishListService;
-        this.wishListRepository = wishListRepository;
     }
 
     // tilføj nyt produkt til ønskeliste
@@ -57,8 +60,7 @@ private final WishListRepository wishListRepository;
         return ResponseEntity.status(HttpStatus.OK).body("Item reserved");
     }
 
-    @PostMapping("/create")
-    public String createWishList(@PathVariable("userId") int userId, @ModelAttribute WishList wishList, Model model){
+    @RequestMapping("/create/{userId}")    public String createWishList(@PathVariable("userId") int userId, @ModelAttribute WishList wishList, Model model){
         //konverterer wishlist til wishlistDTO
         WishListDTO wishListDTO = new WishListDTO(wishList.getWishListId(), wishList.getName(), wishList.getShare_token());
         try {
@@ -70,20 +72,44 @@ private final WishListRepository wishListRepository;
         return "redirect:/" + userId + "/wishlist";
     }
 
-@GetMapping("/view/{share_token}")
-public String viewReadOnly(@PathVariable String share_token, Model model) {
-    Long sharedWishlistId = wishListRepository.findSharedWishlistIdByToken(share_token);
-    
-    if (sharedWishlistId == null) {
-        model.addAttribute("error", "Ønskeseddel ikke fundet");
-        return "error";
+    @GetMapping("/view/{share_token}")
+    public String viewReadOnly(@PathVariable String share_token, Model model) {
+        List<SharedItem> items = wishListService.getSharedItems(share_token);
+
+        if (items == null || items.isEmpty()) {
+            model.addAttribute("error", "Ønskeseddel ikke fundet eller er tom");
+            return "error";
+        }
+
+        model.addAttribute("items", items);
+        model.addAttribute("shareToken", share_token); // fx til reservation
+
+        return "wishlist-readonly";
     }
 
-    List<SharedItem> items = wishListRepository.findSharedItemsBySharedWishlistId(sharedWishlistId);
-    model.addAttribute("items", items);
-    model.addAttribute("shareToken", share_token); // så du kan bruge det i fx reservation
+    @PostMapping("/wishlist/{id}/share")
+    public String shareWishlist(@PathVariable("id") int wishlistId, RedirectAttributes redirectAttributes) {
+        String token = wishListService.shareWishlist(wishlistId);
+        redirectAttributes.addFlashAttribute("shareLink", "/view/" + token);
+        return "redirect:/user/wishlist"; // eller hvor din oversigt er
+    }
 
-    return "wishlist-readonly";
-}
+    @PostMapping("/reserve")
+    public String reserveSharedItem(@RequestParam("itemId") long itemId,
+                                    @RequestParam("shareToken") String shareToken,
+                                    RedirectAttributes redirectAttributes) {
+        try {
+            wishListService.reserveSharedItem(itemId);
+            redirectAttributes.addFlashAttribute("message", "Ønske er reserveret!");
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("message", "Ønsket er allerede reserveret.");
+        }
+
+        return "redirect:/view/" + shareToken;
+    }
+
+
+
+
 
 }

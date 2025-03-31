@@ -6,12 +6,21 @@ package Service;
 import DTO.ItemDTO;
 import DTO.WishListDTO;
 import Model.Item;
+import Model.SharedItem;
 import Model.WishList;
+import Repository.SharedItemRepository;
 import Repository.WishListRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class WishListService {
+
+    @Autowired
+    private SharedItemRepository sharedItemRepository;
+
 
     private final WishListRepository wishListRepository;
 
@@ -75,17 +84,7 @@ public class WishListService {
         }
     }
 
-    //read-only ønskelister
-    public WishListDTO getWishListByShareToken(String shareToken) {
-        WishList wishList = wishListRepository.findByShareToken(shareToken);
-
-        WishListDTO wishListDTO = new WishListDTO();
-        wishListDTO.setId(wishList.getWishListId());
-        wishListDTO.setName(wishList.getName());
-        wishListDTO.setShareToken(wishList.getShare_token());
-
-        return wishListDTO;
-    }
+    //read-only ønskeliste
 
     public String shareWishlist(long wishlistId) {
         wishListRepository.insertSharedWishlist(wishlistId);
@@ -103,6 +102,20 @@ public class WishListService {
     public WishList findByShareToken(String shareToken) {
         return wishListRepository.findByShareToken(shareToken);
     }
+
+    public List<SharedItem> getSharedItems(String shareToken) {
+        Long sharedWishlistId = wishListRepository.findSharedWishlistIdByToken(shareToken);
+        if (sharedWishlistId == null) {
+            return null;
+        }
+        return sharedItemRepository.findSharedItemsBySharedWishlistId(sharedWishlistId); // ✅
+    }
+
+    public void reserveSharedItem(long sharedItemId) {
+        // Simpel indsættelse i tb_reservations
+        wishListRepository.insertReservation(sharedItemId);
+    }
+
 
 }
 
