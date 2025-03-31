@@ -32,6 +32,22 @@ public class WishListService {
         wishListRepository.insertWishList(wishListDTO);
     }
 
+    public void deleteItem(int id) {
+        wishListRepository.deleteItem(id);
+    }
+
+    public void updateItem(int id, ItemDTO itemDTO) {
+        wishListRepository.updateItem(id, itemDTO);
+    }
+
+    public void addItemToWishList(int id, ItemDTO itemDTO) {
+        wishListRepository.addItem(id, itemDTO);
+    }
+
+    public void reserveItem(int reservation_id, int rsv_items_id) {
+        wishListRepository.reserveItem(reservation_id, rsv_items_id);
+    }
+
     public void addItemToWishList(int wishlistId, ItemDTO itemDTO) {
         WishList wishList = wishListRepository.findWishListById(wishlistId);
         Item item = new Item();
@@ -115,7 +131,6 @@ public class WishListService {
         // Simpel indsættelse i tb_reservations
         wishListRepository.insertReservation(sharedItemId);
     }
-
 
 }
 
