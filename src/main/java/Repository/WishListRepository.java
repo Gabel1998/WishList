@@ -55,4 +55,9 @@ public class WishListRepository {
         String sql = "DELETE FROM tb_items WHERE item_id = ?";
         jdbcTemplate.update(sql, itemId);
     }
+
+    public void insertWishList(WishList wishList) {
+        String sql ="INSERT INTO tb_wishlists(wishlist_id, name, unique_url) VALUES (?, ?, ?)" ;
+        jdbcTemplate.update(sql, wishList.getWishListId(), wishList.getName(), wishList.getUniqueURL());
+    }
 }

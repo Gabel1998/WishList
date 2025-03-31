@@ -10,6 +10,8 @@ import Model.WishList;
 import Repository.WishListRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class WishListService {
 
@@ -73,6 +75,19 @@ public class WishListService {
         } else {
             throw new RuntimeException("Ønske med ID " + rsvItemsId + " findes ikke.");
         }
+    }
+
+    //Generer en unik URL til read-only ønskelister
+    public void generateUniqueURL(WishListDTO wishListDTO) {
+        //Generér unique URL
+        String uniqueURL = UUID.randomUUID().toString();
+
+        //Opret objekt og set uniqueURL
+        WishList wishList = new WishList();
+        wishList.setName(wishListDTO.getName());
+        wishList.setUniqueURL(uniqueURL);
+
+        wishListRepository.insertWishList(wishList);
     }
 }
 
