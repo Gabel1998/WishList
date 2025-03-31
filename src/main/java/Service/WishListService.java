@@ -89,6 +89,20 @@ public class WishListService {
         return wishListDTO;
     }
 
+    public String shareWishlist(long wishlistId) {
+        wishListRepository.insertSharedWishlist(wishlistId);
+
+        // Hent token der blev genereret af databasen
+        String shareToken = wishListRepository.findShareTokenByOriginalWishlistId(wishlistId);
+        // Hent ID på shared_wishlist
+        Long sharedWishlistId = wishListRepository.findSharedWishlistIdByToken(shareToken);
+        // Kopiér items
+        wishListRepository.copyItemsToSharedItems(wishlistId, sharedWishlistId);
+
+        return shareToken;
+    }
+
+
 
 
 

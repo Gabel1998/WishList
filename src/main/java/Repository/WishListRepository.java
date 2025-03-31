@@ -66,4 +66,31 @@ public class WishListRepository {
         return jdbcTemplate.queryForObject(sql, new Object[]{shareToken}, new WishListRowMapper());
     }
 
+    public void insertSharedWishlist(long originalWishlistId) {
+        String sql = "INSERT INTO shared_wishlists (original_wishlist_id, share_token) VALUES (?, UUID())";
+        jdbcTemplate.update(sql, originalWishlistId);
+    }
+
+    public void copyItemsToSharedItems(long originalWishlistId, long sharedWishlistId) {
+        String sql = """
+        INSERT INTO shared_items (shared_wishlist_id, original_item_id, name, description, price, url)
+        SELECT ?, item_id, name, description, price, url
+        FROM tb_items
+        WHERE it_wishlist_id = ?
+    """;
+        jdbcTemplate.update(sql, sharedWishlistId, originalWishlistId);
+    }
+
+    public String findShareTokenByOriginalWishlistId(long originalWishlistId) {
+        String sql = "SELECT share_token FROM shared_wishlists WHERE original_wishlist_id = ?";
+        return jdbcTemplate.queryForObject(sql, String.class, originalWishlistId);
+    }
+
+    public Long findSharedWishlistIdByToken(String shareToken) {
+        String sql = "SELECT id FROM shared_wishlists WHERE share_token = ?";
+        return jdbcTemplate.queryForObject(sql, Long.class, shareToken);
+    }
+
+
+
 }
