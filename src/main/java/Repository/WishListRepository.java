@@ -34,12 +34,14 @@ public class WishListRepository {
 
     public WishList findWishListById(int wishlistId) {
         String sql = "SELECT * FROM wishlists WHERE wishlist_id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{wishlistId}, new WishListRowMapper());
+//        return jdbcTemplate.queryForObject(sql, new Object[]{wishlistId}, new WishListRowMapper());
+        return jdbcTemplate.queryForObject(sql, new WishListRowMapper(), wishlistId);
     }
 
     public Item findItemById(int itemId) {
         String sql = "SELECT * FROM tb_items WHERE item_id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{itemId}, new ItemRowMapper());
+//        return jdbcTemplate.queryForObject(sql, new Object[]{itemId}, new ItemRowMapper());
+        return jdbcTemplate.queryForObject(sql, new ItemRowMapper(), itemId);
     }
 
     public void insertItem(Item item) {
@@ -60,7 +62,8 @@ public class WishListRepository {
 
     public  WishList findByShareToken(String shareToken) {
         String sql = "SELECT * FROM tb_wishlists WHERE share_token = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{shareToken}, new WishListRowMapper());
+//        return jdbcTemplate.queryForObject(sql, new Object[]{shareToken}, new WishListRowMapper());
+        return jdbcTemplate.queryForObject(sql, new WishListRowMapper(), shareToken);
     }
 
     public void insertSharedWishlist(long originalWishlistId) {
