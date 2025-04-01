@@ -10,7 +10,6 @@ import Model.SharedItem;
 import Model.WishList;
 import Repository.SharedItemRepository;
 import Repository.WishListRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,14 +17,12 @@ import java.util.List;
 @Service
 public class WishListService {
 
-    @Autowired
-    private SharedItemRepository sharedItemRepository;
-
-
     private final WishListRepository wishListRepository;
+    private final SharedItemRepository sharedItemRepository;
 
-    public WishListService(WishListRepository wishListRepository) {
+    public WishListService(WishListRepository wishListRepository, SharedItemRepository sharedItemRepository) {
         this.wishListRepository = wishListRepository;
+        this.sharedItemRepository = sharedItemRepository;
     }
 
     public void createWishList(WishListDTO wishListDTO) {

@@ -21,9 +21,6 @@ public class User {
         return userId;
     }
 
-    public void setUserId(int UserId) {
-        this.userId = userId;
-    }
 
     public String getName() {
         return name;
