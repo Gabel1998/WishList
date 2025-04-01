@@ -1,6 +1,6 @@
 package Service;
 
-import DTO.RegisterDTO;
+import DTO.UserDTO;
 import Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +14,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void registerUser(RegisterDTO registerDTO) {
-        userRepository.insertUser(registerDTO);
+    public void registerUser(UserDTO userDTO) {
+        userRepository.insertUser(userDTO);
     }
 
     public boolean emailExists(String email) {

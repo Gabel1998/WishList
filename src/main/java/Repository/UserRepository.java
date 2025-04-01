@@ -1,6 +1,6 @@
 package Repository;
 
-import DTO.RegisterDTO;
+import DTO.UserDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class UserRepository {
@@ -13,14 +13,14 @@ public class UserRepository {
     }
 
     //Vores insert statement til mySql. Vi bruger ikke row mapper, da vi kun skal lave insert, og ikke mere
-    public void registerUser(RegisterDTO registerDTO) {
+    public void registerUser(UserDTO userDTO) {
         String sql = "INSERT INTO tb_user (name, email, password) values (?, ?, ?)"; // ? referer til de values vi får fra frontend, gennem RequestParam
-        jdbcTemplate.update(sql, registerDTO.getName(), registerDTO.getEmail(), registerDTO.getPassword());
+        jdbcTemplate.update(sql, userDTO.getName(), userDTO.getEmail(), userDTO.getPassword());
     }
 
-    public void insertUser(RegisterDTO registerDTO) {
+    public void insertUser(UserDTO userDTO) {
         String sql = "INSERT INTO tb_user ( email, password) values ( ?, ?)";
-        jdbcTemplate.update(sql, registerDTO.getName(), registerDTO.getEmail(), registerDTO.getPassword());
+        jdbcTemplate.update(sql, userDTO.getName(), userDTO.getEmail(), userDTO.getPassword());
     }
 
     public boolean emailExists(String email) {
