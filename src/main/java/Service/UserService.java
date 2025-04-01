@@ -1,6 +1,10 @@
 package Service;
 
+import DTO.LoginDTO;
+import DTO.RegisterDTO;
+
 import DTO.UserDTO;
+import Model.User;
 import Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +24,13 @@ public class UserService {
 
     public boolean emailExists(String email) {
         return userRepository.emailExists(email);
+    }
+
+    // tjek for korrekt email og password
+    public boolean isValidUser(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        return user != null && user.getPassword().equals(password);
+
     }
 }
 
