@@ -28,8 +28,6 @@ public class WishListRowMapper implements RowMapper<WishList> {
         user.setPassword(rs.getString("password"));
         wishList.setUserId(user);
 
-        // map item
-
         return wishList;
 
     }

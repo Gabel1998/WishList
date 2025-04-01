@@ -62,5 +62,6 @@ public class ItemDTO {
     }
 
     public Object getItemId() {
+        return null;
     }
 }

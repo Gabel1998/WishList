@@ -1,5 +1,6 @@
 package Service;
 
+import DTO.LoginDTO;
 import DTO.RegisterDTO;
 import Repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,10 @@ public class UserService {
 
     public boolean emailExists(String email) {
         return userRepository.emailExists(email);
+    }
+
+    public boolean login(LoginDTO loginDTO) {
+        return userRepository.emailExists(loginDTO.getEmail());
     }
 }
 
