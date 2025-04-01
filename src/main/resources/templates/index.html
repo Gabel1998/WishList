@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wishlist</title>
+</head>
+
+<!-- ======== HEADER TEMPLATE ======== -->
+<div th:replace="~{header}"></div>
+
+<body>
+
+<!--Banner-->
+<section class="hero-banner">
+    <div class="hero-content">
+        <h1>Velkommen til Wishlist</h1>
+        <p>Del dine ønsker nemt og bæredygtigt med familie og venner.</p>
+        <!--opret bruger knap, sender en til register-->
+        <div class="create-user-btn">
+            <a href="/register" class="btn">Opret bruger</a>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<!--Oversigt over samarbejdspartnere i som cards, der looper-->
+<section class="partner-section">
+    <h2>Vores samarbejdspartnere</h2>
+    <div class="partner-grid">
+        <div class="partner-card">
+            <a href="https://www.ikea.com/dk/da/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/green-partners/IKEA.png" alt="IKEA - Grønne initiativer">
+            </a>
+        </div>
+        <div class="partner-card">
+            <a href="https://www2.hm.com/da_dk/index.html" target="_blank" rel="noopener noreferrer">
+                <img src="/images/green-partners/hm.png" alt="H&M Conscious">
+            </a>
+        </div>
+        <div class="partner-card">
+            <a href="https://www.nike.com/sustainability" target="_blank" rel="noopener noreferrer">
+                <img src="/images/green-partners/nike.png" alt="Nike Move to Zero">
+            </a>
+        </div>
+        <div class="partner-card">
+            <a href="https://www.weekday.com/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/green-partners/weekday.png" alt="Weekday - Bæredygtig mode">
+            </a>
+        </div>
+        <div class="partner-card">
+            <a href="https://www.zalando.dk/sustainability-home/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/green-partners/zalando_brandmark_orange_RGB.png" alt="Zalando Sustainability">
+            </a>
+        </div>
+        <div class="partner-card">
+            <a href="https://www.stories.com/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/green-partners/other-stories.png" alt="& Other Stories Conscious">
+            </a>
+        </div>
+        <div class="partner-card">
+            <a href="https://www.sephora.dk/da/clean-beauty/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/green-partners/sephora.png" alt="Sephora Clean">
+            </a>
+        </div>
+        <div class="partner-card">
+            <a href="https://www.farfetch.com/"
+               target="_blank" rel="noopener noreferrer">
+                <img src="/images/green-partners/Farfetch_logo_2020.svg.png" alt="Farfetch Pre-Owned">
+            </a>
+        </div>
+        <div class="partner-card">
+            <a href="https://www.rodekors.dk/genbrug" target="_blank" rel="noopener noreferrer">
+                <img src="/images/green-partners/rodekors.png" alt="Røde Kors Genbrug">
+            </a>
+        </div>
+        <div class="partner-card">
+            <a href="https://reshopper.com/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/green-partners/Reshopper.png" alt="Reshopper">
+            </a>
+        </div>
+        <div class="partner-card">
+            <a href="https://www.vinted.dk/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/green-partners/Vinted_logo.png" alt="Vinted - Secondhand Shopping">
+            </a>
+        </div>
+        <div class="partner-card">
+            <a href="https://eu.patagonia.com/dk/en/home/" target="_blank" rel="noopener noreferrer">
+                <img src="/images/green-partners/patagonia.png" alt="Patagonia">
+            </a>
+        </div>
+    </div>
+
+</section>
+<!--Wishlist partner beskrivelse-->
+<section>
+    <div class="partner-description">
+        <p>
+            Vi samarbejder med grønne og bæredygtige partnere, der tager ansvar for miljøet.
+            Disse brands fokuserer på genanvendelige materialer, klimavenlige leveringskæder og etisk produktion.
+            Når du vælger produkter fra vores grønne partnere, støtter du en mere ansvarlig og fremtidssikret livsstil –
+            uden at gå på kompromis med stil eller kvalitet.
+        </p>
+    </div>
+</section>
+
+</body>
+
+<!-- ======== FOOTER ======== -->
+<div th:replace="~{footer}"></div>
+</html>

@@ -1,15 +1,27 @@
 <header>
-  <div class="logo"> <!-- Har ikke created i CSS, kommer an på hvad vi gør med div-->
-    <!-- Hvis vi vil have logo/tekst eller lignende, ellers sletter vi div -->
-    <h1>ARSA Interactive</h1>
-  </div>
-  <nav>
-    <ul>
-      <li><a href="/register">Opret bruger</a></li>
-      <li><a href="/login">Log ind</a></li>
-      <li><a href="/">Hjem</a></li>
-      <li><a href="/wishlists">Ønskeslister</a></li>
-      <li><a href="/findNogetSmartEndPoint">Delte ønskeslister</a></li>
-    </ul>
-  </nav>
+    <div class="logo"> <!-- Har ikke created i CSS, kommer an på hvad vi gør med div-->
+        <!-- Hvis vi vil have logo/tekst eller lignende, ellers sletter vi div -->
+        <h1>ARSA Interactive</h1>
+    </div>
+    <nav>
+        <ul>
+            <!-- Other navigation elements -->
+            <div>
+                <li><a href="/index"> <img src="images/logo" alt="Forside logo"></a></li>
+                <li><a href="/">Hjem</a></li>
+                <li><a href="/wishlists">Ønskeslister</a></li>
+                <li><a href="/findNogetSmartEndPoint">Delte ønskeslister</a></li>
+            </div>
+
+            <div th:if="${session.user == null}" class="login-opret-bruger">
+                <a href="/register">Ny bruger?</a>
+                <a href="/login" class="nav-button">Login</a>
+            </div>
+            <div th:if="${session.user != null}">
+                <span th:text="${session.user}"></span>
+                <a href="/logout" class="nav-button">Logout</a>
+            </div>
+
+        </ul>
+    </nav>
 </header>
