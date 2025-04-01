@@ -26,14 +26,10 @@ public class WishListRepository {
         jdbcTemplate.update(sql, wishListDTO.getWishListId(), wishListDTO.getName());
     }
 
-    public void addItem(int id, ItemDTO itemDTO) {
-        String sql = "INSERT INTO tb_wishlists_items(wishlist_id, item_id, name, quantity) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, id, itemDTO.getItemId(), itemDTO.getName(), itemDTO.getQuantity());
-    }
 
-    public void reserveItem(int reservation_id, int rsv_items_id) {
-        String sql = "UPDATE tb_wishlists_items SET reserved = TRUE, reservation_id = ? WHERE item_id = ?";
-        jdbcTemplate.update(sql, reservation_id, rsv_items_id);
+    public void deleteItem(int itemId) {
+        String sql = "DELETE FROM tb_items WHERE item_id = ?";
+        jdbcTemplate.update(sql, itemId);
     }
 
     public WishList findWishListById(int wishlistId) {
@@ -61,12 +57,6 @@ public class WishListRepository {
                 item.getPrice(), item.getQuantity(),
                 item.getLink(), item.getItemId());
     }
-
-    public void deleteItem(int itemId) {
-        String sql = "DELETE FROM tb_items WHERE item_id = ?";
-        jdbcTemplate.update(sql, itemId);
-    }
-
 
     public  WishList findByShareToken(String shareToken) {
         String sql = "SELECT * FROM tb_wishlists WHERE share_token = ?";
