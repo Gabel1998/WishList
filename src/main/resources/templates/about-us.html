@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Om Os</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header>
+  <div th:replace="~{header}"></div>
+</header>
+<main>
+  <section>
+    <h2>ARSA Interactive</h2>
+    <p>Vi er en virksomhed, der fokuserer på bæredygtighed og blablalabal.</p>
+  </section>
+
+  <section>
+    <h2>Vores team</h2>
+    <div class="row">
+
+      <div class="column">
+        <div class="card">
+          <img src="/img/os/Alexander.jpg" alt="Alexander" style="width:100%">
+          <div class="container">
+            <h3>Alexander Örn Birgisson</h3>
+            <p class="title">Developer</p>
+            <p>Fact: Island <br>Hobby: Fly, Musik <br>Yndlingsdyr: Hund </p>
+            <p>Alexander@example.com</p>
+            <p><button class="button">Contact</button></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <img src="/img/os/Andreas.jpg" alt="Andreas" style="width:100%">
+          <div class="container">
+            <h3>Andreas Gabel</h3>
+            <p class="title">Scrum Master</p>
+            <p>Fact:Søværnet <br>Hobby: Lykkeligt parforhold <br>Yndlingsdyr: En reje</p>
+            <p>Andreas@example.com</p>
+            <p><button class="button">Contact</button></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <img src="/img/os/Rasmus.jpg" alt="Rasmus" style="width:100%">
+          <div class="container">
+            <h3>Rasmus Mellerkaer</h3>
+            <p class="title">Developer</p>
+            <p>Fact:Navn staves med 2 s'er <br>Hobby: Træning <br>Yndlingsdyr: Los</p>
+            <p>Rasmus@example.com</p>
+            <p><button class="button">Contact</button></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card">
+          <img src="/img/os/Sofie.jpg" alt="Sofie" style="width:100%">
+          <div class="container">
+            <h3>Sofie Nakskov</h3>
+            <p class="title">Product Owner</p>
+            <p>Fact: For mange hobbyer <br>Hobby: For mange <br>Yndlingsdyr: Vandrende pind</p>
+            <p>Sofie@example.com</p>
+            <p><button class="button">Contact</button></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+<footer>
+  <div th:replace="~{footer}"></div>
+</footer>
+</body>
+</html>
+
+
