@@ -11,10 +11,11 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
   </head>
 
-  <body>
-
   <!-- ======== HEADER TEMPLATE ======== -->
   <div th:replace="~{header}"></div>
+
+  <body>
+
 
     <!-- ======== FEEDBACK MESSAGES (FLASH) ======== -->
   <!-- Viser enten succes- eller fejlbesked fra backend -->
@@ -48,7 +49,8 @@
         </form>
     </div>
 
-    <!-- ======== FOOTER ======== -->
-    <div th:replace="~{footer}"></div>
   </body>
+
+  <!-- ======== FOOTER ======== -->
+  <div th:replace="~{footer}"></div>
 </html>
