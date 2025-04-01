@@ -65,7 +65,7 @@ CREATE TABLE shared_items
     description        TEXT,
     price              DECIMAL(10, 2),
     url                VARCHAR(255),
-    FOREIGN KEY (si_sw_id) REFERENCES shared_wishlists (shared_wishlist_id) ON DELETE CASCADE
+    FOREIGN KEY (si_shared_wishlist_id) REFERENCES shared_wishlists (shared_wishlist_id) ON DELETE CASCADE
 ) AUTO_INCREMENT = 20000;
 
 -- RESERVATIONS
