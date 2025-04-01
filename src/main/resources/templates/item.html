@@ -1,13 +1,21 @@
-<!-- Template til produkter på ønskeseddel -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Ønske Detaljer</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div th:replace="~{header}"></div>
 
-<div th:fragment="itemFragment(wishlistId, item)">
-    <h3 th:text="${item.name}">Produktnavn</h3>
+<!-- ======== ITEM DETAILS ======== -->
+<div class="item-details">
+    <h1 th:text="${item.name}">Produktnavn</h1>
     <p th:text="${item.description}">Produktbeskrivelse</p>
-    <p th:text="${item.price}">Pris</p>
-
-
-<div class="item-links">
+    <p>Pris: <span th:text="${item.price}">0.00</span> DKK</p>
     <a th:href="@{${item.link}}" target="_blank">Se produkt</a>
-    <a th:href="@{/wishlists/${wishlistId}/item/${item.id}/delete}" class="delete-link">Slet</a>
 </div>
-</div>
+
+<div th:replace="~{footer}"></div>
+</body>
+</html>
