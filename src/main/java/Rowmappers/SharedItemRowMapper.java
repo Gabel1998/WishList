@@ -2,7 +2,6 @@ package Rowmappers;
 
 import Model.SharedItem;
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

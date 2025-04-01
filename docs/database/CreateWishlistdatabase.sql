@@ -48,24 +48,24 @@ CREATE TABLE tb_items
 -- SHARED WISHLISTS
 CREATE TABLE shared_wishlists
 (
-    id                   BIGINT AUTO_INCREMENT PRIMARY KEY,
-    original_wishlist_id BIGINT   NOT NULL,
-    share_token          CHAR(36) NOT NULL,
-    created_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (original_wishlist_id) REFERENCES tb_wishlists (wishlist_id) ON DELETE CASCADE
+    shared_wishlist_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    sw_wishlist_id     BIGINT   NOT NULL,
+    share_token        CHAR(36) NOT NULL,
+    created_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sw_wishlist_id) REFERENCES tb_wishlists (wishlist_id) ON DELETE CASCADE
 ) AUTO_INCREMENT = 2000;
 
 -- SHARED ITEMS
 CREATE TABLE shared_items
 (
-    id                 BIGINT AUTO_INCREMENT PRIMARY KEY,
-    shared_wishlist_id BIGINT NOT NULL,
+    shared_items_id    BIGINT AUTO_INCREMENT PRIMARY KEY,
+    si_shared_wishlist_id BIGINT NOT NULL,
     original_item_id   BIGINT,
     name               VARCHAR(255),
     description        TEXT,
     price              DECIMAL(10, 2),
     url                VARCHAR(255),
-    FOREIGN KEY (shared_wishlist_id) REFERENCES shared_wishlists (id) ON DELETE CASCADE
+    FOREIGN KEY (si_shared_wishlist_id) REFERENCES shared_wishlists (shared_wishlist_id) ON DELETE CASCADE
 ) AUTO_INCREMENT = 20000;
 
 -- RESERVATIONS
@@ -74,5 +74,5 @@ CREATE TABLE tb_reservations
     reservation_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     rsv_items_id   BIGINT UNIQUE NOT NULL,
     reserved_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (rsv_items_id) REFERENCES shared_items (id) ON DELETE CASCADE
+    FOREIGN KEY (rsv_items_id) REFERENCES shared_items (shared_items_id) ON DELETE CASCADE
 ) AUTO_INCREMENT = 100000;
