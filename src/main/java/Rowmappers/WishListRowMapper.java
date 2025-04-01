@@ -17,12 +17,10 @@ public class WishListRowMapper implements RowMapper<WishList> {
 
         wishList.setWishListId(rs.getInt("wishlist_id"));
         wishList.setName(rs.getString("title"));
-        wishList.setShare_token(rs.getString("share_token"));
 
 
         //map User
         User user = new User();
-        user.setUserId(rs.getInt("user_id"));
         user.setName(rs.getString("name"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));

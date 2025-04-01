@@ -1,7 +1,6 @@
 package DTO;
 
-import Model.WishList;
-import Repository.WishListRepository;
+
 
 public class WishListDTO {
     private int wishListId;

@@ -41,10 +41,6 @@ public class WishList {
         return share_token;
     }
 
-    public void setShare_token(String uniqueURL) {
-        this.share_token = share_token;
-    }
-
     @Override
     public String toString(){
         return "User{" +

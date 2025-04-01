@@ -23,7 +23,8 @@ public class SharedItemRepository {
         LEFT JOIN tb_reservations r ON si.id = r.rsv_items_id
         WHERE si.shared_wishlist_id = ?
     """;
-        return jdbcTemplate.query(sql, new Object[]{sharedWishlistId}, new SharedItemRowMapper());
+//        return jdbcTemplate.query(sql, new Object[]{sharedWishlistId}, new SharedItemRowMapper());
+        return jdbcTemplate.query(sql, new SharedItemRowMapper(), sharedWishlistId);
     }
 
 }
