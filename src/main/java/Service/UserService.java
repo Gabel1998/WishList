@@ -4,6 +4,7 @@ import DTO.LoginDTO;
 import DTO.RegisterDTO;
 
 import DTO.UserDTO;
+import Model.User;
 import Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,11 @@ public class UserService {
         return userRepository.emailExists(email);
     }
 
-    public boolean login(LoginDTO loginDTO) {
-        return userRepository.emailExists(loginDTO.getEmail());
+    // tjek for korrekt email og password
+    public boolean isValidUser(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        return user != null && user.getPassword().equals(password);
+
     }
 }
 

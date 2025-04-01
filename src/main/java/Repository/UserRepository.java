@@ -1,6 +1,7 @@
 package Repository;
 
 import DTO.UserDTO;
+import Model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class UserRepository {
@@ -27,5 +28,16 @@ public class UserRepository {
         String sql = "SELECT COUNT(*) FROM tb_users WHERE email = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
         return count != null && count > 0;
+    }
+
+    //Tjekker om email eksisterer i databasen
+    public User findByEmail(String email) {
+        String sql = "SELECT * FROM tb_user WHERE email = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{email}, (rs, rowNum) -> {
+            User user = new User();
+            user.setEmail(rs.getString("email"));
+            user.setPassword(rs.getString("password"));
+            return user;
+        });
     }
 }

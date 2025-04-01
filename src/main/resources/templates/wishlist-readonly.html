@@ -6,9 +6,11 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/test/wishlist.css}">
 </head>
-<body>
+
 <!-- ======== HEADER ======== -->
 <div th:replace="~{header}"></div>
+
+<body>
 
 <!-- ======== WISHLIST (name) ======== -->
 <h1 th:text="${wishlist.name}">Ønskeseddel</h1>
@@ -45,9 +47,10 @@
     <hr/>
 </div>
 
+<!-- i stedet for at have pop-up, ville det være smart at lave "blur transition", når man har reserveret et ønske -->
+</body>
+
 <!-- ======== FOOTER ======== -->
 <div th:replace="~{footer}"></div>
 
-<!-- i stedet for at have pop-up, ville det være smart at lave "blur transition", når man har reserveret et ønske -->
-</body>
 </html>
