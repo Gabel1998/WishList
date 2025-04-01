@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @SuppressWarnings("unused")
-/// MIDLERTIDIG SUPPRESSER TIL MVC ERROR PÅ LINJE 29 !!!
+/// MIDLERTIDIG SUPPRESSER TIL MVC ERROR PÅ LINJE 30 !!!
 @Controller
 public class RegistrationController {
 
