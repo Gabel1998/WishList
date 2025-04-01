@@ -108,8 +108,4 @@ private final WishListService wishListService;
         return "redirect:/view/" + shareToken;
     }
 
-
-
-
-
 }

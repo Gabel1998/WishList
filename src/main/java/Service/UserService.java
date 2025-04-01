@@ -1,5 +1,8 @@
 package Service;
 
+import DTO.LoginDTO;
+import DTO.RegisterDTO;
+
 import DTO.UserDTO;
 import Model.User;
 import Repository.UserRepository;
@@ -27,6 +30,7 @@ public class UserService {
     public boolean isValidUser(String email, String password) {
         User user = userRepository.findByEmail(email);
         return user != null && user.getPassword().equals(password);
+
     }
 }
 
