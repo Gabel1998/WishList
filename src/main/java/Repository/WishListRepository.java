@@ -26,19 +26,9 @@ public class WishListRepository {
         jdbcTemplate.update(sql, wishListDTO.getWishListId(), wishListDTO.getName());
     }
 
-    public void deleteWishlist(int id) {
-        String sql = "DELETE FROM tb_wishlists WHERE wishlist_id = ?";
-        jdbcTemplate.update(sql, id);
-    }
-
     public void addItem(int id, ItemDTO itemDTO) {
         String sql = "INSERT INTO tb_wishlists_items(wishlist_id, item_id, name, quantity) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, id, itemDTO.getItemId(), itemDTO.getName(), itemDTO.getQuantity());
-    }
-
-    public void updateWishList(int id, ItemDTO itemDTO) {
-        String sql = "UPDATE tb_wishlists SET name = ? WHERE wishlist_id = ?";
-        jdbcTemplate.update(sql, itemDTO.getName(), id);
     }
 
     public void reserveItem(int reservation_id, int rsv_items_id) {
