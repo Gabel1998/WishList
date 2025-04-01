@@ -1,59 +1,50 @@
 package Controller;
 
 import Service.UserService;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import DTO.LoginDTO;
-import Service.UserService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RestController
 @RequestMapping("/api")
-
 public class LoginController {
 
     private final UserService userService;
 
-    //konstruktør
+    // konstruktør
     public LoginController(UserService userService) {
         this.userService = userService;
     }
 
-    //Login side
+    // Login side (til Thymeleaf-view)
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";
     }
 
-
-    // Login Logik
+    // Login logik (til Thymeleaf-form)
     @PostMapping("/login")
     public String login(@RequestParam("email") String email,
                         @RequestParam("password") String password,
                         HttpSession session,
                         RedirectAttributes redirectAttributes) {
 
-        // tjekker om email og password er korrekt
         if (userService.isValidUser(email, password)) {
-            session.setAttribute("user", email); // gemmer brugeren i sessionen
-            return "redirect:/index"; // Redirect til index-siden efter login
+            session.setAttribute("user", email);
+            return "redirect:/index";
         } else {
-        redirectAttributes.addFlashAttribute("errorMessage", "Forkert email eller password.");
-            return "redirect:/login"; // prøv igen
+            redirectAttributes.addFlashAttribute("errorMessage", "Forkert email eller password.");
+            return "redirect:/login";
+        }
+    }
 
-    @PostMapping("/login")
+    // Login logik (til API-request med JSON)
+    @PostMapping("/api/login")
+    @ResponseBody
     public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO, HttpSession session) {
         boolean isAuthenticated = userService.login(loginDTO);
         if (isAuthenticated) {
@@ -63,5 +54,4 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
     }
-
 }

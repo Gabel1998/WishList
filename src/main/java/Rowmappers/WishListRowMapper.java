@@ -2,9 +2,7 @@ package Rowmappers;
 
 import Model.User;
 import Model.WishList;
-
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
