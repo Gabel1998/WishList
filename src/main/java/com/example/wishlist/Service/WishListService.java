@@ -1,15 +1,15 @@
 /// ============================================
 /// =   JDBC-metoder til håndtering af items   =
 /// ============================================
-package Service;
+package com.example.wishlist.Service;
 
-import DTO.ItemDTO;
-import DTO.WishListDTO;
-import Model.Item;
-import Model.SharedItem;
-import Model.WishList;
-import Repository.SharedItemRepository;
-import Repository.WishListRepository;
+import com.example.wishlist.DTO.ItemDTO;
+import com.example.wishlist.DTO.WishListDTO;
+import com.example.wishlist.Model.Item;
+import com.example.wishlist.Model.SharedItem;
+import com.example.wishlist.Model.WishList;
+import com.example.wishlist.Repository.SharedItemRepository;
+import com.example.wishlist.Repository.WishListRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

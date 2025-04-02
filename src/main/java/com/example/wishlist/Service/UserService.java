@@ -1,10 +1,10 @@
-package Service;
+package com.example.wishlist.Service;
 
 
-import DTO.LoginDTO;
-import DTO.UserDTO;
-import Model.User;
-import Repository.UserRepository;
+import com.example.wishlist.DTO.LoginDTO;
+import com.example.wishlist.DTO.UserDTO;
+import com.example.wishlist.Model.User;
+import com.example.wishlist.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service

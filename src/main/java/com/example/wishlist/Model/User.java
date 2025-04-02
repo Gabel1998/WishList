@@ -1,4 +1,4 @@
-package Model;
+package com.example.wishlist.Model;
 //user model afspejler user databasen
 public class User {
     private int userId;

@@ -1,10 +1,10 @@
-package Repository;
+package com.example.wishlist.Repository;
 
-import DTO.WishListDTO;
-import Model.Item;
-import Model.WishList;
-import Rowmappers.ItemRowMapper;
-import Rowmappers.WishListRowMapper;
+import com.example.wishlist.DTO.WishListDTO;
+import com.example.wishlist.Model.Item;
+import com.example.wishlist.Model.WishList;
+import com.example.wishlist.Rowmappers.ItemRowMapper;
+import com.example.wishlist.Rowmappers.WishListRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

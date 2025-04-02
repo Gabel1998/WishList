@@ -1,6 +1,6 @@
-package Rowmappers;
+package com.example.wishlist.Rowmappers;
 
-import Model.SharedItem;
+import com.example.wishlist.Model.SharedItem;
 import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;

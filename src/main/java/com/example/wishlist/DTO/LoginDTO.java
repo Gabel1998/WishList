@@ -1,4 +1,4 @@
-package DTO;
+package com.example.wishlist.DTO;
 
 public class LoginDTO {
 

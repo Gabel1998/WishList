@@ -2,14 +2,14 @@
 /// =    Backend endpoints for ønskeliste     =
 /// =     Tilføj, opdater og slet produkter   =
 /// ===========================================
-package Controller;
+package com.example.wishlist.Controller;
 
-import DTO.ItemDTO;
-import DTO.WishListDTO;
-import Model.WishList;
-import Model.SharedItem;
-import Repository.WishListRepository;
-import Service.WishListService;
+import com.example.wishlist.DTO.ItemDTO;
+import com.example.wishlist.DTO.WishListDTO;
+import com.example.wishlist.Model.WishList;
+import com.example.wishlist.Model.SharedItem;
+import com.example.wishlist.Repository.WishListRepository;
+import com.example.wishlist.Service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

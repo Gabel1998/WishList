@@ -1,4 +1,4 @@
-package Model;
+package com.example.wishlist.Model;
 
 public class SharedItem {
     private long id;

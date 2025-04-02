@@ -2,12 +2,10 @@
 /// =      håndterer HTML-registrering       =
 /// =   viser formular og viser feedback     =
 /// ==========================================
-package Controller;
+package com.example.wishlist.Controller;
 
-import DTO.UserDTO;
-import Service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.example.wishlist.DTO.UserDTO;
+import com.example.wishlist.Service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,4 +46,5 @@ public class UserController {
         redirectAttributes.addFlashAttribute("successMessage", "Bruger oprettet!");
         return "redirect:/register";
     }
+
 }

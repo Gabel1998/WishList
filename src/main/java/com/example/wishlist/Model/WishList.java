@@ -1,4 +1,4 @@
-package Model;
+package com.example.wishlist.Model;
 //int wishListId burde også stemme overens med database
 public class WishList {
     private int wishListId;

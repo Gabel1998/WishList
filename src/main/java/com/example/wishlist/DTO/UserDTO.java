@@ -1,4 +1,4 @@
-package DTO;
+package com.example.wishlist.DTO;
 
 //Data transfer object - Vi skal transporterer noget data mellem flere klasser (god dammeldags objekt konstruktor klasse)
 public class UserDTO {

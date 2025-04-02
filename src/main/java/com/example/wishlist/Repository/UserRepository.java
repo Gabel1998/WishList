@@ -1,9 +1,11 @@
-package Repository;
+package com.example.wishlist.Repository;
 
-import DTO.UserDTO;
-import Model.User;
+import com.example.wishlist.DTO.UserDTO;
+import com.example.wishlist.Model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -15,12 +17,12 @@ public class UserRepository {
 
     //Vores insert statement til mySql. Vi bruger ikke row mapper, da vi kun skal lave insert, og ikke mere
     public void registerUser(UserDTO userDTO) {
-        String sql = "INSERT INTO tb_user (name, email, password) values (?, ?, ?)"; // ? referer til de values vi får fra frontend, gennem RequestParam
+        String sql = "INSERT INTO tb_users (name, email, password) values (?, ?, ?)"; // ? referer til de values vi får fra frontend, gennem RequestParam
         jdbcTemplate.update(sql, userDTO.getName(), userDTO.getEmail(), userDTO.getPassword());
     }
 
     public void insertUser(UserDTO userDTO) {
-        String sql = "INSERT INTO tb_user ( email, password) values ( ?, ?)";
+        String sql = "INSERT INTO tb_users (name, email, password) values ( ?, ?, ?)";
         jdbcTemplate.update(sql, userDTO.getName(), userDTO.getEmail(), userDTO.getPassword());
     }
 
@@ -32,7 +34,7 @@ public class UserRepository {
 
     //Tjekker om email eksisterer i databasen
     public User findByEmail(String email) {
-        String sql = "SELECT * FROM tb_user WHERE email = ?";
+        String sql = "SELECT * FROM tb_users WHERE email = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{email}, (rs, rowNum) -> {
             User user = new User();
             user.setEmail(rs.getString("email"));

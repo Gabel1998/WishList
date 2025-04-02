@@ -1,6 +1,6 @@
-package Rowmappers;
+package com.example.wishlist.Rowmappers;
 
-import Model.Item;
+import com.example.wishlist.Model.Item;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
