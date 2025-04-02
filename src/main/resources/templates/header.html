@@ -1,28 +1,40 @@
 <header>
-    <div class="logo">
-        <!-- Logo-tekst eller billede -->
-        <h1>ARSA Interactive</h1>
+    <div class="header-container">
+        <!-- Logo til venstre -->
+        <div class="logo">
+            <a href="/"><img src="/images/logo.png" alt="Logo" class="nav-logo"></a>
+            <h1>ARSA Interactive</h1>
+        </div>
+
+        <!-- Burger-menu (mobil) -->
+        <div class="burger" onclick="toggleMobileNav()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <ul class="nav-menu">
+                <li><a href="/">Hjem</a></li>
+                <li><a href="/wishlists">Ønskeslister</a></li>
+                <li><a href="/shared">Delte ønskeslister</a></li>
+            </ul>
+
+            <!-- Ikke logget ind -->
+            <div th:if="${session.user == null}" class="login-opret-bruger">
+                <a href="/login" class="nav-button">Login</a>
+                <a href="/register" class="register-link">Ny bruger?</a>
+            </div>
+
+            <!-- Logget ind -->
+            <div th:if="${session.user != null}" class="user-info">
+                <span th:text="${session.user}">Brugernavn</span>
+                <a href="/logout" class="nav-button">Logout</a>
+            </div>
+        </nav>
     </div>
-
-    <nav>
-        <ul class="nav-menu">
-            <li><a href="/index"><img src="/images/logo.png" alt="Forside logo" class="nav-logo"></a></li>
-            <li><a href="/">Hjem</a></li>
-            <li><a href="/wishlists">Ønskeslister</a></li>
-            <li><a href="/shared">Delte ønskeslister</a></li>
-        </ul>
-
-        <!-- Brugeren er ikke logget ind -->
-        <div th:if="${session.user == null}" class="login-opret-bruger">
-            <a href="/register">Ny bruger?</a>
-            <a href="/login" class="nav-button">Login</a>
-        </div>
-
-        <!-- Brugeren er logget ind -->
-        <div th:if="${session.user != null}" class="user-info">
-            <span th:text="${session.user}">Brugernavn</span>
-            <a href="/logout" class="nav-button">Logout</a>
-        </div>
-    </nav>
 </header>
+
+
 
