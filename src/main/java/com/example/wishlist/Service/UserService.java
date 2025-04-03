@@ -18,7 +18,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    // registrerer bruger med hashed password
     public void registerUser(UserDTO userDTO) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // opretter encoder
+        String hashedPassword = passwordEncoder.encode(userDTO.getPassword()); // hasher password
+        userDTO.setPassword(hashedPassword); // sætter hashed password i DTO
         userRepository.insertUser(userDTO);
     }
 
@@ -29,9 +33,12 @@ public class UserService {
     // tjek for korrekt email og password
     public boolean isValidUser(String email, String password) {
         User user = userRepository.findByEmail(email);
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // opretter encoder
-        return user != null && passwordEncoder.matches(password, user.getPassword()); //sammenligner hashed password
-
+        if(user != null) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            return passwordEncoder.matches(password, user.getPassword()); // validerer password
+        } else {
+            return false; // email findes ikke
+        }
     }
 
     public boolean login(LoginDTO loginDTO) {
