@@ -1,0 +1,90 @@
+/* policy.css – responsivt design til cookies.html og privacy.html */
+
+.policy-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    color: var(--text-color);
+}
+
+/* Overskrifter */
+.policy-container h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.policy-container h2 {
+    font-size: 1.4rem;
+    color: var(--secondary-color);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Tekst og lister */
+.policy-container p,
+.policy-container li {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.policy-container ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    list-style-type: disc;
+}
+
+/* Links */
+.policy-container a {
+    color: var(--accent-color);
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.policy-container a:hover {
+    color: var(--primary-color);
+}
+
+/* === Responsive tweaks === */
+@media (max-width: 768px) {
+    .policy-container {
+        padding: 1.5rem 1rem;
+        margin: 1rem;
+    }
+
+    .policy-container h1 {
+        font-size: 1.6rem;
+    }
+
+    .policy-container h2 {
+        font-size: 1.2rem;
+    }
+
+    .policy-container p,
+    .policy-container li {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .policy-container {
+        padding: 1rem 0.8rem;
+    }
+
+    .policy-container h1 {
+        font-size: 1.4rem;
+    }
+
+    .policy-container h2 {
+        font-size: 1.1rem;
+    }
+
+    .policy-container p,
+    .policy-container li {
+        font-size: 0.9rem;
+    }
+}
