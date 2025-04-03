@@ -5,69 +5,71 @@
   <meta charset="UTF-8">
   <title>Om Os</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/css/about-us.css}">
+
 </head>
 <body>
 <header>
   <div th:replace="~{header}"></div>
 </header>
 <main>
-  <section>
+  <section class="about-description">
     <h2>ARSA Interactive</h2>
     <p>Vi er en virksomhed, der fokuserer på bæredygtighed og blablalabal.</p>
   </section>
 
-  <section>
+  <section class="about-section">
     <h2>Vores team</h2>
-    <div class="row">
+    <div class="about-row">
 
-      <div class="column">
-        <div class="card">
+      <div class="about-column">
+        <div class="about-card">
           <img src="/images/about-pics/Alexander.jpg" alt="Alexander" style="width:100%">
-          <div class="container">
+          <div class="about-content">
             <h3>Alexander Örn Birgisson</h3>
             <p class="title">Developer</p>
             <p>Fact: Island <br>Hobby: Fly, Musik <br>Yndlingsdyr: Hund </p>
             <p>Alexander@example.com</p>
-            <p><button class="button">Contact</button></p>
+            <p><button class="about-button">Contact</button></p>
           </div>
         </div>
       </div>
 
-      <div class="column">
-        <div class="card">
+      <div class="about-column">
+        <div class="about-card">
           <img src="/images/about-pics/Andreas.jpg" alt="Andreas" style="width:100%">
-          <div class="container">
+          <div class="about-content">
             <h3>Andreas Gabel</h3>
             <p class="title">Scrum Master</p>
             <p>Fact:Søværnet <br>Hobby: Lykkeligt parforhold <br>Yndlingsdyr: En reje</p>
             <p>Andreas@example.com</p>
-            <p><button class="button">Contact</button></p>
+            <p><button class="about-button">Contact</button></p>
           </div>
         </div>
       </div>
 
-      <div class="column">
-        <div class="card">
+      <div class="about-column">
+        <div class="about-card">
           <img src="/images/about-pics/Rasmus.jpg" alt="Rasmus" style="width:100%">
-          <div class="container">
+          <div class="about-content">
             <h3>Rasmus Mellerkaer</h3>
             <p class="title">Developer</p>
             <p>Fact:Navn staves med 2 s'er <br>Hobby: Træning <br>Yndlingsdyr: Los</p>
             <p>Rasmus@example.com</p>
-            <p><button class="button">Contact</button></p>
+            <p><button class="about-button">Contact</button></p>
           </div>
         </div>
       </div>
 
-      <div class="column">
-        <div class="card">
+      <div class="about-column">
+        <div class="about-card">
           <img src="/images/about-pics/Sofie.jpg" alt="Sofie" style="width:100%">
-          <div class="container">
+          <div class="about-content">
             <h3>Sofie Nakskov</h3>
             <p class="title">Product Owner</p>
             <p>Fact: For mange hobbyer <br>Hobby: For mange <br>Yndlingsdyr: Vandrende pind</p>
             <p>Sofie@example.com</p>
-            <p><button class="button">Contact</button></p>
+            <p><button class="about-button">Contact</button></p>
           </div>
         </div>
       </div>
@@ -76,8 +78,11 @@
   </section>
 </main>
 <footer>
+  <!-- ======== FOOTER ======== -->
   <div th:replace="~{footer}"></div>
-</footer>
+
+
+  <script th:src="@{/js/burgermenu.js}"></script></footer>
 </body>
 </html>
 
