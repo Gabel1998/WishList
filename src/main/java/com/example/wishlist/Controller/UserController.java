@@ -6,6 +6,7 @@ package com.example.wishlist.Controller;
 
 import com.example.wishlist.DTO.UserDTO;
 import com.example.wishlist.Service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String handleRegisterForm(@ModelAttribute("user") UserDTO userDTO, RedirectAttributes redirectAttributes) {
+    public String handleRegisterForm(@ModelAttribute("user") UserDTO userDTO, RedirectAttributes redirectAttributes, HttpSession session) {
 
         //Kontrollere om email'en allerede er registreret i systemet
         if (userService.emailExists(userDTO.getEmail())) {
@@ -42,6 +43,10 @@ public class UserController {
         }
         /// Registrerer bruger i databasen
         userService.registerUser(userDTO);
+
+        /// auto-login bruger efter registrering
+        session.setAttribute("user", userDTO.getEmail());
+
         /// Gemmer en success-besked til visning efter redirect
         redirectAttributes.addFlashAttribute("successMessage", "Bruger oprettet!");
         return "redirect:/register";
