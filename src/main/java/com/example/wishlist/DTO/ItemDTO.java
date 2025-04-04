@@ -2,23 +2,32 @@ package com.example.wishlist.DTO;
 
 public class ItemDTO {
 
-
+    private int itemId;
     private String name;
     private String description;
     private double price;
     private int quantity;
     private String link;
+    private boolean reserved;
 
-    public ItemDTO(String name, String description, double price, int quantity, String link){
+    public ItemDTO() {}
+
+    public ItemDTO(int itemId, String name, String description, double price, int quantity, String link, boolean reserved) {
+        this.itemId = itemId;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
         this.link = link;
+        this.reserved = reserved;
     }
 
-    public ItemDTO(){
+    public int getItemId() {
+        return itemId;
+    }
 
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public String getName() {
@@ -61,7 +70,11 @@ public class ItemDTO {
         this.link = link;
     }
 
-    public Object getItemId() {
-        return null;
+    public boolean isReserved() {
+        return reserved;
+    }
+
+    public void setReserved(boolean reserved) {
+        this.reserved = reserved;
     }
 }

@@ -1,45 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="da">
-<!--
-    ===========================================
-    =            user registration form       =
-    ===========================================
-                                               -->
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <title>Opret Ønskeseddel</title>
+    <title>Opret ønskeseddel</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-
-<!-- ======== HEADER TEMPLATE ======== -->
-<div th:replace="~{header}"></div>
-
 <body>
 
-<h1>Opret ønskeseddel</h1>
+<div th:replace="~{header}"></div>
 
-<!-- Feedback-beskeder -->
-<div class="feedback-wrapper">
-    <div th:if="${successMessage}" class="feedback success" th:text="${successMessage}"></div>
-    <div th:if="${errorMessage}" class="feedback error" th:text="${errorMessage}"></div>
-</div>
-<!-- Formular -->
-<form th:action="@{/wishlists}" th:object="${wishlist}" method="post">
-    <label for="title">Titel på ønskeseddel</label><br/>
-    <input type="text" th:field="*{title}" id="title" placeholder="F.eks. Juleønsker" required/><br/><br/>
-    <button type="submit">Opret ønskeseddel</button>
+<h2>Opret ny ønskeseddel</h2>
+
+<form th:action="@{/wishlist-form}" th:object="${wishlist}" method="post">
+    <label for="name">Navn på ønskesedlen:</label>
+    <input type="text" id="name" th:field="*{name}" required>
+
+    <button type="submit">Opret</button>
 </form>
 
-<!--DELKNAP-->
-<form th:action="@{/wishlist/share/{share_token}(id=${wishlist.share_token})}" method="post">
-    <button type="submit">Del ønskeseddel</button>
-</form>
-
-
-</body>
-
-<!-- ======== FOOTER ======== -->
 <div th:replace="~{footer}"></div>
 
+</body>
 </html>

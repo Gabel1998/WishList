@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dine ønskesedler</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/css/wishlist-overview.css}">
+</head>
+<body>
+
+<!-- ======== HEADER TEMPLATE ======== -->
+<div th:replace="~{header}"></div>
+
+<div class="wishlist-overview-container">
+  <h2>Dine ønskesedler</h2>
+  <a class="btn" th:href="@{/wishlist-form}">+ Opret ønskeseddel</a>
+
+
+  <!-- Hvis ingen ønskesedler findes -->
+  <div th:if="${#lists.isEmpty(wishlists)}">
+    <p>Du har endnu ingen ønskesedler.</p>
+    <a class="btn" th:href="@{/wishlist-form}">Opret ny ønskeseddel</a>
+  </div>
+
+  <!-- Hvis ønskesedler findes -->
+  <div th:if="${not #lists.isEmpty(wishlists)}" class="wishlist-grid">
+    <div th:each="wishlist : ${wishlists}" class="wishlist-card">
+      <h3 th:text="${wishlist.name}">Ønskeseddel Navn</h3>
+      <a class="btn" th:href="@{'/wishlist/' + ${wishlist.wishListId}}">Se ønskeseddel</a>
+    </div>
+  </div>
+</div>
+
+<!-- ======== FOOTER TEMPLATE ======== -->
+<div th:replace="~{footer}"></div>
+
+</body>
+</html>

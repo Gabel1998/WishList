@@ -1,21 +1,19 @@
 package com.example.wishlist.Model;
-//int wishListId burde også stemme overens med database
+
 public class WishList {
     private int wishListId;
-    private User userId;
+    private User user;
     private String name;
     private String share_token;
 
-    public WishList(int wishListId, User userId, String name,  String share_token) {
+    public WishList(int wishListId, User user, String name, String share_token) {
         this.wishListId = wishListId;
-        this.userId = userId;
+        this.user = user;
         this.name = name;
         this.share_token = share_token;
     }
 
-    public WishList(){
-
-    }
+    public WishList() {}
 
     public int getWishListId() {
         return wishListId;
@@ -25,8 +23,12 @@ public class WishList {
         this.wishListId = wishListId;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getName() {
@@ -41,13 +43,17 @@ public class WishList {
         return share_token;
     }
 
-    @Override
-    public String toString(){
-        return "User{" +
-                "wishListId=" + wishListId +
-                ", userId='" + userId + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+    public void setShare_token(String share_token) {
+        this.share_token = share_token;
     }
 
+    @Override
+    public String toString() {
+        return "WishList{" +
+                "wishListId=" + wishListId +
+                ", user=" + user +
+                ", name='" + name + '\'' +
+                ", share_token='" + share_token + '\'' +
+                '}';
+    }
 }

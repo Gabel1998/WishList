@@ -31,7 +31,7 @@ public class LoginController {
 
         if (userService.isValidUser(email, password)) {
             session.setAttribute("user", email);
-            return "redirect:/index";
+            return "redirect:/";
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Forkert email eller password.");
             return "redirect:/login";

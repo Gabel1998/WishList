@@ -6,7 +6,13 @@ import com.example.wishlist.Model.WishList;
 import com.example.wishlist.Rowmappers.ItemRowMapper;
 import com.example.wishlist.Rowmappers.WishListRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.List;
 
 
 @Repository
@@ -94,6 +100,56 @@ public class WishListRepository {
         String sql = "INSERT INTO tb_reservations (rsv_items_id) VALUES (?)";
         jdbcTemplate.update(sql, sharedItemId);
     }
+
+    // 🆕 Tilføjet metode for at hente ønskesedler ud fra bruger-id
+    public List<WishList> findWishListsByUserId(int userId) {
+        String sql = "SELECT * FROM tb_wishlists WHERE wl_user_id = ?";
+        return jdbcTemplate.query(sql, new WishListRowMapper(), userId);
+    }
+
+    public List<Item> findItemsByWishListId(int wishlistId) {
+        String sql = "SELECT * FROM tb_items WHERE it_wishlist_id = ?";
+        return jdbcTemplate.query(sql, new ItemRowMapper(), wishlistId);
+    }
+
+    public List<WishList> findWishListsByUserEmail(String email) {
+        String sql = """
+        SELECT w.*, u.name, u.email, u.password
+        FROM tb_wishlists w
+        JOIN tb_users u ON w.wl_user_id = u.user_id
+        WHERE u.email = ?
+    """;
+        return jdbcTemplate.query(sql, new WishListRowMapper(), email);
+    }
+
+    public int insertWishListAndReturnId(WishList wishList, String email) {
+        String sql = """
+        INSERT INTO tb_wishlists (title, wl_user_id)
+        VALUES (?, (SELECT user_id FROM tb_users WHERE email = ?))
+    """;
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, wishList.getName());
+                ps.setString(2, email);
+                return ps;
+            }, keyHolder);
+
+            if (keyHolder.getKey() == null) {
+                throw new RuntimeException("Fejl: Oprettelse mislykkedes – intet ID returneret.");
+            }
+
+            return keyHolder.getKey().intValue();
+        } catch (Exception e) {
+            e.printStackTrace(); // ← vigtigt til debugging
+            throw new RuntimeException("Kunne ikke oprette ønskeseddel", e);
+        }
+    }
+
+
 
 
 }
