@@ -3,71 +3,12 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <title>Ønskeseddel</title>
+    <title th:text="${wishlist.name}">Ønskeseddel</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/test/wishlist.css}">
 </head>
 
-<!-- ======== HEADER TEMPLATE ======== -->
-<div th:replace="~{header}"></div>
-
 <body>
-<div th:replace="~{header}"></div>
-
-<!-- ======== POP-UP (trigger) ======== -->
-<div class="product-box">
-    <button onclick="openPopup()">+</button>
-</div>
-
-<!-- ======== POP-UP (tilføj produkt) ======== -->
-<div id="add-item-popup" class="popup">
-    <div class="popup-content">
-        <span class="close" onclick="closePopup()">&times;</span>
-        <h2>Tilføj produkt</h2>
-        <form th:action="@{/wishlists/${wishlistId}/item}" method="post">
-            <label for="name">Produktnavn</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="description">Beskrivelse</label>
-            <input type="text" id="description" name="description">
-
-            <label for="price">Pris</label>
-            <input type="number" id="price" name="price" required>
-
-            <label for="link">Link</label>
-            <input type="url" id="link" name="link">
-
-            <button type="submit">Tilføj produkt</button>
-        </form>
-    </div>
-</div>
-
-<!-- ======== HER SKAL VI LOOPE IGENNEM ITEMS ======== -->
-<div class="items-container">
-    <div th:each="item : ${wishlist.items}">
-        <div th:replace="~{item :: productItem(item=${item}, wishlistId=${wishlist.id})}">
-        </div>
-    </div>
-</div>
-
-
-
-
-
-<script>
-    // Åben popup
-    function openPopup() {
-        document.getElementById("add-item-popup").style.display = "block";
-    }
-    // Luk popup
-    function closePopup() {
-        document.getElementById("add-item-popup").style.display = "none";
-    }
-</script>
+<h1>HEj</h1>
 </body>
-
-<!-- ======== FOOTER ======== -->
-<div th:replace="~{footer}"></div>
-
-
 </html>

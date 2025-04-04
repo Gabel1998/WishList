@@ -76,13 +76,14 @@ public class Item {
         this.link = link;
     }
 
-    public boolean isReserved() {
+    public boolean getReserved() {
         return reserved;
     }
 
     public void setReserved(boolean reserved) {
         this.reserved = reserved;
     }
+
 
 
     @Override

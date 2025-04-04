@@ -7,24 +7,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class WishListRowMapper implements RowMapper<WishList> {
-
-
     @Override
     public WishList mapRow(ResultSet rs, int rowNum) throws SQLException {
         WishList wishList = new WishList();
-
         wishList.setWishListId(rs.getInt("wishlist_id"));
-        wishList.setName(rs.getString("title"));
+        wishList.setName(rs.getString("title")); // eller "name" hvis feltet hedder det
 
-
-        //map User
+        // Brugeren mappes via e-mail
         User user = new User();
         user.setName(rs.getString("name"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
-        wishList.setUserId(user);
 
+        wishList.setUser(user);
         return wishList;
-
     }
 }
+

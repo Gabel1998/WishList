@@ -1,15 +1,12 @@
-/// ===========================================
-/// =    Backend endpoints for ønskeliste     =
-/// =     Tilføj, opdater og slet produkter   =
-/// ===========================================
 package com.example.wishlist.Controller;
 
 import com.example.wishlist.DTO.ItemDTO;
 import com.example.wishlist.DTO.WishListDTO;
-import com.example.wishlist.Model.WishList;
 import com.example.wishlist.Model.SharedItem;
+import com.example.wishlist.Model.WishList;
 import com.example.wishlist.Repository.WishListRepository;
 import com.example.wishlist.Service.WishListService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -23,55 +20,93 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-
 public class WishListController {
-private final WishListService wishListService;
+
+    private final WishListService wishListService;
 
     @Autowired
-    public WishListController(WishListService wishListService, WishListRepository wishListRepository){
+    public WishListController(WishListService wishListService, WishListRepository wishListRepository) {
         this.wishListService = wishListService;
     }
 
-    // tilføj nyt produkt til ønskeliste
+    // ✅ Forside
+    @GetMapping
+    public String index() {
+        return "index";
+    }
+
+    // ✅ Oversigt over ønskesedler
+    @GetMapping("/wishlists")
+    public String showWishListOverview(Model model, HttpSession session) {
+        String email = (String) session.getAttribute("user");
+
+        if (email == null) {
+            return "redirect:/login";
+        }
+
+        List<WishListDTO> wishLists = wishListService.getAllWishListsByUserEmail(email);
+        model.addAttribute("wishlists", wishLists);
+        return "wishlist-overview";
+    }
+
+    // ✅ Formular til at oprette ønskeseddel
+    @GetMapping("/wishlist-form")
+    public String showWishListForm(Model model) {
+        model.addAttribute("wishlist", new WishList());
+        return "wishlist-form";
+    }
+
+    // ✅ Behandler oprettelse og redirecter til /wishlist/{id}
+    @PostMapping("/wishlist-form")
+    public String handleWishListForm(@ModelAttribute WishList wishList, HttpSession session) {
+        String email = (String) session.getAttribute("user");
+
+        if (email == null) {
+            return "redirect:/login";
+        }
+
+        int newId = wishListService.createWishListAndReturnId(wishList, email);
+        return "redirect:/wishlist/" + newId;
+    }
+
+    // ✅ Vis én ønskeseddel med alle tilknyttede produkter
+    @GetMapping("/wishlist/{id}")
+    public String showSingleWishlist(@PathVariable("id") int wishlistId, Model model) {
+        WishListDTO wishlist = wishListService.getWishListById(wishlistId);
+        if (wishlist == null) {
+            return "error";
+        }
+
+        model.addAttribute("wishlist", wishlist);
+        return "wishlist";
+    }
+
+    // ✅ Tilføj produkt
     @PostMapping("/wishlist/{id}/item")
     public ResponseEntity<String> addItem(@PathVariable("id") int wishlistId, @RequestBody ItemDTO itemDTO) {
         wishListService.addItemToWishList(wishlistId, itemDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("Ønske tilføjet");
     }
 
-    // opdater eksisterende produkt
     @PutMapping("/wishlist/item/{id}")
     public ResponseEntity<String> updateItem(@PathVariable("id") int itemId, @RequestBody ItemDTO itemDTO) {
         wishListService.updateItem(itemId, itemDTO);
         return ResponseEntity.status(HttpStatus.OK).body("Ønske opdateret");
     }
 
-    // slet produkt fra ønskeliste
     @DeleteMapping("/wishlist/item/{id}")
     public ResponseEntity<String> deleteItem(@PathVariable("id") int itemId) {
         wishListService.deleteItem(itemId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Ønske slettet");
     }
 
-    // reserver eksisterende produkt
     @PutMapping("/wishlist/item/{id}/reserve")
-    public ResponseEntity<String> reserveItem(@PathVariable("id") int reservation_id, @RequestParam("item_id") int rsv_items_id) {
-        wishListService.reserveItem(reservation_id, rsv_items_id);
+    public ResponseEntity<String> reserveItem(@PathVariable("id") int reservationId, @RequestParam("item_id") int rsvItemsId) {
+        wishListService.reserveItem(reservationId, rsvItemsId);
         return ResponseEntity.status(HttpStatus.OK).body("Ønske reserveret");
     }
 
-    @RequestMapping("/create/{userId}")    public String createWishList(@PathVariable("userId") int userId, @ModelAttribute WishList wishList, Model model){
-        //konverterer wishlist til wishlistDTO
-        WishListDTO wishListDTO = new WishListDTO(wishList.getWishListId(), wishList.getName(), wishList.getShare_token());
-        try {
-            wishListService.createWishList(wishListDTO);
-            model.addAttribute("message", "Ønskeseddel blev oprettet: " + wishList.getWishListId());
-        } catch (Exception e) {
-            model.addAttribute("message", "Fejl ved oprettelse: " + e.getMessage());
-        }
-        return "redirect:/" + userId + "/wishlist";
-    }
-
+    // ✅ Vis readonly ønskeseddel via token
     @GetMapping("/view/{share_token}")
     public String viewReadOnly(@PathVariable String share_token, Model model) {
         List<SharedItem> items = wishListService.getSharedItems(share_token);
@@ -82,18 +117,19 @@ private final WishListService wishListService;
         }
 
         model.addAttribute("items", items);
-        model.addAttribute("shareToken", share_token); // fx til reservation
-
+        model.addAttribute("shareToken", share_token);
         return "wishlist-readonly";
     }
 
+    // ✅ Share ønskeseddel
     @PostMapping("/wishlist/{id}/share")
     public String shareWishlist(@PathVariable("id") int wishlistId, RedirectAttributes redirectAttributes) {
         String token = wishListService.shareWishlist(wishlistId);
         redirectAttributes.addFlashAttribute("shareLink", "/view/" + token);
-        return "redirect:/user/wishlist"; // eller hvor din oversigt er
+        return "redirect:/wishlist/" + wishlistId;
     }
 
+    // ✅ Reserve via readonly-view
     @PostMapping("/reserve")
     public String reserveSharedItem(@RequestParam("itemId") long itemId,
                                     @RequestParam("shareToken") String shareToken,
@@ -107,5 +143,4 @@ private final WishListService wishListService;
 
         return "redirect:/view/" + shareToken;
     }
-
 }

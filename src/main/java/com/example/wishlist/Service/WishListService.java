@@ -12,6 +12,7 @@ import com.example.wishlist.Repository.SharedItemRepository;
 import com.example.wishlist.Repository.WishListRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -82,6 +83,20 @@ public class WishListService {
         }
     }
 
+    // 🆕 Tilføjet metode for at hente alle ønskesedler for én bruger
+    public List<WishListDTO> getAllWishListsByUser(int userId) {
+        List<WishList> wishLists = wishListRepository.findWishListsByUserId(userId);
+        List<WishListDTO> dtos = new ArrayList<>();
+
+        for (WishList wl : wishLists) {
+            WishListDTO dto = new WishListDTO(wl.getWishListId(), wl.getName(), wl.getShare_token());
+            dto.setUserId(userId); // hvis relevant
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
     //read-only ønskeliste
 
     public String shareWishlist(long wishlistId) {
@@ -113,6 +128,60 @@ public class WishListService {
         // Simpel indsættelse i tb_reservations
         wishListRepository.insertReservation(sharedItemId);
     }
+
+    public WishListDTO getWishListById(int wishlistId) {
+        WishList wishList = wishListRepository.findWishListById(wishlistId);
+
+        if (wishList == null) {
+            return null;
+        }
+
+        List<Item> itemList = wishListRepository.findItemsByWishListId(wishlistId);
+        List<ItemDTO> itemDTOs = new ArrayList<>();
+
+        for (Item item : itemList) {
+            ItemDTO dto = new ItemDTO();
+            dto.setItemId(item.getItemId());
+            dto.setName(item.getName());
+            dto.setDescription(item.getDescription());
+            dto.setPrice(item.getPrice());
+            dto.setQuantity(item.getQuantity());
+            dto.setLink(item.getLink());
+            dto.setReserved(item.getReserved());
+            itemDTOs.add(dto);
+        }
+
+        WishListDTO dto = new WishListDTO();
+        dto.setWishListId(wishList.getWishListId());
+        dto.setName(wishList.getName());
+        dto.setShareToken(wishList.getShare_token());
+        dto.setUserId(wishList.getUser().getUserId());
+        dto.setItems(itemDTOs);
+
+        return dto;
+    }
+
+    public List<WishListDTO> getAllWishListsByUserEmail(String email) {
+        List<WishList> wishLists = wishListRepository.findWishListsByUserEmail(email);
+        List<WishListDTO> dtos = new ArrayList<>();
+
+        for (WishList wl : wishLists) {
+            WishListDTO dto = new WishListDTO();
+            dto.setWishListId(wl.getWishListId());
+            dto.setName(wl.getName());
+            dto.setShareToken(wl.getShare_token());
+            dto.setUserId(0); // Kan undlades hvis ikke nødvendig
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
+    public int createWishListAndReturnId(WishList wishList, String email) {
+        return wishListRepository.insertWishListAndReturnId(wishList, email);
+    }
+
+
 
 }
 

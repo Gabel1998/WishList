@@ -1,11 +1,15 @@
 package com.example.wishlist.DTO;
 
-
+import java.util.List;
 
 public class WishListDTO {
     private int wishListId;
     private String name;
     private String share_token;
+    private int userId;
+    private List<ItemDTO> items;
+
+    public WishListDTO() {}
 
     public WishListDTO(int wishListId, String name, String share_token) {
         this.wishListId = wishListId;
@@ -13,7 +17,7 @@ public class WishListDTO {
         this.share_token = share_token;
     }
 
-    public WishListDTO(){}
+    // --- Getters og Setters ---
 
     public int getWishListId() {
         return wishListId;
@@ -35,11 +39,23 @@ public class WishListDTO {
         return share_token;
     }
 
-    public void setId(int wishListId) {
-        this.wishListId = wishListId;
-    }
-
     public void setShareToken(String shareToken) {
         this.share_token = shareToken;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public List<ItemDTO> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemDTO> items) {
+        this.items = items;
     }
 }
