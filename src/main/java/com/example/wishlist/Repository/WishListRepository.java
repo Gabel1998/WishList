@@ -18,12 +18,12 @@ import java.util.List;
 @Repository
 public class WishListRepository {
 
-  private final JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
 
     public WishListRepository(JdbcTemplate jdbcTemplate) {
-      this.jdbcTemplate = jdbcTemplate;
-  }
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
 
     public void insertWishList(WishListDTO wishListDTO) {
@@ -38,9 +38,13 @@ public class WishListRepository {
     }
 
     public WishList findWishListById(int wishlistId) {
-        String sql = "SELECT * FROM wishlists WHERE wishlist_id = ?";
-//        return jdbcTemplate.queryForObject(sql, new Object[]{wishlistId}, new WishListRowMapper());
-        return jdbcTemplate.queryForObject(sql, new WishListRowMapper(), wishlistId);
+        String sql = """
+    SELECT w.*, u.email, u.password
+    FROM tb_wishlists w
+    JOIN tb_users u ON w.wl_user_id = u.user_id
+    WHERE w.wishlist_id = ?
+""";
+        return jdbcTemplate.queryForObject(sql, new Object[]{wishlistId}, new WishListRowMapper());
     }
 
     public Item findItemById(int itemId) {
@@ -114,17 +118,17 @@ public class WishListRepository {
 
     public List<WishList> findWishListsByUserEmail(String email) {
         String sql = """
-        SELECT w.*, u.name, u.email, u.password
-        FROM tb_wishlists w
-        JOIN tb_users u ON w.wl_user_id = u.user_id
-        WHERE u.email = ?
+                SELECT w.*, u.name, u.email, u.password
+    FROM tb_wishlists w
+    JOIN tb_users u ON w.wl_user_id = u.user_id
+    WHERE u.email = ?
     """;
         return jdbcTemplate.query(sql, new WishListRowMapper(), email);
     }
 
     public int insertWishListAndReturnId(WishList wishList, String email) {
         String sql = """
-        INSERT INTO tb_wishlists (title, wl_user_id)
+        INSERT INTO tb_wishlists (name, wl_user_id)
         VALUES (?, (SELECT user_id FROM tb_users WHERE email = ?))
     """;
 

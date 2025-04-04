@@ -66,6 +66,7 @@ public class WishListController {
         }
 
         int newId = wishListService.createWishListAndReturnId(wishList, email);
+        System.out.println("Ny ønskeseddel oprettet med ID: " + newId); // debugging
         return "redirect:/wishlist/" + newId;
     }
 
