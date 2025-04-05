@@ -1,153 +1,155 @@
-
-
-/* HERO BANNER */
+/* ===================== Hero Banner ===================== */
 .hero-banner {
-    background: url('/images/about-pics/hero-banner-temp.svg') no-repeat center center / cover; /*Intellij giver fejl, men det virker. så ikke rør den*/
-    padding: 6rem 2rem;
-    text-align: center;
-    color: var(--secondary-color);
     position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+    overflow: hidden;
+    z-index: 0;
 }
 
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    display: block;
+    visibility: visible;
+}
+
+.video-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+}
 
 .hero-content {
-    display: inline-block;
-    padding: 2rem;
-    border-radius: 10px;
-    color: var(--text-color);
-    text-shadow: var(--primary-color);
-}
-
-.create-user-btn {
-    margin-top: 1.5rem;
-}
-
-.create-user-btn .btn {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.create-user-btn .btn:hover {
-    background-color: var(--accent-color);
-}
-
-/* PARTNER SECTION */
-.partner-section {
-    background-color: var(--secondary-color);
-    padding: 2rem 0;
-    overflow: hidden;
-    position: relative;
-}
-
-.partner-section h2 {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
-    margin-bottom: 1rem;
+    z-index: 1;
+    color: var(--text-color);
+}
+
+.hero-content h1 {
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.hero-content p {
+    font-size: 1.2em;
+    margin-bottom: 22px;
+}
+
+
+/* ========== Polished Partner Overlay ========== */
+.partner-overlay {
+    position: absolute;
+    top: 78%; /* sænke sektionen */
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    padding: 20px 0 50px 0; /* ekstra knap-spacing */
+    text-align: center;
+    background: rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(4px);
+}
+
+.partner-overlay h2 {
+    font-size: 1.4rem;
     color: white;
+    font-weight: 500;
+    margin-bottom: 24px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
 }
 
 .partner-slider {
+    display: flex;
+    justify-content: center;
     overflow: hidden;
     width: 100%;
+    padding: 0 2vw;
 }
 
 .partner-track {
     display: flex;
-    gap: 2.5rem;
-    animation: scrollLoop 30s linear infinite;
-    width: fit-content; /* gør plads til indholdet */
+    gap: 48px;
+    animation: slide 50s linear infinite;
+    padding-bottom: 10px;
 }
 
 .partner-card {
-    flex: 0 0 auto;
-    width: 150px;
-    height: 100px;
-    background-color: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
+    width: 180px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .partner-card img {
-    max-width: 100%;
-    max-height: 60px;
+    width: 100%;
+    max-height: 75px;
     object-fit: contain;
-    filter: grayscale(20%);
-    transition: transform 0.3s ease, filter 0.3s;
-}
-
-.partner-card:hover {
-    transform: scale(1.05);
+    filter: grayscale(100%) opacity(0.85);
+    transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .partner-card img:hover {
-    filter: none;
+    filter: grayscale(0%) opacity(1);
+    transform: scale(1.05);
 }
 
-.partner-description {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem 1rem;
-    text-align: center;
-    font-size: 1rem;
-    color: var(--text-color);
-}
-
-/* Scroll animation */
-@keyframes scrollLoop {
-    from {
+@keyframes slide {
+    0% {
         transform: translateX(0);
     }
-    to {
+    100% {
         transform: translateX(-50%);
     }
 }
 
 
-/* ========== RESPONSIV ========== */
-@media (max-width: 768px) {
-    .hero-content h1 {
-        font-size: 1.8rem;
-    }
+/* ========== Partner description section ========== */
+.eco-icons-row {
+    background-color: #2e4432;
+    padding: 40px 40px 30px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 32px;
+}
 
-    .hero-content p {
-        font-size: 1rem;
-    }
+.eco-icon-block {
+    flex: 1 1 22%;
+    text-align: center;
+    color: #ffffff;
+    max-width: 100%;
+}
 
-    .btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-    }
+.eco-icon-block img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    margin-bottom: 16px;
+    filter: brightness(95%);
+}
 
-    .partner-section h2 {
-        font-size: 1.3rem;
-        margin-bottom: 15px;
-    }
-
-    .partner-card {
-        width: 100px;
-        height: 80px;
-        margin: 0 10px;
-        border-radius: 6px;
-    }
-
-    .partner-card img {
-        max-width: 70px;
-        max-height: 70px;
-    }
-
-    .partner-description p {
-        font-size: 0.9rem;
-        padding: 10px;
-        max-width: 90%;
-        margin: auto;
-    }
+.eco-icon-block p {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 400;
+    color: #f1f1f1;
 }
