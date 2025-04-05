@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-/// MIDLERTIDIG SUPPRESSER TIL MVC ERROR PÅ LINJE 43 !!!
 
 @Controller
 public class UserController {
@@ -51,5 +50,18 @@ public class UserController {
         redirectAttributes.addFlashAttribute("successMessage", "Bruger oprettet!");
         return "redirect:/register";
     }
+
+    /// til at bruger kan slette sin konto? eller måske bare have "kontakt support"?
+//    @GetMapping("/profile")
+//    public String showUserProfile(HttpSession session, Model model) {
+//        String email = (String) session.getAttribute("user");
+//        if (email == null) {
+//            return "redirect:/login";
+//        }
+//
+//        UserDTO user = userService.getUserByEmail(email);
+//        model.addAttribute("user", user);
+//        return "profile";
+//    }
 
 }
