@@ -1,10 +1,10 @@
 /* ===================== Hero Banner ===================== */
 .hero-banner {
     position: relative;
-    width: 100%;
-    height: 100vh;
-    background-color: black;
+    width: 100vw;
+    min-height: 100vh;
     overflow: hidden;
+    background-color: black;
     z-index: 0;
 }
 
@@ -12,21 +12,13 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    min-width: 100vw;
+    min-height: 100vh;
     object-fit: cover;
+    object-position: center center;
     z-index: 0;
     display: block;
     visibility: visible;
-}
-
-.video-wrapper {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    top: 0;
-    left: 0;
 }
 
 .hero-content {
@@ -37,39 +29,76 @@
     text-align: center;
     z-index: 1;
     color: var(--text-color);
+    padding: 20px;
 }
 
 .hero-content h1 {
-    font-size: 3em;
-    font-weight: bold;
-    margin-bottom: 16px;
+    font-size: 4em;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
 }
 
 .hero-content p {
-    font-size: 1.2em;
-    margin-bottom: 22px;
+    font-size: 1.6em;
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 
+/* ===================== Buttons ===================== */
+.btn {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 15px 25px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
 
-/* ========== Polished Partner Overlay ========== */
-.partner-overlay {
+.btn:hover {
+    background-color: #388e3c;
+    box-shadow: 0 0 0 5px rgba(76, 175, 80, 0.3);
+    transform: scale(1.05);
+    color: white;
+}
+
+/* ===================== Hero Section Overlay ===================== */
+.hero-banner::after {
+    content: '';
     position: absolute;
-    top: 78%; /* sænke sektionen */
+    bottom: 0;
     left: 0;
     width: 100%;
+    height: 120px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, #1a1a1a 100%);
     z-index: 2;
-    padding: 20px 0 50px 0; /* ekstra knap-spacing */
+}
+
+/* ===================== Partner Section ===================== */
+.partner-section {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    padding: 30px 0;
+}
+
+.partner-overlay {
     text-align: center;
-    background: rgba(0, 0, 0, 0.18);
-    backdrop-filter: blur(4px);
+    z-index: 1;
 }
 
 .partner-overlay h2 {
-    font-size: 1.4rem;
-    color: white;
-    font-weight: 500;
-    margin-bottom: 24px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    font-size: 2rem;
+    color: var(--text-color);
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .partner-slider {
@@ -84,7 +113,6 @@
     display: flex;
     gap: 48px;
     animation: slide 50s linear infinite;
-    padding-bottom: 10px;
 }
 
 .partner-card {
@@ -93,17 +121,17 @@
     justify-content: center;
     width: 180px;
     height: 100px;
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .partner-card img {
     width: 100%;
     max-height: 75px;
     object-fit: contain;
-    filter: grayscale(100%) opacity(0.85);
+    filter: grayscale(100%) opacity(0.7);
     transition: filter 0.3s ease, transform 0.3s ease;
 }
 
@@ -121,8 +149,7 @@
     }
 }
 
-
-/* ========== Partner description section ========== */
+/* ===================== Partner description section ===================== */
 .eco-icons-row {
     background-color: #2e4432;
     padding: 40px 40px 30px;

@@ -1,13 +1,15 @@
-
-
 /* ============ REGISTRATION CONTAINER ========== */
 .register-container {
-    max-width: 400px;
-    margin: 3rem auto;
+    max-width: 450px;
+    margin: 10vh auto;
     padding: 30px;
-    background-color: white;
-    border-radius: 10px;
+    background-color: var(--background-color);
+    border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ============ FORM STYLING ========== */
@@ -20,50 +22,68 @@ h2 {
 form {
     display: flex;
     flex-direction: column;
+    gap: 20px;
+    width: 100%;
 }
 
 label {
-    margin-top: 10px;
     font-weight: bold;
     color: var(--text-color);
+    margin-top: 10px;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-    padding: 10px;
+    padding: 12px;
     margin-top: 5px;
-    border: 1px solid var(--accent-color);
-    border-radius: 6px;
-    font-size: 0.95rem;
+    border: 1px solid #2e4432;
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 100%;
 }
 
 input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
 }
 
 /* ============ SUBMIT BUTTON ========== */
 button.submit-button {
-    margin-top: 20px;
     padding: 12px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     background-color: var(--secondary-color);
     color: white;
-    font-weight: bold;
-    font-size: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 100%;
 }
 
 button.submit-button:hover {
-    background-color: var(--accent-color);
-    color: white;
+    background-color: #388e3c;
+    box-shadow: 0 0 0 5px rgba(76, 175, 80, 0.3);
+    transform: scale(1.05);
 }
 
-/* ============ RESPONSIV ========== */
+/* ============ REGISTER LINK ========== */
+.register-link {
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+    text-align: center;
+}
+
+.register-link:hover {
+    color: #388e3c;
+}
+
+/* ============ RESPONSIVE ========== */
 @media (max-width: 480px) {
     .register-container {
         margin: 2rem 1rem;
@@ -77,7 +97,7 @@ button.submit-button:hover {
     }
 
     button.submit-button {
-        font-size: 0.95rem;
-        padding: 10px;
+        font-size: 1rem;
+        padding: 12px;
     }
 }
