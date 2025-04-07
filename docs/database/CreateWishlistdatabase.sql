@@ -27,7 +27,7 @@ CREATE TABLE tb_wishlists
 (
     wishlist_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     wl_user_id  BIGINT NOT NULL,
-    title       VARCHAR(255),
+    name       VARCHAR(255),
     share_token VARCHAR(255),
     FOREIGN KEY (wl_user_id) REFERENCES tb_users (user_id) ON DELETE CASCADE
 ) AUTO_INCREMENT = 1000;

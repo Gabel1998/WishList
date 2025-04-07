@@ -17,14 +17,13 @@ public class SharedItemRepository {
     }
 
     public List<SharedItem> findSharedItemsBySharedWishlistId(Long sharedWishlistId) {
+        // Opdateret: Brug "si.id" i stedet for "si.shared_item_id"
         String sql = """
         SELECT si.*, r.reservation_id IS NOT NULL AS reserved
         FROM shared_items si
         LEFT JOIN tb_reservations r ON si.id = r.rsv_items_id
         WHERE si.shared_wishlist_id = ?
-    """;
-//        return jdbcTemplate.query(sql, new Object[]{sharedWishlistId}, new SharedItemRowMapper());
+        """;
         return jdbcTemplate.query(sql, new SharedItemRowMapper(), sharedWishlistId);
     }
-
 }

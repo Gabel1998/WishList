@@ -14,8 +14,8 @@ public final class ItemRowMapper implements RowMapper<Item> {
         item.setName(rs.getString("name"));
         item.setDescription(rs.getString("description"));
         item.setPrice(rs.getDouble("price"));
-        item.setQuantity(rs.getInt("quantity"));
-        item.setLink(rs.getString("link"));
+        item.setUrl(rs.getString("url"));
+        item.setReserved(rs.getBoolean("reserved")); // ← vigtigt!
         return item;
     }
 }

@@ -6,7 +6,7 @@ VALUES ('andreas@example.com', 'password123', 'Andreas Gabel'),
        ('sofie@example.com', 'hunter2', 'Sofie Hansen');
 
 -- Ønskelister
-INSERT INTO tb_wishlists (wl_user_id, title, share_token)
+INSERT INTO tb_wishlists (wl_user_id, name, share_token)
 VALUES (100, 'Andreas’ Fødselsdagsliste', 'token-andreas'),
        (101, 'Sofies Juleønsker', 'token-sofie');
 

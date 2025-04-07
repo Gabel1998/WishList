@@ -38,8 +38,7 @@ public class WishListService {
         item.setName(itemDTO.getName());
         item.setDescription(itemDTO.getDescription());
         item.setPrice(itemDTO.getPrice());
-        item.setQuantity(itemDTO.getQuantity());
-        item.setLink(itemDTO.getLink());
+        item.setUrl(itemDTO.getLink());
 
         wishListRepository.insertItem(item);
     }
@@ -47,19 +46,17 @@ public class WishListService {
     public void updateItem(int itemId, ItemDTO itemDTO) {
         Item item = wishListRepository.findItemById(itemId);
 
-        if(item != null) {
+        if (item != null) {
             item.setName(itemDTO.getName());
             item.setDescription(itemDTO.getDescription());
             item.setPrice(itemDTO.getPrice());
-            item.setQuantity(itemDTO.getQuantity());
-            item.setLink(itemDTO.getLink());
+            item.setUrl(itemDTO.getLink());
+            item.setReserved(itemDTO.isReserved());
 
-            //gem det updatede ønske ind i databasen igen
             wishListRepository.updateItem(item);
         } else {
             throw new RuntimeException("Ønske med ID " + itemId + " findes ikke.");
         }
-
     }
 
     public void deleteItem(int itemId) {
@@ -145,8 +142,7 @@ public class WishListService {
             dto.setName(item.getName());
             dto.setDescription(item.getDescription());
             dto.setPrice(item.getPrice());
-            dto.setQuantity(item.getQuantity());
-            dto.setLink(item.getLink());
+            dto.setLink(item.getUrl());
             dto.setReserved(item.getReserved());
             itemDTOs.add(dto);
         }

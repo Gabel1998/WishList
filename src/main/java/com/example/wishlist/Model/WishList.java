@@ -43,7 +43,7 @@ public class WishList {
         return share_token;
     }
 
-    public void setShare_token(String share_token) {
+    public void setShareToken(String share_token) {
         this.share_token = share_token;
     }
 

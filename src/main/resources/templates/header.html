@@ -3,7 +3,7 @@
 
         <div class="logo">
             <a th:href="@{/}"><img th:src="@{/images/logo.png}" alt="Logo" class="nav-logo"></a>
-            <h1>ARSA Interactive</h1>
+            <h1>WishList</h1>
         </div>
 
         <nav class="main-nav">
@@ -24,7 +24,7 @@
             <!-- Logget ind -->
             <div th:if="${session.user != null}" class="user-info">
                 <span th:text="${session.user}">Brugernavn</span>
-                <a th:href="@{/logout}" class="nav-button">Logout</a>
+                <a th:href="@{/logout}" class="nav-button">Log ud</a>
             </div>
         </div>
     </div>
