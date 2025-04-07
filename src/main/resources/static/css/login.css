@@ -19,15 +19,20 @@ body {
 
 /* ===================== Login Container ===================== */
 .login-container {
-    background-color: #2e4432;
+    background-color: var(--container-color);
     padding: 40px;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     width: 100%;
     max-width: 450px;
+    margin: 10vh auto;
+    display: flex;
+    flex-direction: column;
     text-align: center;
     z-index: 10;
     transition: all 0.3s ease;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ===================== Heading ===================== */

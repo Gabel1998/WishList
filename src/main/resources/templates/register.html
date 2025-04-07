@@ -5,13 +5,15 @@
     <meta charset="UTF-8">
     <title>Opret Profil</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/register.css}">
+<!--    <link rel="stylesheet" th:href="@{/css/register.css}">-->
+    <link rel="stylesheet" th:href="@{/css/loginhandler.css}">
 </head>
 
 <body>
 <!-- ======== HEADER TEMPLATE ======== -->
 <div th:replace="~{header}"></div>
 <div class="page-container">
+
     <!-- ======== FEEDBACK MESSAGES (FLASH) ======== -->
     <!-- Display success or error messages from backend -->
     <div class="feedback-wrapper">
@@ -19,8 +21,9 @@
         <div th:if="${errorMessage}" class="feedback error" th:text="${errorMessage}"></div>
     </div>
 
+
     <div class="register-container">
-        <h2>Opret Profil</h2>
+        <h1>Opret Profil</h1>
         <form th:action="@{/register}" method="post" th:object="${user}">
             <label for="name">Navn</label>
             <input type="text" id="name" th:field="*{name}" placeholder="Indtast navn" required maxlength="50"
@@ -36,7 +39,7 @@
                    title="Adgangskoden skal være mindst 8 tegn lang og indeholde en blanding af store og små bogstaver samt tal."
                    required>
 
-            <button type="submit" class="submit-button">Opret</button>
+            <button type="submit" class="btn">Opret</button>
         </form>
     </div>
 </div>
