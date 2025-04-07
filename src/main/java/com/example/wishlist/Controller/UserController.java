@@ -48,7 +48,7 @@ public class UserController {
 
         /// Gemmer en success-besked til visning efter redirect
         redirectAttributes.addFlashAttribute("successMessage", "Bruger oprettet!");
-        return "redirect:/register";
+        return "redirect:/";
     }
 
     /// til at bruger kan slette sin konto? eller måske bare have "kontakt support"?
