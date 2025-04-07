@@ -77,4 +77,5 @@ public class ItemDTO {
     public void setReserved(boolean reserved) {
         this.reserved = reserved;
     }
+
 }

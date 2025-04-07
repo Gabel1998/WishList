@@ -6,16 +6,16 @@ public class Item {
     private String name;
     private String description;
     private double price;
-    private String link;
+    private String url;
     private boolean reserved;
 
-    public Item(int itemId, WishList wishlistId, String name, String description, double price, String link){
+    public Item(int itemId, WishList wishlistId, String name, String description, double price, String url){
         this.itemId = itemId;
         this.wishlistId = wishlistId;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.link = link;
+        this.url = url;
     }
 
     public Item(){
@@ -38,6 +38,10 @@ public class Item {
         this.wishlistId = wishList;
     }
 
+    public WishList getWishlistId() {
+        return wishlistId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -58,12 +62,12 @@ public class Item {
         this.price = price;
     }
 
-    public String getLink() {
-        return link;
+    public String getUrl() {
+        return url;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public boolean getReserved() {
@@ -84,7 +88,7 @@ public class Item {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price='" + price + '\'' +
-                ", link='" + link + '\'' +
+                ", link='" + url + '\'' +
                 '}';
     }
 

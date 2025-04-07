@@ -54,20 +54,27 @@ public class WishListRepository {
     }
 
     public void insertItem(Item item) {
-        String sql = "INSERT INTO tb_items (name, description, price, quantity, link) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tb_items (name, description, price, url, it_wishlist_id) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
-                item.getName(), item.getDescription(),
-                item.getPrice(), item.getQuantity(),
-                item.getLink());
+                item.getName(),
+                item.getDescription(),
+                item.getPrice(),
+                item.getUrl(), // herfra kommer Java "link", men det mappes til SQL-kolonne "url"
+                item.getWishlistId().getWishListId());
     }
 
     public void updateItem(Item item) {
-        String sql = "UPDATE tb_items SET name = ?, description = ?, price = ?, quantity = ?, link = ? WHERE item_id = ?";
+        String sql = "UPDATE tb_items SET name = ?, description = ?, price = ?, url = ?, reserved = ? WHERE item_id = ?";
         jdbcTemplate.update(sql,
-                item.getName(), item.getDescription(),
-                item.getPrice(), item.getQuantity(),
-                item.getLink(), item.getItemId());
+                item.getName(),
+                item.getDescription(),
+                item.getPrice(),
+                item.getUrl(),
+                item.getReserved(),
+                item.getItemId()
+        );
     }
+
 
     public  WishList findByShareToken(String shareToken) {
         String sql = "SELECT * FROM tb_wishlists WHERE share_token = ?";

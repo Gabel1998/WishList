@@ -38,8 +38,7 @@ public class WishListService {
         item.setName(itemDTO.getName());
         item.setDescription(itemDTO.getDescription());
         item.setPrice(itemDTO.getPrice());
-        item.setQuantity(itemDTO.getQuantity());
-        item.setLink(itemDTO.getLink());
+        item.setUrl(itemDTO.getLink());
 
         wishListRepository.insertItem(item);
     }
@@ -51,8 +50,7 @@ public class WishListService {
             item.setName(itemDTO.getName());
             item.setDescription(itemDTO.getDescription());
             item.setPrice(itemDTO.getPrice());
-            item.setQuantity(itemDTO.getQuantity());
-            item.setLink(itemDTO.getLink());
+            item.setUrl(itemDTO.getLink());
 
             //gem det updatede ønske ind i databasen igen
             wishListRepository.updateItem(item);
@@ -145,8 +143,7 @@ public class WishListService {
             dto.setName(item.getName());
             dto.setDescription(item.getDescription());
             dto.setPrice(item.getPrice());
-            dto.setQuantity(item.getQuantity());
-            dto.setLink(item.getLink());
+            dto.setLink(item.getUrl());
             dto.setReserved(item.getReserved());
             itemDTOs.add(dto);
         }
