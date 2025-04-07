@@ -6,17 +6,15 @@ public class Item {
     private String name;
     private String description;
     private double price;
-    private int quantity;
     private String link;
     private boolean reserved;
 
-    public Item(int itemId, WishList wishlistId, String name, String description, double price, int quantity, String link){
+    public Item(int itemId, WishList wishlistId, String name, String description, double price, String link){
         this.itemId = itemId;
         this.wishlistId = wishlistId;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.quantity = quantity;
         this.link = link;
     }
 
@@ -60,14 +58,6 @@ public class Item {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public String getLink() {
         return link;
     }
@@ -94,7 +84,6 @@ public class Item {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price='" + price + '\'' +
-                ", quantity='" + quantity + '\'' +
                 ", link='" + link + '\'' +
                 '}';
     }
