@@ -24,6 +24,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+   padding-top: 70px; /* splitter til header */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -35,6 +36,15 @@ h1, h2, h3, h4, h5, h6 {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+/* push content down from header */
+.content-wrapper {
+    margin-top: 70px;
+    padding-top: 20px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 /* push footer down */
@@ -51,7 +61,7 @@ header, footer {
 }
 
 header {
-    position: absolute;
+    position: fixed; /* absolute */
     top: 0;
     left: 0;
     width: 100%;
@@ -59,6 +69,7 @@ header {
     background: transparent;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(6px);
+    height: 70px; /* AI debug */
 }
 
 footer {

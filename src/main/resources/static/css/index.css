@@ -1,4 +1,8 @@
 /* ===================== Hero Banner ===================== */
+header {
+    position: absolute; !important; /* header 'overflow' - transparent over video */
+}
+
 .hero-banner {
     position: relative;
     width: 100vw;
