@@ -1,91 +1,94 @@
--- Slet eksisterende tabeller, hvis de findes
-DROP TABLE IF EXISTS tb_reservations;
-DROP TABLE IF EXISTS shared_items;
-DROP TABLE IF EXISTS shared_wishlists;
-DROP TABLE IF EXISTS tb_items;
-DROP TABLE IF EXISTS tb_wishlists;
 DROP TABLE IF EXISTS tb_users;
+DROP TABLE IF EXISTS tb_wishlists;
+DROP TABLE IF EXISTS tb_items;
+DROP TABLE IF EXISTS shared_wishlists;
+DROP TABLE IF EXISTS shared_items;
+DROP TABLE IF EXISTS tb_reservations;
 
--- USERS
 CREATE TABLE tb_users
 (
-    user_id  INT AUTO_INCREMENT PRIMARY KEY,
-    email    VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255)        NOT NULL,
-    name     VARCHAR(255)        NOT NULL
+    user_id  BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name     VARCHAR(255),
+    email    VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
 );
 
--- WISHLISTS
 CREATE TABLE tb_wishlists
 (
-    wishlist_id INT AUTO_INCREMENT PRIMARY KEY,
-    wl_user_id  INT NOT NULL,
-    name       VARCHAR(255),
-    share_token VARCHAR(255),
-    FOREIGN KEY (wl_user_id) REFERENCES tb_users (user_id) ON DELETE CASCADE
+    wishlist_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title       VARCHAR(255) NOT NULL,
+    wl_user_id  BIGINT       NOT NULL,
+    FOREIGN KEY (wl_user_id) REFERENCES tb_users (user_id)
 );
 
--- ITEMS
 CREATE TABLE tb_items
 (
-    item_id        INT AUTO_INCREMENT PRIMARY KEY,
-    it_wishlist_id INT NOT NULL,
-    name           VARCHAR(255),
-    description    VARCHAR(500), -- H2 understøtter ikke TEXT, så brug VARCHAR
+    item_id        BIGINT PRIMARY KEY AUTO_INCREMENT,
+    it_wishlist_id BIGINT       NOT NULL,
+    name           VARCHAR(255) NOT NULL,
+    description    TEXT,
     price          DECIMAL(10, 2),
-    url            VARCHAR(255),
-    reserved       BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (it_wishlist_id) REFERENCES tb_wishlists (wishlist_id) ON DELETE CASCADE
+    url            VARCHAR(512),
+    FOREIGN KEY (it_wishlist_id) REFERENCES tb_wishlists (wishlist_id)
 );
 
--- SHARED WISHLISTS
 CREATE TABLE shared_wishlists
 (
-    shared_wishlist_id INT AUTO_INCREMENT PRIMARY KEY,
-    sw_wishlist_id     INT      NOT NULL,
-    share_token        CHAR(36) NOT NULL,
-    created_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (sw_wishlist_id) REFERENCES tb_wishlists (wishlist_id) ON DELETE CASCADE
+    shared_wishlist_id   BIGINT PRIMARY KEY AUTO_INCREMENT,
+    original_wishlist_id BIGINT       NOT NULL,
+    share_token          VARCHAR(255) NOT NULL,
+    created_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (original_wishlist_id) REFERENCES tb_wishlists (wishlist_id)
 );
 
--- SHARED ITEMS
 CREATE TABLE shared_items
 (
-    shared_items_id       INT AUTO_INCREMENT PRIMARY KEY,
-    si_shared_wishlist_id INT NOT NULL,
-    original_item_id      INT,
-    name                  VARCHAR(255),
-    description           VARCHAR(500),
-    price                 DECIMAL(10, 2),
-    url                   VARCHAR(255),
-    FOREIGN KEY (si_shared_wishlist_id) REFERENCES shared_wishlists (shared_wishlist_id) ON DELETE CASCADE
+    shared_item_id     BIGINT PRIMARY KEY AUTO_INCREMENT,
+    shared_wishlist_id BIGINT NOT NULL,
+    original_item_id   BIGINT NOT NULL,
+    name               VARCHAR(255),
+    description        TEXT,
+    price              DECIMAL(10, 2),
+    url                VARCHAR(512),
+    FOREIGN KEY (shared_wishlist_id) REFERENCES shared_wishlists (shared_wishlist_id),
+    FOREIGN KEY (original_item_id) REFERENCES tb_items (item_id)
 );
 
--- RESERVATIONS
 CREATE TABLE tb_reservations
 (
-    reservation_id INT AUTO_INCREMENT PRIMARY KEY,
-    rsv_items_id   INT UNIQUE NOT NULL,
-    reserved_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (rsv_items_id) REFERENCES shared_items (shared_items_id) ON DELETE CASCADE
+    reservation_id   BIGINT PRIMARY KEY AUTO_INCREMENT,
+    rsv_items_id BIGINT NOT NULL,
+    FOREIGN KEY (rsv_items_id) REFERENCES shared_items (shared_item_id)
 );
 
+-- === TESTDATA ===
 
--- Brugere
-INSERT INTO tb_users (user_id, email, password, name)
-VALUES (100, 'test@example.com', '1234', 'Test Bruger');
+-- Bruger
+INSERT INTO tb_users (user_id, email, password)
+VALUES (1000, 'test@example.com', 'hashed-password');
 
 -- Ønskeseddel
-INSERT INTO tb_wishlists (wishlist_id, wl_user_id, name, share_token)
-VALUES (1000, 100, 'Fødselsdag', 'abc123-token');
+INSERT INTO tb_wishlists (wishlist_id, title, wl_user_id)
+VALUES (1000, 'Min Fødselsdag', 1000);
 
--- Item
-INSERT INTO tb_items (item_id, it_wishlist_id, name, description, price, url, reserved)
-VALUES (10000, 1000, 'Test Gave', 'Beskrivelse', 250.00, 'http://gave.dk', false);
+-- Ønske
+INSERT INTO tb_items (item_id, it_wishlist_id, name, description, price, url)
+VALUES (1000, 1000, 'Ny cykel', 'Sort citybike med 7 gear', 3999.95, 'https://eksempel.dk/cykel');
 
--- Deling
-INSERT INTO shared_wishlists (shared_wishlist_id, sw_wishlist_id, share_token)
-VALUES (2000, 1000, 'shared-abc');
+-- Deling (så du kan teste shareWishlist())
+INSERT INTO shared_wishlists (shared_wishlist_id, original_wishlist_id, share_token, created_at)
+VALUES (1000, 1000, 'test-share-token-123', CURRENT_TIMESTAMP);
 
-INSERT INTO shared_items (shared_items_id, si_shared_wishlist_id, original_item_id, name, description, price, url)
-VALUES (20000, 2000, 10000, 'Del Gave', 'Beskrivelse', 150.00, 'http://del.dk');
+-- Kopieret ønske til readonly view
+INSERT INTO shared_items (shared_item_id, shared_wishlist_id, original_item_id, name, description, price, url)
+VALUES (1000,
+        1000,
+        1000,
+        'Ny cykel',
+        'Sort citybike med 7 gear',
+        3999.95,
+        'https://eksempel.dk/cykel');
+
+-- En reservation
+INSERT INTO tb_reservations (reservation_id, rsv_items_id)
+VALUES (1000, 1000);

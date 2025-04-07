@@ -20,7 +20,7 @@ public class SharedItemRepository {
         String sql = """
         SELECT si.*, r.reservation_id IS NOT NULL AS reserved
         FROM shared_items si
-        LEFT JOIN tb_reservations r ON si.id = r.rsv_items_id
+        LEFT JOIN tb_reservations r ON si.shared_item_id = r.rsv_items_id
         WHERE si.shared_wishlist_id = ?
     """;
 //        return jdbcTemplate.query(sql, new Object[]{sharedWishlistId}, new SharedItemRowMapper());

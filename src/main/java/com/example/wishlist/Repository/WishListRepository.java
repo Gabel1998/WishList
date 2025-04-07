@@ -14,23 +14,19 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 
-
 @Repository
 public class WishListRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-
     public WishListRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
     public void insertWishList(WishListDTO wishListDTO) {
-        String sql ="INSERT INTO tb_wishlists(wishlist_id, name) VALUES (?, ?)" ;
+        String sql = "INSERT INTO tb_wishlists(wishlist_id, title) VALUES (?, ?)";
         jdbcTemplate.update(sql, wishListDTO.getWishListId(), wishListDTO.getName());
     }
-
 
     public void deleteItem(int itemId) {
         String sql = "DELETE FROM tb_items WHERE item_id = ?";
@@ -39,71 +35,93 @@ public class WishListRepository {
 
     public WishList findWishListById(int wishlistId) {
         String sql = """
-    SELECT w.*, u.email, u.password
-    FROM tb_wishlists w
-    JOIN tb_users u ON w.wl_user_id = u.user_id
-    WHERE w.wishlist_id = ?
-""";
+            SELECT w.*, u.email, u.password
+            FROM tb_wishlists w
+            JOIN tb_users u ON w.wl_user_id = u.user_id
+            WHERE w.wishlist_id = ?
+        """;
         return jdbcTemplate.queryForObject(sql, new Object[]{wishlistId}, new WishListRowMapper());
     }
 
     public Item findItemById(int itemId) {
         String sql = "SELECT * FROM tb_items WHERE item_id = ?";
-//        return jdbcTemplate.queryForObject(sql, new Object[]{itemId}, new ItemRowMapper());
         return jdbcTemplate.queryForObject(sql, new ItemRowMapper(), itemId);
     }
 
     public void insertItem(Item item) {
-        String sql = "INSERT INTO tb_items (name, description, price, url, it_wishlist_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = """
+            INSERT INTO tb_items (name, description, price, url, it_wishlist_id)
+            VALUES (?, ?, ?, ?, ?)
+        """;
         jdbcTemplate.update(sql,
                 item.getName(),
                 item.getDescription(),
                 item.getPrice(),
-                item.getUrl(), // herfra kommer Java "link", men det mappes til SQL-kolonne "url"
+                item.getUrl(),
                 item.getWishlistId().getWishListId());
     }
 
     public void updateItem(Item item) {
-        String sql = "UPDATE tb_items SET name = ?, description = ?, price = ?, url = ?, reserved = ? WHERE item_id = ?";
+        String sql = """
+            UPDATE tb_items
+            SET name = ?, description = ?, price = ?, url = ?, reserved = ?
+            WHERE item_id = ?
+        """;
         jdbcTemplate.update(sql,
                 item.getName(),
                 item.getDescription(),
                 item.getPrice(),
                 item.getUrl(),
                 item.getReserved(),
-                item.getItemId()
-        );
+                item.getItemId());
     }
 
-
-    public  WishList findByShareToken(String shareToken) {
-        String sql = "SELECT * FROM tb_wishlists WHERE share_token = ?";
-//        return jdbcTemplate.queryForObject(sql, new Object[]{shareToken}, new WishListRowMapper());
+    public WishList findByShareToken(String shareToken) {
+        String sql = """
+    SELECT w.*, u.name, u.email, u.password
+    FROM tb_wishlists w
+    JOIN shared_wishlists s ON s.original_wishlist_id = w.wishlist_id
+    JOIN tb_users u ON w.wl_user_id = u.user_id
+    WHERE s.share_token = ?
+""";
+        ;
         return jdbcTemplate.queryForObject(sql, new WishListRowMapper(), shareToken);
     }
 
     public void insertSharedWishlist(long originalWishlistId) {
-        String sql = "INSERT INTO shared_wishlists (original_wishlist_id, share_token) VALUES (?, UUID())";
+        String sql = """
+            INSERT INTO shared_wishlists (original_wishlist_id, share_token)
+            VALUES (?, UUID())
+        """;
         jdbcTemplate.update(sql, originalWishlistId);
     }
 
     public void copyItemsToSharedItems(long originalWishlistId, long sharedWishlistId) {
         String sql = """
-        INSERT INTO shared_items (shared_wishlist_id, original_item_id, name, description, price, url)
-        SELECT ?, item_id, name, description, price, url
-        FROM tb_items
-        WHERE it_wishlist_id = ?
-    """;
+            INSERT INTO shared_items (
+                shared_wishlist_id, original_item_id, name, description, price, url)
+            SELECT ?, item_id, name, description, price, url
+            FROM tb_items
+            WHERE it_wishlist_id = ?
+            
+        """;
         jdbcTemplate.update(sql, sharedWishlistId, originalWishlistId);
     }
 
     public String findShareTokenByOriginalWishlistId(long originalWishlistId) {
-        String sql = "SELECT share_token FROM shared_wishlists WHERE original_wishlist_id = ?";
+        String sql = """
+        SELECT share_token
+        FROM shared_wishlists
+        WHERE original_wishlist_id = ?
+        ORDER BY created_at DESC
+        LIMIT 1
+    """;
         return jdbcTemplate.queryForObject(sql, String.class, originalWishlistId);
     }
 
+
     public Long findSharedWishlistIdByToken(String shareToken) {
-        String sql = "SELECT id FROM shared_wishlists WHERE share_token = ?";
+        String sql = "SELECT shared_wishlist_id FROM shared_wishlists WHERE share_token = ?";
         return jdbcTemplate.queryForObject(sql, Long.class, shareToken);
     }
 
@@ -112,9 +130,13 @@ public class WishListRepository {
         jdbcTemplate.update(sql, sharedItemId);
     }
 
-    // 🆕 Tilføjet metode for at hente ønskesedler ud fra bruger-id
     public List<WishList> findWishListsByUserId(int userId) {
-        String sql = "SELECT * FROM tb_wishlists WHERE wl_user_id = ?";
+        String sql = """
+            SELECT w.*, u.email, u.password
+            FROM tb_wishlists w
+            JOIN tb_users u ON w.wl_user_id = u.user_id
+            WHERE w.wl_user_id = ?
+        """;
         return jdbcTemplate.query(sql, new WishListRowMapper(), userId);
     }
 
@@ -125,19 +147,19 @@ public class WishListRepository {
 
     public List<WishList> findWishListsByUserEmail(String email) {
         String sql = """
-                SELECT w.*, u.name, u.email, u.password
-    FROM tb_wishlists w
-    JOIN tb_users u ON w.wl_user_id = u.user_id
-    WHERE u.email = ?
-    """;
+            SELECT w.*, u.name, u.email, u.password
+            FROM tb_wishlists w
+            JOIN tb_users u ON w.wl_user_id = u.user_id
+            WHERE u.email = ?
+        """;
         return jdbcTemplate.query(sql, new WishListRowMapper(), email);
     }
 
     public int insertWishListAndReturnId(WishList wishList, String email) {
         String sql = """
-        INSERT INTO tb_wishlists (name, wl_user_id)
-        VALUES (?, (SELECT user_id FROM tb_users WHERE email = ?))
-    """;
+            INSERT INTO tb_wishlists (title, wl_user_id)
+            VALUES (?, (SELECT user_id FROM tb_users WHERE email = ?))
+        """;
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -155,12 +177,8 @@ public class WishListRepository {
 
             return keyHolder.getKey().intValue();
         } catch (Exception e) {
-            e.printStackTrace(); // ← vigtigt til debugging
+            e.printStackTrace();
             throw new RuntimeException("Kunne ikke oprette ønskeseddel", e);
         }
     }
-
-
-
-
 }

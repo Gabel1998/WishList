@@ -79,7 +79,12 @@ public class WishListServiceIntegrationTest {
     void testReserveItem() {
         service.reserveItem(123, 10000); // dummy reservationId
         WishListDTO dto = service.getWishListById(1000);
-        assertTrue(dto.getItems().get(0).isReserved());
+        ItemDTO reservedItem = dto.getItems().stream()
+                .filter(it -> it.getItemId() == 10000)
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("Item not found"));
+
+        assertTrue(reservedItem.isReserved());
     }
 
     @Test

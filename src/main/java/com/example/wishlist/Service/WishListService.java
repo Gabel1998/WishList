@@ -46,18 +46,17 @@ public class WishListService {
     public void updateItem(int itemId, ItemDTO itemDTO) {
         Item item = wishListRepository.findItemById(itemId);
 
-        if(item != null) {
+        if (item != null) {
             item.setName(itemDTO.getName());
             item.setDescription(itemDTO.getDescription());
             item.setPrice(itemDTO.getPrice());
             item.setUrl(itemDTO.getLink());
+            item.setReserved(itemDTO.isReserved());
 
-            //gem det updatede ønske ind i databasen igen
             wishListRepository.updateItem(item);
         } else {
             throw new RuntimeException("Ønske med ID " + itemId + " findes ikke.");
         }
-
     }
 
     public void deleteItem(int itemId) {
