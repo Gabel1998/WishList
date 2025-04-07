@@ -1,72 +1,69 @@
 /* ===================== Hero Banner ===================== */
+body {
+    padding-top: 0 !important;
+}
+
 header {
-    position: absolute; !important; /* header 'overflow' - transparent over video */
+    position: absolute !important; /* Absolute til video */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    /*box-sizing: border-box;*/
 }
 
 .hero-banner {
     position: relative;
-    width: 100vw;
-    min-height: 100vh;
+    width: 100%;
+    height: 110vh;
+    min-height: 750px;
+    max-height: 1000px;
     overflow: hidden;
     background-color: black;
     z-index: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .hero-video {
     position: absolute;
     top: 0;
     left: 0;
-    min-width: 100vw;
-    min-height: 100vh;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    object-position: center center;
+    object-position: center 20%;
     z-index: 0;
-    display: block;
-    visibility: visible;
 }
 
 .hero-content {
     position: absolute;
-    top: 40%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     z-index: 1;
     color: var(--text-color);
-    padding: 20px;
+    width: 80%;
+    max-width: 1200px;
 }
 
 .hero-content h1 {
-    font-size: 4em;
+    font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
     letter-spacing: 0.5px;
     margin-bottom: 20px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .hero-content p {
-    font-size: 1.6em;
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
     margin-top: 10px;
     margin-bottom: 30px;
-}
-
-/* ===================== Buttons ===================== */
-.btn {
-    background-color: var(--button-color);
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    padding: 15px 25px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.btn:hover {
-    background-color: #388e3c;
-    box-shadow: 0 0 0 5px rgba(76, 175, 80, 0.3);
-    transform: scale(1.05);
-    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* ===================== Hero Section Overlay ===================== */
@@ -76,33 +73,65 @@ header {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 120px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, #1a1a1a 100%);
+    height: 200px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, var(--background-color) 100%);
     z-index: 2;
 }
 
-/* ===================== Partner Section ===================== */
-.partner-section {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(6px);
-    padding: 30px 0;
+/* ===================== Features Section ===================== */
+.features-section {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color);
 }
 
-.partner-overlay {
+/* ===================== Eco Icons Row ===================== */
+.eco-icons-row {
+    background-color: #2e4432;
+    padding: 80px 40px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 32px;
+    position: relative;
+    z-index: 3;
+}
+
+.eco-icon-block {
+    flex: 1 1 22%;
     text-align: center;
-    z-index: 1;
+    color: #ffffff;
+    max-width: 100%;
 }
 
-.partner-overlay h2 {
+.eco-icon-block img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    margin-bottom: 24px;
+    filter: brightness(95%);
+}
+
+.eco-icon-block p {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 400;
+    color: #f1f1f1;
+}
+
+/* ===================== Partners Section ===================== */
+.partners-container {
+    background-color: #1d2e26;
+    padding: 30px 0 20px;
+    text-align: center;
+}
+
+.partners-container h2 {
     font-size: 2rem;
     color: var(--text-color);
     font-weight: 600;
-    margin-bottom: 30px;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    margin: 0 0 5px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .partner-slider {
@@ -110,7 +139,7 @@ header {
     justify-content: center;
     overflow: hidden;
     width: 100%;
-    padding: 0 2vw;
+    padding: 20px 0;
 }
 
 .partner-track {
@@ -125,23 +154,28 @@ header {
     justify-content: center;
     width: 180px;
     height: 100px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .partner-card img {
     width: 100%;
     max-height: 75px;
     object-fit: contain;
-    filter: grayscale(100%) opacity(0.7);
+    filter: brightness(0.8) grayscale(0.7);
     transition: filter 0.3s ease, transform 0.3s ease;
 }
 
-.partner-card img:hover {
-    filter: grayscale(0%) opacity(1);
-    transform: scale(1.05);
+.partner-card:hover {
+    transform: translateY(-5px);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.partner-card:hover img {
+    filter: brightness(1) grayscale(0);
 }
 
 @keyframes slide {
@@ -149,14 +183,14 @@ header {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-50%);
+        transform: translateX(-50%); /* meget fin hastighed */
     }
 }
 
 /* ===================== Partner description section ===================== */
 .eco-icons-row {
     background-color: #2e4432;
-    padding: 40px 40px 30px;
+    padding: 30px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
