@@ -27,6 +27,7 @@ public class UserController {
        if (!model.containsAttribute("user")) {
            model.addAttribute("user", new UserDTO());
        }
+        //noinspection SpringMVCViewInspection
         return "register";
     }
 

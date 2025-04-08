@@ -9,16 +9,19 @@ public class InfoPageController {
 
     @GetMapping("/cookies")
     public String showCookiePolicy() {
+        //noinspection SpringMVCViewInspection
         return "cookies"; // viser cookies.html
     }
 
     @GetMapping("/privacy")
     public String showPrivacyPolicy() {
+        //noinspection SpringMVCViewInspection
         return "privacy"; // viser privacy.html
     }
 
     @GetMapping("/about")
     public String showAboutUsPage() {
+        //noinspection SpringMVCViewInspection
         return "about-us"; // loader about-us.html fra /templates
     }
 
@@ -31,6 +34,7 @@ public class InfoPageController {
         }
 
         // denne her skal vi kigge på - metoden
+        //noinspection SpringMVCViewInspection
         return "shared-wishlists";
     }
 }

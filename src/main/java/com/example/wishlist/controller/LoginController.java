@@ -19,6 +19,7 @@ public class LoginController {
     // Login side (til Thymeleaf-view)
     @GetMapping("/login")
     public String showLoginPage() {
+        //noinspection SpringMVCViewInspection
         return "login";
     }
 

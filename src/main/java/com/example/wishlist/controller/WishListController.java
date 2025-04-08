@@ -32,6 +32,7 @@ public class WishListController {
     // Forside
     @GetMapping
     public String index() {
+        //noinspection SpringMVCViewInspection
         return "index";
     }
 
@@ -46,6 +47,7 @@ public class WishListController {
 
         List<WishListDTO> wishLists = wishListService.getAllWishListsByUserEmail(email);
         model.addAttribute("wishlists", wishLists);
+        //noinspection SpringMVCViewInspection
         return "wishlist-overview";
     }
 
@@ -53,6 +55,7 @@ public class WishListController {
     @GetMapping("/Wishlist-form")
     public String showWishListForm(Model model) {
         model.addAttribute("wishlist", new WishList());
+        //noinspection SpringMVCViewInspection
         return "Wishlist-form";
     }
 
@@ -86,6 +89,7 @@ public class WishListController {
         }
 
         model.addAttribute("wishlist", wishlist);
+        //noinspection SpringMVCViewInspection
         return "wishlist";
     }
 
