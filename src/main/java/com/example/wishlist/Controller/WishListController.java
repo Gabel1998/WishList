@@ -29,13 +29,13 @@ public class WishListController {
         this.wishListService = wishListService;
     }
 
-    // ✅ Forside
+    // Forside
     @GetMapping
     public String index() {
         return "index";
     }
 
-    // ✅ Oversigt over ønskesedler
+    // Oversigt over ønskesedler
     @GetMapping("/wishlists")
     public String showWishListOverview(Model model, HttpSession session) {
         String email = (String) session.getAttribute("user");
@@ -49,14 +49,14 @@ public class WishListController {
         return "wishlist-overview";
     }
 
-    // ✅ Formular til at oprette ønskeseddel
+    // Formular til at oprette ønskeseddel
     @GetMapping("/wishlist-form")
     public String showWishListForm(Model model) {
         model.addAttribute("wishlist", new WishList());
         return "wishlist-form";
     }
 
-    // ✅ Behandler oprettelse og redirecter til /wishlist/{id}
+    // Behandler oprettelse og redirecter til /wishlist/{id}
     @PostMapping("/wishlist-form")
     public String handleWishListForm(@ModelAttribute WishList wishList, HttpSession session) {
         String email = (String) session.getAttribute("user");
@@ -70,7 +70,7 @@ public class WishListController {
         return "redirect:/wishlist/" + newId;
     }
 
-    // ✅ Vis én ønskeseddel med alle tilknyttede produkter
+    // Vis én ønskeseddel med alle tilknyttede produkter
     @GetMapping("/wishlist/{id}")
     public String showSingleWishlist(@PathVariable("id") int wishlistId, Model model) {
         WishListDTO wishlist = wishListService.getWishListById(wishlistId);
@@ -82,7 +82,7 @@ public class WishListController {
         return "wishlist";
     }
 
-    // ✅ Tilføj produkt
+    // Tilføj produkt
     @PostMapping("/wishlist/{id}/item")
     public ResponseEntity<String> addItem(@PathVariable("id") int wishlistId, @RequestBody ItemDTO itemDTO) {
         wishListService.addItemToWishList(wishlistId, itemDTO);
@@ -107,7 +107,7 @@ public class WishListController {
         return ResponseEntity.status(HttpStatus.OK).body("Ønske reserveret");
     }
 
-    // ✅ Vis readonly ønskeseddel via token
+    // Vis readonly ønskeseddel via token
     @GetMapping("/view/{share_token}")
     public String viewReadOnly(@PathVariable String share_token, Model model) {
         List<SharedItem> items = wishListService.getSharedItems(share_token);
@@ -122,7 +122,7 @@ public class WishListController {
         return "wishlist-readonly";
     }
 
-    // ✅ Share ønskeseddel
+    // Share ønskeseddel
     @PostMapping("/wishlist/{id}/share")
     public String shareWishlist(@PathVariable("id") int wishlistId, RedirectAttributes redirectAttributes) {
         String token = wishListService.shareWishlist(wishlistId);
@@ -130,7 +130,7 @@ public class WishListController {
         return "redirect:/wishlist/" + wishlistId;
     }
 
-    // ✅ Reserve via readonly-view
+    // Reserve via readonly-view
     @PostMapping("/reserve")
     public String reserveSharedItem(@RequestParam("itemId") long itemId,
                                     @RequestParam("shareToken") String shareToken,

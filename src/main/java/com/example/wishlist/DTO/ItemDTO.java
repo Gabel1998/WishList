@@ -6,18 +6,16 @@ public class ItemDTO {
     private String name;
     private String description;
     private double price;
-    private int quantity;
     private String link;
     private boolean reserved;
 
     public ItemDTO() {}
 
-    public ItemDTO(int itemId, String name, String description, double price, int quantity, String link, boolean reserved) {
+    public ItemDTO(int itemId, String name, String description, double price, String link, boolean reserved) {
         this.itemId = itemId;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.quantity = quantity;
         this.link = link;
         this.reserved = reserved;
     }
@@ -52,14 +50,6 @@ public class ItemDTO {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public String getLink() {
