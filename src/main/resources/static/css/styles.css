@@ -58,7 +58,6 @@ a {
 /* ===================== Header & Footer ===================== */
 header, footer {
     font-size: 0.9em;
-    padding: 20px 0;
 }
 
 header {
@@ -70,14 +69,35 @@ header {
     background: transparent;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(6px);
+    padding: 10px 0;
     height: 70px; /* AI debug */
 }
 
 footer {
-    background-color: #333;
+    background-color: #1a2720;
     text-align: center;
     margin-top: auto;
     flex-shrink: 0;
+    padding: 5px 0;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    color: rgba(232, 245, 233, 0.7); /*  faded tekst */
+}
+
+.footer-links {
+    margin-top: 8px;
+}
+
+.footer-links a {
+    color: var(--text-color);
+    margin: 0 10px;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
 }
 
 /* ===================== Header Components ===================== */
@@ -88,12 +108,14 @@ footer {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 4vw;
+    height: 100%;
 }
 
 .logo {
     display: flex;
     align-items: center;
     gap: 0.8rem;
+    heigth: 100%;
 }
 
 .nav-logo {
@@ -105,12 +127,18 @@ footer {
     font-size: 1.3rem;
     font-weight: 600;
     color: var(--text-color);
+    margin: 0;
+    line-height: 70px;
+    align-items: center;
+    height: 100%;
 }
 
 .main-nav {
     display: flex;
     flex: 1;
     justify-content: center;
+    height: 100%;
+    align-items: center;
 }
 
 .nav-menu {
