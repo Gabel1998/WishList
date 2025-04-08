@@ -51,7 +51,12 @@ public class WishListController {
 
     // Formular til at oprette ønskeseddel
     @GetMapping("/wishlist-form")
-    public String showWishListForm(Model model) {
+    public String showWishListForm(Model model, HttpSession session) {
+        String email = (String) session.getAttribute("user");
+        if (email == null) {
+            return "redirect:/login";
+        }
+
         model.addAttribute("wishlist", new WishList());
         return "wishlist-form";
     }

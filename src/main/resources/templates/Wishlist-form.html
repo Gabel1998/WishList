@@ -2,23 +2,38 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <name>Opret ønskeseddel</name>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opret ønskeseddel</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/wishlist-overview.css}">
+    <link rel="stylesheet" th:href="@{/css/wishlist-form.css}">
 </head>
 <body>
 
-<div th:replace="~{header}"></div>
+<div th:replace="~{header :: header}"></div>
 
-<h2>Opret ny ønskeseddel</h2>
+<div class="content-wrapper">
+    <div class="wishlist-form-container">
+        <div class="form-content-overlay">
+            <h2>Opret ny ønskeseddel</h2>
 
-<form th:action="@{/wishlist-form}" th:object="${wishlist}" method="post">
-    <label for="name">Navn på ønskesedlen:</label>
-    <input type="text" id="name" th:field="*{name}" required>
+            <form th:action="@{/wishlist-form}" th:object="${wishlist}" method="post" class="wishlist-form">
+                <div class="form-group">
+                    <label for="name">Navn på ønskesedlen</label>
+                    <input type="text" id="name" th:field="*{name}" required placeholder="F.eks. Fødselsdag, Bryllup, Jul...">
+                </div>
 
-    <button type="submit">Opret</button>
-</form>
+                <button type="submit" class="button">Opret ønskeseddel</button>
+            </form>
 
-<div th:replace="~{footer}"></div>
+            <div class="back-link-container">
+                <a href="/wishlists" class="back-link">Tilbage til oversigten</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{footer :: footer}"></div>
 
 </body>
 </html>

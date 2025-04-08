@@ -1,0 +1,159 @@
+/* ===================== Wishlist Form Page ===================== */
+body {
+    padding-top: 0 !important;
+}
+
+.content-wrapper {
+    margin-top: 0;
+    padding: 100px 0 60px;
+    min-height: calc(100vh - 60px);
+    background-color: var(--background-color);
+}
+
+/* ===================== Form Container ===================== */
+.wishlist-form-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 10vh auto;
+    text-align: center;
+    z-index: 10;
+    border-radius: 15px;
+    overflow: hidden;
+    background-image: url('../images/wishlist-icons/bg_dark.jpg');
+    background-size: cover;
+    background-position: center center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+}
+
+.wishlist-form-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+}
+
+/* ===================== Form Content ===================== */
+.form-content-overlay {
+    position: relative;
+    z-index: 1;
+    padding: 40px 30px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ===================== Form Header ===================== */
+.wishlist-form-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: white;
+    position: relative;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.wishlist-form-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+/* ===================== Form and Elements ===================== */
+.wishlist-form {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ===================== Form Group ===================== */
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    text-align: left;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 5px;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+.form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ===================== Button Styling ===================== */
+.wishlist-form .button {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    margin: 15px 0;
+    display: block;
+    font-size: 1rem;
+}
+
+/* ===================== Back Link ===================== */
+.back-link-container {
+    text-align: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.back-link {
+    color: white;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.back-link:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* ===================== Responsive Adjustments ===================== */
+@media (max-width: 600px) {
+    .wishlist-form-container {
+        margin: 5vh auto;
+        width: 90%;
+    }
+
+    .form-content-overlay {
+        padding: 30px 20px;
+    }
+}

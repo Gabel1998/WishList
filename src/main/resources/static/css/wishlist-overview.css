@@ -56,6 +56,25 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
+.create-wishlist-link-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.create-wishlist-link {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    text-decoration: none;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.create-wishlist-link:hover {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    text-decoration: underline !important;;
+}
 
 /* ===================== Wishlist Grid ===================== */
 .wishlist-grid {
@@ -119,7 +138,6 @@ body {
     border-radius: 30px;
     font-weight: 500;
     transition: all 0.3s ease;
-    text-decoration: none;
     overflow: hidden;
 }
 
