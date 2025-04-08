@@ -1,11 +1,11 @@
 version: "1.0"
-linter:
-  name: jetbrains/qodana-jvm:2024.3
-  rules:
-    - id: SpringMVCViewInspection
-      enabled: false
+linter: jetbrains/qodana-jvm:2024.3
 profile:
   name: qodana.recommended
 include:
   - name: CheckDependencyLicenses
     path: .
+qodana:
+  inspections:
+    - id: SpringMVCViewInspection
+      enabled: false
