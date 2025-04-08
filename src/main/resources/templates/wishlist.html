@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <title th:text="${wishlist.name}">Ønskeseddel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ønskeseddel</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/wishlist-overview.css}">
     <link rel="stylesheet" th:href="@{/css/wishlist.css}">
 </head>
 <body>
@@ -13,44 +14,55 @@
 
 <div class="content-wrapper">
     <div class="wishlist-overview-container">
-        <h2 th:text="${wishlist.name}">Min ønskeseddel</h2>
+        <h2 th:text="${wishlist.name}">Ønskeseddel navn</h2>
 
-        <!-- POP-UP TRIGGER -->
-        <div class="product-box">
-            <button class="button" onclick="openPopup()">+ Tilføj produkt</button>
+
+        <div class="create-wishlist-link-container">
+            <a href="#" class="create-wishlist-link" onclick="openAddItemPopup(); return false;">+ Tilføj produkt</a>
         </div>
 
-        <!-- POP-UP OVERLAY -->
-        <div id="popup-overlay" class="popup-overlay" onclick="closePopup()"></div>
+        <div class="popup-overlay" id="popup-overlay"></div>
 
-        <!-- POP-UP FORM -->
         <div id="add-item-popup" class="popup">
             <div class="popup-content">
-                <span class="close" onclick="closePopup()">&times;</span>
+                <span class="close" onclick="closeAddItemPopup()">&times;</span>
                 <h2>Tilføj produkt</h2>
                 <form th:action="@{'/wishlist/' + ${wishlist.wishListId} + '/item'}" method="post">
-                    <label for="name">Produktnavn</label>
-                    <input type="text" id="name" name="name" required>
-
-                    <label for="description">Beskrivelse</label>
-                    <input type="text" id="description" name="description">
-
-                    <label for="price">Pris</label>
-                    <input type="number" id="price" name="price" step="0.01" required>
-
-                    <label for="url">Link</label>
-                    <input type="url" id="url" name="url">
-
-                    <button class="button" type="submit">Tilføj</button>
+                    <div class="form-group">
+                        <label for="name">Produkt navn</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Beskrivelse</label>
+                        <textarea id="description" name="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Pris (DKK)</label>
+                        <input type="number" id="price" name="price" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="url">Link til produkt</label>
+                        <input type="url" id="url" name="url">
+                    </div>
+                    <button type="submit" class="button">Gem produkt</button>
                 </form>
             </div>
         </div>
 
-
-        <!-- ITEMS -->
         <div class="items-container">
-            <div th:each="item : ${wishlist.items}">
-                <div th:replace="~{item :: productItem(item=${item}, wishlistId=${wishlist.wishListId})}"></div>
+            <div th:each="item : ${wishlist.items}" class="item-card">
+                <div class="wishlist-card-overlay">
+                    <h3 th:text="${item.name}">Item name</h3>
+                    <p th:text="${item.description}">Item description</p>
+                    <p th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 2, 'POINT')} + ' DKK'">0.00 DKK</p>
+                    <p th:if="${item.url != null && !item.url.isEmpty()}">
+                        <a th:href="${item.url}" target="_blank" class="button">Se produkt</a>
+                    </p>
+                    <div class="item-buttons">
+                        <a th:href="@{'/wishlist/item/' + ${item.itemId} + '/edit'}" class="button edit-button">Rediger</a>
+                        <a href="#" class="button delete-button" th:onclick="'deleteItem(' + ${item.itemId} + ')'">Slet</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -59,19 +71,37 @@
 <div th:replace="~{footer :: footer}"></div>
 
 <script>
-    function openPopup() {
-        document.getElementById("add-item-popup").classList.add("show");
-        document.getElementById("popup-overlay").classList.add("show");
+    function openAddItemPopup() {
+        document.getElementById('add-item-popup').classList.add('show');
+        document.getElementById('popup-overlay').classList.add('show');
     }
 
-    function closePopup() {
-        document.getElementById("add-item-popup").classList.remove("show");
-        document.getElementById("popup-overlay").classList.remove("show");
+    function closeAddItemPopup() {
+        document.getElementById('add-item-popup').classList.remove('show');
+        document.getElementById('popup-overlay').classList.remove('show');
     }
+
+    function deleteItem(itemId) {
+        if (confirm('Er du sikker på, at du vil slette dette produkt?')) {
+            fetch('/wishlist/item/' + itemId, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        alert('Der opstod en fejl ved sletning af produktet');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Der opstod en fejl ved sletning af produktet');
+                });
+        }
+    }
+    /* luk popup når man klikker udenfor boks */
+    document.getElementById('popup-overlay').addEventListener('click', closeAddItemPopup);
 </script>
-
-
-
 
 </body>
 </html>

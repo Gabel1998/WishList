@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <name>Dine ønskesedler</name>
+  <title>Dine ønskesedler</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}">
   <link rel="stylesheet" th:href="@{/css/wishlist-overview.css}">
 </head>
@@ -11,6 +11,7 @@
 
 <!-- ======== HEADER TEMPLATE ======== -->
 <div th:replace="~{header :: header}"></div>
+
 <div class="content-wrapper">
   <div class="wishlist-overview-container">
     <h2>Dine ønskesedler</h2>
@@ -29,6 +30,10 @@
         <div class="wishlist-card-overlay">
           <h3 th:text="${wishlist.name}">Ønskeseddel Navn</h3>
           <a class="button" th:href="@{'/wishlist/' + ${wishlist.wishListId}}">Se ønskeseddel</a>
+          <div class="item-buttons">
+            <a href="#" class="button share-button" th:onclick="'shareWishlist(' + ${wishlist.wishListId} + ')'">Del</a>
+            <a href="#" class="button delete-button" th:onclick="'deleteWishlist(' + ${wishlist.wishListId} + ')'">Slet</a>
+          </div>
         </div>
       </div>
     </div>
@@ -37,6 +42,41 @@
 
 <!-- ======== FOOTER TEMPLATE ======== -->
 <div th:replace="~{footer :: footer}"></div>
+
+<script>
+  function shareWishlist(wishlistId) {
+    fetch('/wishlist/' + wishlistId + '/share', {
+      method: 'POST'
+    })
+            .then(response => response.json())
+            .then(data => {
+              alert('Del dette link: ' + window.location.origin + '/view/' + data.token);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('Der opstod en fejl ved deling af ønskesedlen');
+            });
+  }
+
+  function deleteWishlist(wishlistId) {
+    if (confirm('Er du sikker på, at du vil slette denne ønskeseddel?')) {
+      fetch('/wishlist/' + wishlistId, {
+        method: 'DELETE'
+      })
+              .then(response => {
+                if (response.ok) {
+                  window.location.reload();
+                } else {
+                  alert('Der opstod en fejl ved sletning af ønskesedlen');
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                alert('Der opstod en fejl ved sletning af ønskesedlen');
+              });
+    }
+  }
+</script>
 
 </body>
 </html>
