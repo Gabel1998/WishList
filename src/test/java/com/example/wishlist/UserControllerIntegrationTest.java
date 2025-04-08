@@ -22,18 +22,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 public class UserControllerIntegrationTest {
 
-    // simulering af HTTP-anmodninger
+    // til simulering af HTTP-anmodninger
     private MockMvc mockMvc;
 
-    // mock af UserService
+    // til mock af UserService
     @Mock
     private UserService userService;
 
-    // mock af UserRepository
+    // til mock af UserRepository
     @Mock
     private UserRepository userRepository;
 
-    // Injicerer mock-objekter i controlleren
+    // til Injicering mock-objekter i controlleren
     @InjectMocks
     private UserController userController;
 

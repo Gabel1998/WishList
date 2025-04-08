@@ -7,6 +7,7 @@
     --background-color: #1d2e26;           /* deep, muted green-black */
     --text-color: #e8f5e9;                 /* soft off-white */
     --button-color: #2a6e3f;               /* Elegant dark green */
+    --container-color: #2e4432;            /* nice dark container green */
 }
 
 /* ===================== Global ===================== */
@@ -24,6 +25,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+   padding-top: 70px; /* splitter til header */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -37,6 +39,15 @@ a {
     color: inherit;
 }
 
+/* push content down from header */
+.content-wrapper {
+    margin-top: 70px;
+    padding-top: 20px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
 /* push footer down */
 .page-container {
     flex: 1;
@@ -47,11 +58,10 @@ a {
 /* ===================== Header & Footer ===================== */
 header, footer {
     font-size: 0.9em;
-    padding: 20px 0;
 }
 
 header {
-    position: absolute;
+    position: fixed; /* absolute */
     top: 0;
     left: 0;
     width: 100%;
@@ -59,13 +69,35 @@ header {
     background: transparent;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(6px);
+    padding: 10px 0;
+    height: 70px; /* AI debug */
 }
 
 footer {
-    background-color: #333;
+    background-color: #1a2720;
     text-align: center;
     margin-top: auto;
     flex-shrink: 0;
+    padding: 5px 0;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    color: rgba(232, 245, 233, 0.7); /*  faded tekst */
+}
+
+.footer-links {
+    margin-top: 8px;
+}
+
+.footer-links a {
+    color: var(--text-color);
+    margin: 0 10px;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
 }
 
 /* ===================== Header Components ===================== */
@@ -76,12 +108,14 @@ footer {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 4vw;
+    height: 100%;
 }
 
 .logo {
     display: flex;
     align-items: center;
     gap: 0.8rem;
+    heigth: 100%;
 }
 
 .nav-logo {
@@ -93,12 +127,18 @@ footer {
     font-size: 1.3rem;
     font-weight: 600;
     color: var(--text-color);
+    margin: 0;
+    line-height: 70px;
+    align-items: center;
+    height: 100%;
 }
 
 .main-nav {
     display: flex;
     flex: 1;
     justify-content: center;
+    height: 100%;
+    align-items: center;
 }
 
 .nav-menu {

@@ -11,23 +11,24 @@
 
 <!-- ======== HEADER TEMPLATE ======== -->
 <div th:replace="~{header}"></div>
+<div class="content-wrapper">
+  <div class="wishlist-overview-container">
+    <h2>Dine ønskesedler</h2>
+    <a class="button" th:href="@{/wishlist-form}">+ Opret ønskeseddel</a>
+    <!-- Hvis ingen ønskesedler findes -->
+    <div th:if="${#lists.isEmpty(wishlists)}">
+      <p>Du har endnu ingen ønskesedler.</p>
+      <a class="button" th:href="@{/wishlist-form}">Opret ny ønskeseddel</a>
+    </div>
 
-<div class="wishlist-overview-container">
-  <h2>Dine ønskesedler</h2>
-  <a class="btn" th:href="@{/wishlist-form}">+ Opret ønskeseddel</a>
-
-
-  <!-- Hvis ingen ønskesedler findes -->
-  <div th:if="${#lists.isEmpty(wishlists)}">
-    <p>Du har endnu ingen ønskesedler.</p>
-    <a class="btn" th:href="@{/wishlist-form}">Opret ny ønskeseddel</a>
-  </div>
-
-  <!-- Hvis ønskesedler findes -->
-  <div th:if="${not #lists.isEmpty(wishlists)}" class="wishlist-grid">
-    <div th:each="wishlist : ${wishlists}" class="wishlist-card">
-      <h3 th:text="${wishlist.name}">Ønskeseddel Navn</h3>
-      <a class="btn" th:href="@{'/wishlist/' + ${wishlist.wishListId}}">Se ønskeseddel</a>
+    <!-- Hvis ønskesedler findes -->
+    <div th:if="${not #lists.isEmpty(wishlists)}" class="wishlist-grid">
+      <div th:each="wishlist : ${wishlists}" class="wishlist-card">
+        <div class="wishlist-card-overlay">
+          <h3 th:text="${wishlist.name}">Ønskeseddel Navn</h3>
+          <a class="button" th:href="@{'/wishlist/' + ${wishlist.wishListId}}">Se ønskeseddel</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
