@@ -1,5 +1,3 @@
-/* about-us.css */
-
 .about-description {
     max-width: 1100px;
     margin: 2rem auto 3rem auto;
@@ -30,64 +28,69 @@
 
 .about-row {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     gap: 2rem;
     max-width: 1100px;
     margin: 2rem auto;
     padding: 0 1rem;
+    flex-wrap: wrap;
 }
 
 .about-column {
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    flex: 1 1 22%; /* align columns */
+    min-width: 270px;
+    max-width: 320px;
 }
 
-/* Kort med tekst og billede */
 .about-card {
     display: flex;
-    flex-direction: row;
-    background-color: white;
-    border-radius: 10px;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
-    max-width: 1000px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     width: 100%;
-    align-items: stretch;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 100%;
+    align-items: center;
 }
 
-/* Billedet bevarer sin naturlige størrelse */
 .about-card img {
     height: auto;
-    width: auto;
-    max-width: 300px;
-    object-fit: contain;
-    display: block;
+    width: 150px;
+    max-width: 150px;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border-radius: 50%;
 }
 
-/* Vend rækkefølge på hver anden */
-.about-row .about-column:nth-child(even) .about-card {
-    flex-direction: row-reverse;
+.about-card h3 {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
-/* Teksten */
 .about-content {
-    padding: 1.5rem;
-    flex: 1;
+    text-align: center;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: left;
-    align-items: flex-start;
 }
 
-
-.about-content .title {
-    font-weight: bold;
-    color: var(--secondary-color);
-    margin-top: 0.5rem;
+.about-content p {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin: 5px 0;
+    line-height: 1.6;
 }
 
-/* Knap */
 .about-button {
     padding: 0.5rem 1rem;
     background-color: var(--primary-color);
@@ -98,36 +101,37 @@
     cursor: pointer;
     margin-top: 1rem;
     width: fit-content;
+    margin-left: auto;
+    margin-right: auto; /* Center knap */
 }
 
 .about-button:hover {
     background-color: var(--secondary-color);
 }
 
-/* Responsiv mobilvisning */
+.about-button:active {
+    transform: scale(0.98);
+}
+
+/* Responsive layout til de små :* */
 @media (max-width: 768px) {
+    .about-row {
+        justify-content: center;
+    }
+
     .about-card {
         flex-direction: column;
-        max-height: none;
+        max-width: 100%;
         align-items: center;
     }
 
     .about-card img {
         width: 100%;
-        max-width: 100%;
+        max-width: 150px;
         height: auto;
-        object-fit: cover;
     }
 
     .about-content {
-        padding: 1rem;
         text-align: center;
-        align-items: center;
-    }
-
-    .about-button {
-        margin-left: auto;
-        margin-right: auto;
     }
 }
-
