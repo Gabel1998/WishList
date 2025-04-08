@@ -245,3 +245,46 @@ button:hover,
     background-color: #ff4d4d;
     color: white;
 }
+
+
+/*DET HER TIL AT TESTE DELINGSKNAPPEN*/
+.share-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 600px;
+    margin-bottom: 0.5rem;
+}
+
+.share-preview input {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #fff;
+    color: #333;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.share-preview button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.share-preview button:hover {
+    background-color: #45a049;
+}
+
+
+.share-preview button:hover {
+    background-color: #45a049;
+}

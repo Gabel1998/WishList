@@ -98,17 +98,18 @@ public class WishListService {
     //read-only ønskeliste
 
     public String shareWishlist(long wishlistId) {
-        wishListRepository.insertSharedWishlist(wishlistId);
+        String shareToken = wishListRepository.findLatestShareTokenForWishlist((int) wishlistId);
 
-        // Hent token der blev genereret af databasen
-        String shareToken = wishListRepository.findShareTokenByOriginalWishlistId(wishlistId);
-        // Hent ID på shared_wishlist
-        Long sharedWishlistId = wishListRepository.findSharedWishlistIdByToken(shareToken);
-        // Kopiér items
-        wishListRepository.copyItemsToSharedItems(wishlistId, sharedWishlistId);
+        if (shareToken == null) {
+            shareToken = wishListRepository.insertSharedWishlistAndReturnToken(wishlistId);
+            Long sharedWishlistId = wishListRepository.findSharedWishlistIdByToken(shareToken);
+            wishListRepository.copyItemsToSharedItems(wishlistId, sharedWishlistId);
+        }
 
+        // 5. Returnér token uanset hvad
         return shareToken;
     }
+
 
     public WishList findByShareToken(String shareToken) {
         return wishListRepository.findByShareToken(shareToken);
@@ -129,10 +130,7 @@ public class WishListService {
 
     public WishListDTO getWishListById(int wishlistId) {
         WishList wishList = wishListRepository.findWishListById(wishlistId);
-
-        if (wishList == null) {
-            return null;
-        }
+        if (wishList == null) return null;
 
         List<Item> itemList = wishListRepository.findItemsByWishListId(wishlistId);
         List<ItemDTO> itemDTOs = new ArrayList<>();
@@ -144,14 +142,18 @@ public class WishListService {
             dto.setDescription(item.getDescription());
             dto.setPrice(item.getPrice());
             dto.setUrl(item.getUrl());
-            dto.setReserved(item.getReserved());
+
+            // VIGTIGT: Vis aldrig reserved-status til ejeren
+            dto.setReserved(false);
+
             itemDTOs.add(dto);
         }
 
         WishListDTO dto = new WishListDTO();
         dto.setWishListId(wishList.getWishListId());
         dto.setName(wishList.getName());
-        dto.setShareToken(wishList.getShare_token());
+        String token = wishListRepository.findLatestShareTokenForWishlist(wishList.getWishListId());
+        dto.setShareToken(token);
         dto.setUserId(wishList.getUser().getUserId());
         dto.setItems(itemDTOs);
 
@@ -195,6 +197,11 @@ public class WishListService {
         dto.setWishlistId((long) item.getWishlistId().getWishListId());
         return dto;
     }
+
+    public String getLatestShareTokenForWishlist(int wishlistId) {
+        return wishListRepository.findLatestShareTokenForWishlist(wishlistId);
+    }
+
 }
 
 

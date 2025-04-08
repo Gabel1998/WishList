@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title th:text="${wishlist.name}">Ønskeseddel</title>
+    <link rel="icon" type="image/png" href="images/icons/favicon.png">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/wishlist.css}">
 </head>
@@ -14,6 +15,23 @@
 <div class="content-wrapper">
     <div class="wishlist-overview-container">
         <h2 th:text="${wishlist.name}">Min ønskeseddel</h2>
+<!--teeeeest-->
+        <div class="share-section" th:if="${wishlist.shareToken != null}">
+            <p>Del din ønskeseddel:</p>
+            <div class="share-preview">
+                <input type="text"
+                       id="shareLinkInput"
+                       th:value="'http://localhost:8080/view/' + ${wishlist.shareToken}"
+                       readonly
+                       onclick="this.select()">
+                <button onclick="copyShareLink()">Kopier</button>
+            </div>
+
+
+            <p style="font-size: 0.8em; color: #888;">Kopier linket og send det til familie og venner</p>
+        </div>
+
+
 
         <!-- POP-UP TRIGGER -->
         <div class="product-box">
@@ -67,6 +85,15 @@
     function closePopup() {
         document.getElementById("add-item-popup").classList.remove("show");
         document.getElementById("popup-overlay").classList.remove("show");
+    }
+
+    function copyShareLink() {
+        const input = document.getElementById("shareLinkInput");
+        input.select();
+        input.setSelectionRange(0, 99999); // For mobile
+        navigator.clipboard.writeText(input.value).then(function () {
+            alert("Link kopieret til udklipsholder!");
+        });
     }
 </script>
 
