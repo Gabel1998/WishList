@@ -1,30 +1,25 @@
-package com.example.wishlist.Model;
+package com.example.wishlist.dto;
 
-public class Item {
+public class ItemDTO {
+
     private int itemId;
-    private WishList wishlistId;
     private String name;
     private String description;
     private double price;
-    private int quantity;
     private String link;
     private boolean reserved;
 
-    public Item(int itemId, WishList wishlistId, String name, String description, double price, int quantity, String link){
+    public ItemDTO() {}
+
+    public ItemDTO(int itemId, String name, String description, double price, String link, boolean reserved) {
         this.itemId = itemId;
-        this.wishlistId = wishlistId;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.quantity = quantity;
         this.link = link;
+        this.reserved = reserved;
     }
 
-    public Item(){
-
-    }
-
-    // Getters og Setters
     public int getItemId() {
         return itemId;
     }
@@ -32,12 +27,9 @@ public class Item {
     public void setItemId(int itemId) {
         this.itemId = itemId;
     }
+
     public String getName() {
         return name;
-    }
-
-    public void setWishList(WishList wishList) {
-        this.wishlistId = wishList;
     }
 
     public void setName(String name) {
@@ -60,14 +52,6 @@ public class Item {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public String getLink() {
         return link;
     }
@@ -76,27 +60,12 @@ public class Item {
         this.link = link;
     }
 
-    public boolean getReserved() {
+    public boolean isReserved() {
         return reserved;
     }
 
     public void setReserved(boolean reserved) {
         this.reserved = reserved;
-    }
-
-
-
-    @Override
-    public String toString(){
-        return "User{" +
-                "itemId=" + itemId +
-                ", wishListId='" + wishlistId + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price='" + price + '\'' +
-                ", quantity='" + quantity + '\'' +
-                ", link='" + link + '\'' +
-                '}';
     }
 
 }

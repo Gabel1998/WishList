@@ -1,4 +1,4 @@
-package com.example.wishlist.DTO;
+package com.example.wishlist.dto;
 
 import java.util.List;
 

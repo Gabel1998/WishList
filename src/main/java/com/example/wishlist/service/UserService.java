@@ -1,10 +1,10 @@
-package com.example.wishlist.Service;
+package com.example.wishlist.service;
 
 
-import com.example.wishlist.DTO.LoginDTO;
-import com.example.wishlist.DTO.UserDTO;
-import com.example.wishlist.Model.User;
-import com.example.wishlist.Repository.UserRepository;
+import com.example.wishlist.dto.LoginDTO;
+import com.example.wishlist.dto.UserDTO;
+import com.example.wishlist.model.User;
+import com.example.wishlist.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.example.wishlist.Model;
+package com.example.wishlist.model;
 //user model afspejler user databasen
 public class User {
     private int userId;
@@ -21,6 +21,9 @@ public class User {
         return userId;
     }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public String getName() {
         return name;

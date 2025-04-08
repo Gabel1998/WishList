@@ -1,8 +1,9 @@
-package com.example.wishlist.Rowmappers;
+package com.example.wishlist.rowmappers;
 
-import com.example.wishlist.Model.User;
-import com.example.wishlist.Model.WishList;
+import com.example.wishlist.model.User;
+import com.example.wishlist.model.WishList;
 import org.springframework.jdbc.core.RowMapper;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -11,11 +12,12 @@ public class WishListRowMapper implements RowMapper<WishList> {
     public WishList mapRow(ResultSet rs, int rowNum) throws SQLException {
         WishList wishList = new WishList();
         wishList.setWishListId(rs.getInt("wishlist_id"));
-        wishList.setName(rs.getString("name")); // eller "name" hvis feltet hedder det
+        // Kortlægger ønskeseddelens navn fra kolonnen "title"
+        wishList.setName(rs.getString("title"));
 
-        // Brugeren mappes via e-mail
         User user = new User();
-        user.setName(rs.getString("name"));
+        // Henter brugerens navn fra aliaset "user_name"
+        user.setName(rs.getString("user_name"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
 
@@ -23,4 +25,3 @@ public class WishListRowMapper implements RowMapper<WishList> {
         return wishList;
     }
 }
-

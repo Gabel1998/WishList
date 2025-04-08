@@ -1,15 +1,15 @@
 /// ============================================
 /// =   JDBC-metoder til håndtering af items   =
 /// ============================================
-package com.example.wishlist.Service;
+package com.example.wishlist.service;
 
-import com.example.wishlist.DTO.ItemDTO;
-import com.example.wishlist.DTO.WishListDTO;
-import com.example.wishlist.Model.Item;
-import com.example.wishlist.Model.SharedItem;
-import com.example.wishlist.Model.WishList;
-import com.example.wishlist.Repository.SharedItemRepository;
-import com.example.wishlist.Repository.WishListRepository;
+import com.example.wishlist.dto.ItemDTO;
+import com.example.wishlist.dto.WishListDTO;
+import com.example.wishlist.model.Item;
+import com.example.wishlist.model.SharedItem;
+import com.example.wishlist.model.WishList;
+import com.example.wishlist.repository.SharedItemRepository;
+import com.example.wishlist.repository.WishListRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class WishListService {
         item.setName(itemDTO.getName());
         item.setDescription(itemDTO.getDescription());
         item.setPrice(itemDTO.getPrice());
-        item.setLink(itemDTO.getLink());
+        item.setUrl(itemDTO.getLink());
 
         wishListRepository.insertItem(item);
     }
@@ -46,18 +46,17 @@ public class WishListService {
     public void updateItem(int itemId, ItemDTO itemDTO) {
         Item item = wishListRepository.findItemById(itemId);
 
-        if(item != null) {
+        if (item != null) {
             item.setName(itemDTO.getName());
             item.setDescription(itemDTO.getDescription());
             item.setPrice(itemDTO.getPrice());
-            item.setLink(itemDTO.getLink());
+            item.setUrl(itemDTO.getLink());
+            item.setReserved(itemDTO.isReserved());
 
-            //gem det updatede ønske ind i databasen igen
             wishListRepository.updateItem(item);
         } else {
             throw new RuntimeException("Ønske med ID " + itemId + " findes ikke.");
         }
-
     }
 
     public void deleteItem(int itemId) {
@@ -81,7 +80,7 @@ public class WishListService {
         }
     }
 
-    // Tilføjet metode for at hente alle ønskesedler for én bruger
+    // 🆕 Tilføjet metode for at hente alle ønskesedler for én bruger
     public List<WishListDTO> getAllWishListsByUser(int userId) {
         List<WishList> wishLists = wishListRepository.findWishListsByUserId(userId);
         List<WishListDTO> dtos = new ArrayList<>();
@@ -143,7 +142,7 @@ public class WishListService {
             dto.setName(item.getName());
             dto.setDescription(item.getDescription());
             dto.setPrice(item.getPrice());
-            dto.setLink(item.getLink());
+            dto.setLink(item.getUrl());
             dto.setReserved(item.getReserved());
             itemDTOs.add(dto);
         }
