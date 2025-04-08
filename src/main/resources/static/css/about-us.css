@@ -39,17 +39,18 @@
 .about-column {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    flex: 1 1 22%; /* align columns */
+    align-items: stretch; /* Change from flex-start to stretch */
+    flex: 1 1 22%;
     min-width: 270px;
     max-width: 320px;
+    height: 100%;
 }
 
 .about-card {
     display: flex;
     flex-direction: column;
     position: relative;
-    padding-bottom: 70px;
+    padding-bottom: 80px;
     padding-top: 20px;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 16px;
@@ -78,9 +79,31 @@
     margin-bottom: 10px;
 }
 
+.info-label {
+    display: inline-block;
+    width: 100px;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 10px; /* Add padding to create space between label and value */
+}
+
+.about-infobox {
+    text-align: left;
+    width: 100%;
+}
+
+.about-infobox p {
+    margin: 5px 0;
+    text-align: left;
+}
+
+.about-infobox p:first-child {
+    text-align: left;
+}
+
 .about-content {
     text-align: center;
-    padding: 1rem;
+    padding: 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -93,6 +116,14 @@
     line-height: 1.6;
 }
 
+.email-text {
+    text-align: right;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding: 5px;
+    color: var(--primary-color);
+}
+
 .about-button {
     padding: 0.5rem 1rem;
     background-color: var(--primary-color);
@@ -101,7 +132,7 @@
     border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 1rem;
+    margin-top: 10px;
     width: fit-content;
     margin-left: auto;
     margin-right: auto; /* Center knap */
