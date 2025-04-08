@@ -8,9 +8,9 @@
   <link rel="stylesheet" th:href="@{/css/about-us.css}">
 </head>
 <body>
-<header>
-  <div th:replace="~{header}"></div>
-</header>
+
+  <div th:replace="~{header :: header}"></div>
+
 
 <main>
   <section class="about-description">
@@ -86,10 +86,10 @@
   </section>
 </main>
 
-<footer>
+
   <!-- ======== FOOTER ======== -->
-  <div th:replace="~{footer}"></div>
+  <div th:replace="~{footer :: footer}"></div>
   <script th:src="@{/js/burgermenu.js}"></script>
-</footer>
+
 </body>
 </html>

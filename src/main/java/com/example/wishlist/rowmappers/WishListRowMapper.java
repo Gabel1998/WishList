@@ -13,7 +13,7 @@ public class WishListRowMapper implements RowMapper<WishList> {
         WishList wishList = new WishList();
         wishList.setWishListId(rs.getInt("wishlist_id"));
         // Kortlægger ønskeseddelens navn fra kolonnen "title"
-        wishList.setName(rs.getString("title"));
+        wishList.setName(rs.getString("name"));
 
         User user = new User();
         // Henter brugerens navn fra aliaset "user_name"

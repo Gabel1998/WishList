@@ -10,7 +10,7 @@
 <body>
 
 <!-- ======== HEADER TEMPLATE ======== -->
-<div th:replace="~{header}"></div>
+<div th:replace="~{header :: header}"></div>
 <div class="content-wrapper">
   <div class="wishlist-overview-container">
     <h2>Dine ønskesedler</h2>
@@ -34,7 +34,7 @@
 </div>
 
 <!-- ======== FOOTER TEMPLATE ======== -->
-<div th:replace="~{footer}"></div>
+<div th:replace="~{footer :: footer}"></div>
 
 </body>
 </html>
