@@ -89,9 +89,20 @@ public class WishListController {
 
     // Tilføj produkt
     @PostMapping("/wishlist/{id}/item")
-    public ResponseEntity<String> addItem(@PathVariable("id") int wishlistId, @RequestBody ItemDTO itemDTO) {
+    public String addItem(@PathVariable("id") int wishlistId,
+                          @RequestParam("name") String name,
+                          @RequestParam("description") String description,
+                          @RequestParam("price") Double price,
+                          @RequestParam(value = "link", required = false) String link) {
+
+        ItemDTO itemDTO = new ItemDTO();
+        itemDTO.setName(name);
+        itemDTO.setDescription(description);
+        itemDTO.setPrice(price);
+        itemDTO.setLink(link);
+
         wishListService.addItemToWishList(wishlistId, itemDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Ønske tilføjet");
+        return "redirect:/wishlist/" + wishlistId;
     }
 
     @PutMapping("/wishlist/item/{id}")

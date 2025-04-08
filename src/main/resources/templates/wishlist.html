@@ -3,68 +3,104 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <title th:text="${wishlist.name}">Ønskeseddel</title> <!-- Opdateret fra <name> -->
+    <title th:text="${wishlist.name}">Ønskeseddel</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/test/wishlist.css}">
+    <link rel="stylesheet" th:href="@{/css/wishlist.css}">
 </head>
 
 <body>
+<!-- Header template -->
+<div th:replace="~{header :: header}"></div>
 
-<!-- ======== HEADER TEMPLATE ======== -->
-<div th:replace="~{header}"></div>
+<div class="content-wrapper">
+    <div class="wishlist-container">
+        <h2 th:text="${wishlist.name}">Min ønskeseddel</h2>
 
-<div class="page-container">
-    <h2 th:text="${wishlist.name}">Min ønskeseddel</h2>
+        <div class="action-buttons">
+            <button onclick="openPopup()" class="button add-item-btn">+ Tilføj ønske</button>
+            <a href="/wishlists" class="back-link">Tilbage til oversigten</a>
+        </div>
 
-    <!-- ======== POP-UP (trigger) ======== -->
-    <div class="product-box">
-        <button onclick="openPopup()">+</button>
+        <!-- Items container -->
+        <div class="items-container">
+            <div th:if="${#lists.isEmpty(wishlist.items)}" class="empty-state">
+                <p>Du har endnu ikke tilføjet nogen ønsker til denne liste.</p>
+            </div>
+
+            <div th:each="item : ${wishlist.items}" class="item-card">
+                <div class="item-card-overlay">
+                    <h3 th:text="${item.name}">Produktnavn</h3>
+                    <p class="item-price" th:text="${item.price + ' kr.'}">199 kr.</p>
+                    <p class="item-description" th:text="${item.description}">Beskrivelse af produktet</p>
+                    <div class="item-actions">
+                        <button class="button delete-btn" th:onclick="'deleteItem(' + ${item.itemId} + ')'">Slet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-    <!-- ======== POP-UP (tilføj produkt) ======== -->
-    <div id="add-item-popup" class="popup">
-        <div class="popup-content">
-            <span class="close" onclick="closePopup()">&times;</span>
-            <h2>Tilføj produkt</h2>
-            <form th:action="@{'/wishlist/' + ${wishlist.wishListId} + '/item'}" method="post">
+<!-- Add item popup -->
+<div id="add-item-popup">
+    <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2>Tilføj nyt ønske</h2>
+        <form id="add-item-form" th:action="@{'/wishlist/' + ${wishlist.wishListId} + '/item'}" method="post">
+            <div>
                 <label for="name">Produktnavn</label>
                 <input type="text" id="name" name="name" required>
-
+            </div>
+            <div>
                 <label for="description">Beskrivelse</label>
                 <input type="text" id="description" name="description">
-
+            </div>
+            <div>
                 <label for="price">Pris</label>
                 <input type="number" id="price" name="price" step="0.01" required>
-
+            </div>
+            <div>
                 <label for="link">Link</label>
                 <input type="url" id="link" name="link">
-
-                <button type="submit">Tilføj produkt</button>
-            </form>
-        </div>
+            </div>
+            <button type="submit">Tilføj ønske</button>
+        </form>
     </div>
-
-    <!-- ======== ØNSKELISTE ITEMS ======== -->
-    <div class="items-container">
-        <div th:each="item : ${wishlist.items}">
-            <div th:replace="~{item :: productItem(item=${item}, wishlistId=${wishlist.wishListId})}"></div>
-        </div>
-    </div>
-
 </div>
+
+<!-- Footer template -->
+<div th:replace="~{footer :: footer}"></div>
 
 <script>
     function openPopup() {
-        document.getElementById("add-item-popup").style.display = "block";
+        document.getElementById("add-item-popup").classList.add("show");
     }
 
     function closePopup() {
-        document.getElementById("add-item-popup").style.display = "none";
+        document.getElementById("add-item-popup").classList.remove("show");
     }
-</script>
 
-<!-- ======== FOOTER ======== -->
-<div th:replace="~{footer}"></div>
+    // Slet produkt funktion
+    function deleteItem(itemId) {
+        fetch(`/wishlist/item/${itemId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    console.error('Error deleting item');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+</script>
 
 </body>
 </html>
