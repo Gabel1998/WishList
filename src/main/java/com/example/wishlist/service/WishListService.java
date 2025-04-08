@@ -32,16 +32,17 @@ public class WishListService {
 
 
     public void addItemToWishList(int wishlistId, ItemDTO itemDTO) {
-        WishList wishList = wishListRepository.findWishListById(wishlistId);
         Item item = new Item();
-        item.setWishList(wishList);
         item.setName(itemDTO.getName());
         item.setDescription(itemDTO.getDescription());
         item.setPrice(itemDTO.getPrice());
-        item.setUrl(itemDTO.getLink());
+        item.setUrl(itemDTO.getUrl());
+        item.setReserved(false); // nyt produkt er altid ikke-reserveret
+        item.setWishList(new WishList(wishlistId)); // relation til ønskeseddel
 
         wishListRepository.insertItem(item);
     }
+
 
     public void updateItem(int itemId, ItemDTO itemDTO) {
         Item item = wishListRepository.findItemById(itemId);
@@ -50,7 +51,7 @@ public class WishListService {
             item.setName(itemDTO.getName());
             item.setDescription(itemDTO.getDescription());
             item.setPrice(itemDTO.getPrice());
-            item.setUrl(itemDTO.getLink());
+            item.setUrl(itemDTO.getUrl());
             item.setReserved(itemDTO.isReserved());
 
             wishListRepository.updateItem(item);
@@ -62,7 +63,7 @@ public class WishListService {
     public void deleteItem(int itemId) {
         Item item = wishListRepository.findItemById(itemId);
 
-        if(item != null) {
+        if (item != null) {
             wishListRepository.deleteItem(itemId);
         } else {
             throw new RuntimeException("Ønske med ID " + itemId + " findes ikke.");
@@ -72,7 +73,7 @@ public class WishListService {
     public void reserveItem(int reservationId, int rsvItemsId) {
         Item item = wishListRepository.findItemById(rsvItemsId);
 
-        if(item != null) {
+        if (item != null) {
             item.setReserved(true);
             wishListRepository.updateItem(item);
         } else {
@@ -80,7 +81,7 @@ public class WishListService {
         }
     }
 
-    // 🆕 Tilføjet metode for at hente alle ønskesedler for én bruger
+    // Tilføjet metode for at hente alle ønskesedler for én bruger
     public List<WishListDTO> getAllWishListsByUser(int userId) {
         List<WishList> wishLists = wishListRepository.findWishListsByUserId(userId);
         List<WishListDTO> dtos = new ArrayList<>();
@@ -142,7 +143,7 @@ public class WishListService {
             dto.setName(item.getName());
             dto.setDescription(item.getDescription());
             dto.setPrice(item.getPrice());
-            dto.setLink(item.getUrl());
+            dto.setUrl(item.getUrl());
             dto.setReserved(item.getReserved());
             itemDTOs.add(dto);
         }
@@ -177,8 +178,23 @@ public class WishListService {
         return wishListRepository.insertWishListAndReturnId(wishList, email);
     }
 
+    public ItemDTO getItemById(int itemId) {
+        Item item = wishListRepository.findItemById(itemId);
 
+        if (item == null) {
+            throw new RuntimeException("Ønske med ID " + itemId + " ikke fundet.");
+        }
 
+        ItemDTO dto = new ItemDTO();
+        dto.setItemId(item.getItemId());
+        dto.setName(item.getName());
+        dto.setDescription(item.getDescription());
+        dto.setPrice(item.getPrice());
+        dto.setUrl(item.getUrl());
+        dto.setReserved(item.getReserved());
+        dto.setWishlistId((long) item.getWishlistId().getWishListId());
+        return dto;
+    }
 }
 
 

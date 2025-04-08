@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rediger Ønske</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/test/edit-item.css}">
+</head>
+
+<body>
+
+<!-- ======== HEADER ======== -->
+<div th:replace="~{header}"></div>
+
+<div class="page-container">
+    <h2>Rediger Ønske</h2>
+
+    <form th:action="@{'/wishlist/item/' + ${item.itemId}}" th:object="${item}" method="post">
+        <input type="hidden" name="wishlistId" th:value="*{wishlistId}" />
+
+        <label for="name">Navn på produkt</label>
+        <input type="text" id="name" name="name" th:value="*{name}" required>
+
+        <label for="description">Beskrivelse</label>
+        <textarea id="description" name="description" rows="4" th:text="*{description}"></textarea>
+
+        <label for="price">Pris</label>
+        <input type="number" id="price" name="price" step="0.01" th:value="*{price}" required>
+
+        <label for="url">Link til produkt</label>
+        <input type="url" id="url" name="url" th:value="*{url}">
+
+        <div class="form-actions">
+            <button type="submit">Gem ændringer</button>
+            <a href="#" onclick="history.back(); return false;" class="button-secondary">Annuller</a>
+        </div>
+    </form>
+</div>
+
+<!-- ======== FOOTER ======== -->
+<div th:replace="~{footer}"></div>
+
+</body>
+</html>

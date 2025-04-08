@@ -47,7 +47,7 @@ public class WishListServiceIntegrationTest {
         item.setDescription("Test beskrivelse");
         item.setPrice(99.99);
         // Sørg for at din mapper omdøber 'link' til 'url' ved indsættelse.
-        item.setLink("http://gave.dk");
+        item.setUrl("http://gave.dk");
 
         service.addItemToWishList(1000, item);
         WishListDTO dto = service.getWishListById(1000);
@@ -61,7 +61,7 @@ public class WishListServiceIntegrationTest {
         update.setName("Opdateret Navn");
         update.setDescription("Opdateret beskrivelse");
         update.setPrice(123.45);
-        update.setLink("http://nygave.dk");
+        update.setUrl("http://nygave.dk");
 
         service.updateItem(10000, update);
         WishListDTO dto = service.getWishListById(1000);
