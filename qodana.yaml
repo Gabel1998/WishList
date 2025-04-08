@@ -4,7 +4,7 @@ profile:
   name: qodana.recommended
 include:
   - name: CheckDependencyLicenses
-linter:
-  rules:
-    - id: SpringMVCViewInspection
-      enabled: false
+    path: .
+rules:
+  - id: SpringMVCViewInspection
+    enabled: false
