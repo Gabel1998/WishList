@@ -1,3 +1,4 @@
+<!-- item.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
@@ -5,30 +6,29 @@
     <meta charset="UTF-8">
     <title>Ønske Detaljer</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/}">
+    <link rel="stylesheet" th:href="@{/css/wishlist.css}">
 </head>
 <body>
-<div th:replace="~{header}"></div>
 
 <!-- ======== ITEM FRAGMENT ======== -->
 <div th:fragment="productItem(item, wishlistId)">
+    <div class="wishlist-card item-card">
+        <div class="wishlist-card-overlay">
+            <h3 th:text="${item.name}">Produktnavn</h3>
+            <p th:text="${item.description}">Beskrivelse</p>
+            <p th:text="'Pris: ' + ${item.price} + ' kr.'">Pris</p>
 
-    <!-- Det visuelle kort -->
-    <div class="item-card">
-        <h2 th:text="${item.name}">Produktnavn</h2>
-        <p th:text="${item.description}">Beskrivelse</p>
-        <p th:text="'Pris: ' + ${item.price} + ' kr.'"></p>
-        <a th:href="${item.url}" target="_blank">Se produkt</a>
-        <a th:href="@{'/wishlist/item/' + ${item.itemId} + '/edit'}">Rediger</a>
-        <form th:action="@{'/wishlist/item/' + ${item.itemId}}" method="post">
-            <input type="hidden" name="_method" value="delete" />
-            <button type="submit">Slet</button>
-        </form>
-
+            <div class="item-buttons">
+                <a class="button" th:href="${item.url}" target="_blank">Se produkt</a>
+                <a class="button" th:href="@{'/wishlist/' + ${wishlistId} + '/item/' + ${item.itemId} + '/edit'}">Rediger</a>
+                <form th:action="@{'/wishlist/' + ${wishlistId} + '/item/' + ${item.itemId}}" method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button class="button delete-button" type="submit">Slet</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
-
-<div th:replace="~{footer}"></div>
 </body>
 </html>
