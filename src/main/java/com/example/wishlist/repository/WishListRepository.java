@@ -200,4 +200,26 @@ public class WishListRepository {
         }
     }
 
+    public String insertSharedWishlistAndReturnToken(long originalWishlistId) {
+        String sql = """
+        INSERT INTO shared_wishlists (original_wishlist_id, share_token)
+        VALUES (?, UUID())
+    """;
+        jdbcTemplate.update(sql, originalWishlistId);
+        return findLatestShareTokenForWishlist((int) originalWishlistId);
+    }
+
+    public String findLatestShareTokenForWishlist(int wishlistId) {
+        String sql = """
+        SELECT share_token
+        FROM shared_wishlists
+        WHERE original_wishlist_id = ?
+        ORDER BY created_at DESC
+        LIMIT 1
+    """;
+        List<String> result = jdbcTemplate.queryForList(sql, String.class, wishlistId);
+        return result.isEmpty() ? null : result.get(0);
+    }
+
+
 }

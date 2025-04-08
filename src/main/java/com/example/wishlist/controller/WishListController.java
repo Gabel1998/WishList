@@ -72,15 +72,23 @@ public class WishListController {
 
     // Vis én ønskeseddel med alle tilknyttede produkter
     @GetMapping("/wishlist/{id}")
-    public String showSingleWishlist(@PathVariable("id") int wishlistId, Model model) {
+    public String showSingleWishlist(@PathVariable("id") int wishlistId, Model model)
+    {
         WishListDTO wishlist = wishListService.getWishListById(wishlistId);
         if (wishlist == null) {
             return "error";
+        }
+        // 🟢 Find token i shared_wishlists
+        String shareToken = wishListService.getLatestShareTokenForWishlist(wishlistId);
+        if (shareToken != null) {
+            wishlist.setShareToken(shareToken);
         }
 
         model.addAttribute("wishlist", wishlist);
         return "wishlist";
     }
+
+
 
     // Tilføj produkt
     @PostMapping("/wishlist/{id}/item")
@@ -128,16 +136,22 @@ public class WishListController {
 
         model.addAttribute("items", items);
         model.addAttribute("shareToken", share_token);
+
+        // 🛠 Tilføj denne linje:
+        WishList wishlist = wishListService.findByShareToken(share_token);
+        model.addAttribute("wishlist", wishlist);
+
         return "wishlist-readonly";
     }
 
+
     // Share ønskeseddel
     @PostMapping("/wishlist/{id}/share")
-    public String shareWishlist(@PathVariable("id") int wishlistId, RedirectAttributes redirectAttributes) {
-        String token = wishListService.shareWishlist(wishlistId);
-        redirectAttributes.addFlashAttribute("shareLink", "/view/" + token);
+    public String shareWishlist(@PathVariable("id") int wishlistId) {
+        wishListService.shareWishlist(wishlistId);
         return "redirect:/wishlist/" + wishlistId;
     }
+
 
     // Reserve via readonly-view
     @PostMapping("/reserve")
