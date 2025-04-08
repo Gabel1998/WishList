@@ -50,14 +50,14 @@ public class WishListController {
     }
 
     // Formular til at oprette ønskeseddel
-    @GetMapping("/wishlist-form")
+    @GetMapping("/Wishlist-form")
     public String showWishListForm(Model model) {
         model.addAttribute("wishlist", new WishList());
-        return "wishlist-form";
+        return "Wishlist-form";
     }
 
     // Behandler oprettelse og redirecter til /wishlist/{id}
-    @PostMapping("/wishlist-form")
+    @PostMapping("/Wishlist-form")
     public String handleWishListForm(@ModelAttribute WishList wishList, HttpSession session) {
         String email = (String) session.getAttribute("user");
 
@@ -76,9 +76,10 @@ public class WishListController {
     {
         WishListDTO wishlist = wishListService.getWishListById(wishlistId);
         if (wishlist == null) {
+            //noinspection SpringMVCViewInspection
             return "error";
         }
-        // 🟢 Find token i shared_wishlists
+
         String shareToken = wishListService.getLatestShareTokenForWishlist(wishlistId);
         if (shareToken != null) {
             wishlist.setShareToken(shareToken);
@@ -131,6 +132,7 @@ public class WishListController {
 
         if (items == null || items.isEmpty()) {
             model.addAttribute("error", "Ønskeseddel ikke fundet eller er tom");
+            //noinspection SpringMVCViewInspection
             return "error";
         }
 
@@ -141,6 +143,7 @@ public class WishListController {
         WishList wishlist = wishListService.findByShareToken(share_token);
         model.addAttribute("wishlist", wishlist);
 
+        //noinspection SpringMVCViewInspection
         return "wishlist-readonly";
     }
 
@@ -172,6 +175,7 @@ public class WishListController {
     public String showEditForm(@PathVariable("id") int itemId, Model model) {
         ItemDTO item = wishListService.getItemById(itemId); // Du skal have denne metode i service
         model.addAttribute("item", item);
+        //noinspection SpringMVCViewInspection
         return "edit-item";
     }
 

@@ -5,6 +5,8 @@ import com.example.wishlist.model.Item;
 import com.example.wishlist.model.WishList;
 import com.example.wishlist.rowmappers.ItemRowMapper;
 import com.example.wishlist.rowmappers.WishListRowMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -18,7 +20,7 @@ import java.util.List;
 public class WishListRepository {
 
     private final JdbcTemplate jdbcTemplate;
-
+    private static final Logger logger = LoggerFactory.getLogger(WishListRepository.class);
     public WishListRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -34,14 +36,14 @@ public class WishListRepository {
         jdbcTemplate.update(sql, itemId);
     }
 
-    public WishList findWishListById(int wishlistId) {
+    public WishList findWishListById(int wishListId) {
         String sql = """
         SELECT w.wishlist_id, w.wl_user_id, w.title, w.share_token, u.email, u.password, u.name AS user_name
         FROM tb_wishlists w
         JOIN tb_users u ON w.wl_user_id = u.user_id
         WHERE w.wishlist_id = ?
     """;
-        return jdbcTemplate.queryForObject(sql, new Object[]{wishlistId}, new WishListRowMapper());
+        return jdbcTemplate.queryForObject(sql, new WishListRowMapper(), wishListId);
     }
 
     public Item findItemById(int itemId) {
@@ -195,7 +197,7 @@ public class WishListRepository {
             }
             return keyHolder.getKey().intValue();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Fejl ved oprettelse af ønskeseddel", e);
             throw new RuntimeException("Kunne ikke oprette ønskeseddel", e);
         }
     }
