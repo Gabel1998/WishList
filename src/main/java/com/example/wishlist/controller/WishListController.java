@@ -1,11 +1,11 @@
-package com.example.wishlist.Controller;
+package com.example.wishlist.controller;
 
-import com.example.wishlist.DTO.ItemDTO;
-import com.example.wishlist.DTO.WishListDTO;
-import com.example.wishlist.Model.SharedItem;
-import com.example.wishlist.Model.WishList;
-import com.example.wishlist.Repository.WishListRepository;
-import com.example.wishlist.Service.WishListService;
+import com.example.wishlist.dto.ItemDTO;
+import com.example.wishlist.dto.WishListDTO;
+import com.example.wishlist.model.SharedItem;
+import com.example.wishlist.model.WishList;
+import com.example.wishlist.repository.WishListRepository;
+import com.example.wishlist.service.WishListService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

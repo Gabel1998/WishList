@@ -2,10 +2,10 @@
 /// =      håndterer HTML-registrering       =
 /// =   viser formular og viser feedback     =
 /// ==========================================
-package com.example.wishlist.Controller;
+package com.example.wishlist.controller;
 
-import com.example.wishlist.DTO.UserDTO;
-import com.example.wishlist.Service.UserService;
+import com.example.wishlist.dto.UserDTO;
+import com.example.wishlist.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,9 +1,9 @@
 package com.example.wishlist;
 
-import com.example.wishlist.Controller.UserController;
-import com.example.wishlist.DTO.UserDTO;
-import com.example.wishlist.Repository.UserRepository;
-import com.example.wishlist.Service.UserService;
+import com.example.wishlist.controller.UserController;
+import com.example.wishlist.dto.UserDTO;
+import com.example.wishlist.repository.UserRepository;
+import com.example.wishlist.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

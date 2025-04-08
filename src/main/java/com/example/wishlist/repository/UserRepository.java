@@ -1,7 +1,7 @@
-package com.example.wishlist.Repository;
+package com.example.wishlist.repository;
 
-import com.example.wishlist.DTO.UserDTO;
-import com.example.wishlist.Model.User;
+import com.example.wishlist.dto.UserDTO;
+import com.example.wishlist.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

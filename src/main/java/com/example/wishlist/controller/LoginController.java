@@ -1,6 +1,6 @@
-package com.example.wishlist.Controller;
+package com.example.wishlist.controller;
 
-import com.example.wishlist.Service.UserService;
+import com.example.wishlist.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,7 @@
-package com.example.wishlist.Controller;
+package com.example.wishlist.controller;
 
-import com.example.wishlist.DTO.LoginDTO;
-import com.example.wishlist.Service.UserService;
+import com.example.wishlist.dto.LoginDTO;
+import com.example.wishlist.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

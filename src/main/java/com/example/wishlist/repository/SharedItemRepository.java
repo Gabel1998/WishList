@@ -1,7 +1,7 @@
-package com.example.wishlist.Repository;
+package com.example.wishlist.repository;
 
-import com.example.wishlist.Model.SharedItem;
-import com.example.wishlist.Rowmappers.SharedItemRowMapper;
+import com.example.wishlist.model.SharedItem;
+import com.example.wishlist.rowmappers.SharedItemRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

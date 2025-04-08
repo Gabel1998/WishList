@@ -1,10 +1,10 @@
-package com.example.wishlist.Repository;
+package com.example.wishlist.repository;
 
-import com.example.wishlist.DTO.WishListDTO;
-import com.example.wishlist.Model.Item;
-import com.example.wishlist.Model.WishList;
-import com.example.wishlist.Rowmappers.ItemRowMapper;
-import com.example.wishlist.Rowmappers.WishListRowMapper;
+import com.example.wishlist.dto.WishListDTO;
+import com.example.wishlist.model.Item;
+import com.example.wishlist.model.WishList;
+import com.example.wishlist.rowmappers.ItemRowMapper;
+import com.example.wishlist.rowmappers.WishListRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
