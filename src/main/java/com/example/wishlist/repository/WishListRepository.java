@@ -36,7 +36,7 @@ public class WishListRepository {
 
     public WishList findWishListById(int wishlistId) {
         String sql = """
-        SELECT w.wishlist_id, w.wl_user_id, w.title, w.share_token, u.email, u.password, u.name AS user_name
+        SELECT w.wishlist_id, w.wl_user_id, w.name, w.share_token, u.email, u.password, u.name AS user_name
         FROM tb_wishlists w
         JOIN tb_users u ON w.wl_user_id = u.user_id
         WHERE w.wishlist_id = ?
@@ -146,11 +146,11 @@ public class WishListRepository {
 
     public List<WishList> findWishListsByUserEmail(String email) {
         String sql = """
-            SELECT w.wishlist_id, w.wl_user_id, w.title, w.share_token, u.email, u.password, u.name AS user_name
-            FROM tb_wishlists w
-            JOIN tb_users u ON w.wl_user_id = u.user_id
-            WHERE u.email = ?
-        """;
+        SELECT w.wishlist_id, w.wl_user_id, w.name, w.share_token, u.email, u.password, u.name AS user_name
+        FROM tb_wishlists w
+        JOIN tb_users u ON w.wl_user_id = u.user_id
+        WHERE u.email = ?
+    """;
         return jdbcTemplate.query(sql, new WishListRowMapper(), email);
     }
 

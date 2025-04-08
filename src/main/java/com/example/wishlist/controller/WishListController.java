@@ -35,7 +35,7 @@ public class WishListController {
         return "index";
     }
 
-    // Oversigt over ønskesedler
+     //Oversigt over ønskesedler
     @GetMapping("/wishlists")
     public String showWishListOverview(Model model, HttpSession session) {
         String email = (String) session.getAttribute("user");
