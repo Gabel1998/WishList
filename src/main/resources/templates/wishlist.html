@@ -3,68 +3,75 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <title th:text="${wishlist.name}">Ønskeseddel</title> <!-- Opdateret fra <name> -->
+    <title th:text="${wishlist.name}">Ønskeseddel</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/test/wishlist.css}">
+    <link rel="stylesheet" th:href="@{/css/wishlist.css}">
 </head>
-
 <body>
 
-<!-- ======== HEADER TEMPLATE ======== -->
-<div th:replace="~{header}"></div>
+<div th:replace="~{header :: header}"></div>
 
-<div class="page-container">
-    <h2 th:text="${wishlist.name}">Min ønskeseddel</h2>
+<div class="content-wrapper">
+    <div class="wishlist-overview-container">
+        <h2 th:text="${wishlist.name}">Min ønskeseddel</h2>
 
-    <!-- ======== POP-UP (trigger) ======== -->
-    <div class="product-box">
-        <button onclick="openPopup()">+</button>
-    </div>
+        <!-- POP-UP TRIGGER -->
+        <div class="product-box">
+            <button class="button" onclick="openPopup()">+ Tilføj produkt</button>
+        </div>
 
-    <!-- ======== POP-UP (tilføj produkt) ======== -->
-    <div id="add-item-popup" class="popup">
-        <div class="popup-content">
-            <span class="close" onclick="closePopup()">&times;</span>
-            <h2>Tilføj produkt</h2>
-            <form th:action="@{'/wishlist/' + ${wishlist.wishListId} + '/item'}" method="post">
-                <label for="name">Produktnavn</label>
-                <input type="text" id="name" name="name" required>
+        <!-- POP-UP OVERLAY -->
+        <div id="popup-overlay" class="popup-overlay" onclick="closePopup()"></div>
 
-                <label for="description">Beskrivelse</label>
-                <input type="text" id="description" name="description">
+        <!-- POP-UP FORM -->
+        <div id="add-item-popup" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closePopup()">&times;</span>
+                <h2>Tilføj produkt</h2>
+                <form th:action="@{'/wishlist/' + ${wishlist.wishListId} + '/item'}" method="post">
+                    <label for="name">Produktnavn</label>
+                    <input type="text" id="name" name="name" required>
 
-                <label for="price">Pris</label>
-                <input type="number" id="price" name="price" step="0.01" required>
+                    <label for="description">Beskrivelse</label>
+                    <input type="text" id="description" name="description">
 
-                <label for="url">Link</label>
-                <input type="url" id="url" name="url">
+                    <label for="price">Pris</label>
+                    <input type="number" id="price" name="price" step="0.01" required>
 
-                <button type="submit">Tilføj produkt</button>
-            </form>
+                    <label for="url">Link</label>
+                    <input type="url" id="url" name="url">
+
+                    <button class="button" type="submit">Tilføj</button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- ITEMS -->
+        <div class="items-container">
+            <div th:each="item : ${wishlist.items}">
+                <div th:replace="~{item :: productItem(item=${item}, wishlistId=${wishlist.wishListId})}"></div>
+            </div>
         </div>
     </div>
-
-    <!-- ======== ØNSKELISTE ITEMS ======== -->
-    <div class="items-container">
-        <div th:each="item : ${wishlist.items}">
-            <div th:replace="~{item :: productItem(item=${item}, wishlistId=${wishlist.wishListId})}"></div>
-        </div>
-    </div>
-
 </div>
+
+<div th:replace="~{footer :: footer}"></div>
 
 <script>
     function openPopup() {
-        document.getElementById("add-item-popup").style.display = "block";
+        document.getElementById("add-item-popup").classList.add("show");
+        document.getElementById("popup-overlay").classList.add("show");
     }
 
     function closePopup() {
-        document.getElementById("add-item-popup").style.display = "none";
+        document.getElementById("add-item-popup").classList.remove("show");
+        document.getElementById("popup-overlay").classList.remove("show");
     }
 </script>
 
-<!-- ======== FOOTER ======== -->
-<div th:replace="~{footer}"></div>
+
+
 
 </body>
 </html>
