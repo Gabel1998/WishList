@@ -32,6 +32,7 @@ public class WishListController {
     // Forside
     @GetMapping
     public String index() {
+        //noinspection SpringMVCViewInspection
         return "index";
     }
 
@@ -46,18 +47,20 @@ public class WishListController {
 
         List<WishListDTO> wishLists = wishListService.getAllWishListsByUserEmail(email);
         model.addAttribute("wishlists", wishLists);
+        //noinspection SpringMVCViewInspection
         return "wishlist-overview";
     }
 
     // Formular til at oprette ønskeseddel
-    @GetMapping("/wishlist-form")
+    @GetMapping("/Wishlist-form")
     public String showWishListForm(Model model) {
         model.addAttribute("wishlist", new WishList());
-        return "wishlist-form";
+        //noinspection SpringMVCViewInspection
+        return "Wishlist-form";
     }
 
     // Behandler oprettelse og redirecter til /wishlist/{id}
-    @PostMapping("/wishlist-form")
+    @PostMapping("/Wishlist-form")
     public String handleWishListForm(@ModelAttribute WishList wishList, HttpSession session) {
         String email = (String) session.getAttribute("user");
 
@@ -76,15 +79,17 @@ public class WishListController {
     {
         WishListDTO wishlist = wishListService.getWishListById(wishlistId);
         if (wishlist == null) {
+            //noinspection SpringMVCViewInspection
             return "error";
         }
-        // 🟢 Find token i shared_wishlists
+
         String shareToken = wishListService.getLatestShareTokenForWishlist(wishlistId);
         if (shareToken != null) {
             wishlist.setShareToken(shareToken);
         }
 
         model.addAttribute("wishlist", wishlist);
+        //noinspection SpringMVCViewInspection
         return "wishlist";
     }
 
@@ -131,6 +136,7 @@ public class WishListController {
 
         if (items == null || items.isEmpty()) {
             model.addAttribute("error", "Ønskeseddel ikke fundet eller er tom");
+            //noinspection SpringMVCViewInspection
             return "error";
         }
 
@@ -141,6 +147,7 @@ public class WishListController {
         WishList wishlist = wishListService.findByShareToken(share_token);
         model.addAttribute("wishlist", wishlist);
 
+        //noinspection SpringMVCViewInspection
         return "wishlist-readonly";
     }
 
@@ -172,6 +179,7 @@ public class WishListController {
     public String showEditForm(@PathVariable("id") int itemId, Model model) {
         ItemDTO item = wishListService.getItemById(itemId); // Du skal have denne metode i service
         model.addAttribute("item", item);
+        //noinspection SpringMVCViewInspection
         return "edit-item";
     }
 
