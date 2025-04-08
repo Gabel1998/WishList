@@ -38,7 +38,6 @@ public class WishListService {
         item.setName(itemDTO.getName());
         item.setDescription(itemDTO.getDescription());
         item.setPrice(itemDTO.getPrice());
-        item.setQuantity(itemDTO.getQuantity());
         item.setLink(itemDTO.getLink());
 
         wishListRepository.insertItem(item);
@@ -51,7 +50,6 @@ public class WishListService {
             item.setName(itemDTO.getName());
             item.setDescription(itemDTO.getDescription());
             item.setPrice(itemDTO.getPrice());
-            item.setQuantity(itemDTO.getQuantity());
             item.setLink(itemDTO.getLink());
 
             //gem det updatede ønske ind i databasen igen
@@ -83,7 +81,7 @@ public class WishListService {
         }
     }
 
-    // 🆕 Tilføjet metode for at hente alle ønskesedler for én bruger
+    // Tilføjet metode for at hente alle ønskesedler for én bruger
     public List<WishListDTO> getAllWishListsByUser(int userId) {
         List<WishList> wishLists = wishListRepository.findWishListsByUserId(userId);
         List<WishListDTO> dtos = new ArrayList<>();
@@ -145,7 +143,6 @@ public class WishListService {
             dto.setName(item.getName());
             dto.setDescription(item.getDescription());
             dto.setPrice(item.getPrice());
-            dto.setQuantity(item.getQuantity());
             dto.setLink(item.getLink());
             dto.setReserved(item.getReserved());
             itemDTOs.add(dto);

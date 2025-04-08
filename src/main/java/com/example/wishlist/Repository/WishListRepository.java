@@ -105,7 +105,7 @@ public class WishListRepository {
         jdbcTemplate.update(sql, sharedItemId);
     }
 
-    // 🆕 Tilføjet metode for at hente ønskesedler ud fra bruger-id
+    // Tilføjet en metode for at hente ønskesedler ud fra bruger-id
     public List<WishList> findWishListsByUserId(int userId) {
         String sql = "SELECT * FROM tb_wishlists WHERE wl_user_id = ?";
         return jdbcTemplate.query(sql, new WishListRowMapper(), userId);

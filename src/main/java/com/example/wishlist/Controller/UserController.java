@@ -40,7 +40,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("errorMessage", "Email findes allerede.");
             return "redirect:/register";
         }
-        /// Registrerer bruger i databasen
+        /// Registrerer bruger i datab
         userService.registerUser(userDTO);
 
         /// auto-login bruger efter registrering
