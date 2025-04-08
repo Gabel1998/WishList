@@ -248,3 +248,99 @@
         grid-template-columns: 1fr;
     }
 }
+
+.item-card .wishlist-card-overlay {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-align: center;
+}
+
+.item-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.item-card p {
+    font-size: 0.95rem;
+    margin: 5px 0;
+}
+
+.item-buttons {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.item-buttons .button {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.07);
+    color: white;
+    text-align: center;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.item-buttons .button:hover {
+    background-color: white;
+    color: black;
+    border-color: white;
+}
+
+.item-buttons .delete-button {
+    border-color: rgba(255, 0, 0, 0.3);
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+.item-buttons .delete-button:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+
+/*DET HER TIL AT TESTE DELINGSKNAPPEN*/
+.share-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 600px;
+    margin-bottom: 0.5rem;
+}
+
+.share-preview input {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #fff;
+    color: #333;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.share-preview button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.share-preview button:hover {
+    background-color: #45a049;
+}
+
+
+.share-preview button:hover {
+    background-color: #45a049;
+}
