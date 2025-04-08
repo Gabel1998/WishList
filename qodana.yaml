@@ -5,7 +5,3 @@ profile:
 include:
   - name: CheckDependencyLicenses
     path: .
-qodana:
-  inspections:
-    - id: SpringMVCViewInspection
-      enabled: false
