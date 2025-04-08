@@ -13,6 +13,11 @@ public class WishList {
         this.share_token = share_token;
     }
 
+    public WishList(int wishListId) {
+        this.wishListId = wishListId;
+    }
+
+
     public WishList() {}
 
     public int getWishListId() {

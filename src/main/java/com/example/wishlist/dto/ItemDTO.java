@@ -6,17 +6,27 @@ public class ItemDTO {
     private String name;
     private String description;
     private double price;
-    private String link;
+    private String url;
     private boolean reserved;
+
+    public Long getWishlistId() {
+        return wishlistId;
+    }
+
+    public void setWishlistId(Long wishlistId) {
+        this.wishlistId = wishlistId;
+    }
+
+    private Long wishlistId;
 
     public ItemDTO() {}
 
-    public ItemDTO(int itemId, String name, String description, double price, String link, boolean reserved) {
+    public ItemDTO(int itemId, String name, String description, double price, String url, boolean reserved) {
         this.itemId = itemId;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.link = link;
+        this.url = url;
         this.reserved = reserved;
     }
 
@@ -52,12 +62,12 @@ public class ItemDTO {
         this.price = price;
     }
 
-    public String getLink() {
-        return link;
+    public String getUrl() {
+        return url;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public boolean isReserved() {

@@ -36,7 +36,7 @@ public class WishListRepository {
 
     public WishList findWishListById(int wishlistId) {
         String sql = """
-        SELECT w.wishlist_id, w.wl_user_id, w.name, w.share_token, u.email, u.password, u.name AS user_name
+        SELECT w.wishlist_id, w.wl_user_id, w.title, w.share_token, u.email, u.password, u.name AS user_name
         FROM tb_wishlists w
         JOIN tb_users u ON w.wl_user_id = u.user_id
         WHERE w.wishlist_id = ?
@@ -45,9 +45,28 @@ public class WishListRepository {
     }
 
     public Item findItemById(int itemId) {
-        String sql = "SELECT * FROM tb_items WHERE item_id = ?";
-        return jdbcTemplate.queryForObject(sql, new ItemRowMapper(), itemId);
+        // 1. Hent selve item
+        String itemSql = "SELECT * FROM tb_items WHERE item_id = ?";
+        Item item = jdbcTemplate.queryForObject(itemSql, new ItemRowMapper(), itemId);
+
+        if (item != null) {
+            // 2. Hent ønskeseddel (inkl. brugerinfo, som din WishListRowMapper kræver)
+            String wishlistSql = """
+            SELECT w.wishlist_id, w.wl_user_id, w.title, w.share_token,
+                   u.email, u.password, u.name AS user_name
+            FROM tb_wishlists w
+            JOIN tb_users u ON w.wl_user_id = u.user_id
+            WHERE w.wishlist_id = (SELECT it_wishlist_id FROM tb_items WHERE item_id = ?)
+        """;
+            WishList wishList = jdbcTemplate.queryForObject(wishlistSql, new WishListRowMapper(), itemId);
+
+            // 3. Sæt relationen
+            item.setWishList(wishList);
+        }
+
+        return item;
     }
+
 
     public void insertItem(Item item) {
         String sql = """
@@ -146,7 +165,7 @@ public class WishListRepository {
 
     public List<WishList> findWishListsByUserEmail(String email) {
         String sql = """
-        SELECT w.wishlist_id, w.wl_user_id, w.name, w.share_token, u.email, u.password, u.name AS user_name
+        SELECT w.wishlist_id, w.wl_user_id, w.title, w.share_token, u.email, u.password, u.name AS user_name
         FROM tb_wishlists w
         JOIN tb_users u ON w.wl_user_id = u.user_id
         WHERE u.email = ?

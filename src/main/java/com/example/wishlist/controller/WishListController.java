@@ -84,16 +84,25 @@ public class WishListController {
 
     // Tilføj produkt
     @PostMapping("/wishlist/{id}/item")
-    public ResponseEntity<String> addItem(@PathVariable("id") int wishlistId, @RequestBody ItemDTO itemDTO) {
+    public String addItem(@PathVariable("id") int wishlistId,
+                          @ModelAttribute ItemDTO itemDTO,
+                          RedirectAttributes redirectAttributes) {
         wishListService.addItemToWishList(wishlistId, itemDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Ønske tilføjet");
+        redirectAttributes.addFlashAttribute("message", "Produkt tilføjet!");
+        return "redirect:/wishlist/" + wishlistId;
     }
 
-    @PutMapping("/wishlist/item/{id}")
-    public ResponseEntity<String> updateItem(@PathVariable("id") int itemId, @RequestBody ItemDTO itemDTO) {
-        wishListService.updateItem(itemId, itemDTO);
-        return ResponseEntity.status(HttpStatus.OK).body("Ønske opdateret");
+
+
+
+    @PostMapping("/wishlist/item/{id}")
+    public String updateItem(@PathVariable("id") Long itemId,
+                             @ModelAttribute("item") ItemDTO itemDTO) {
+
+        wishListService.updateItem(Math.toIntExact(itemId), itemDTO);
+        return "redirect:/wishlist/" + itemDTO.getWishlistId(); // eller hvor du vil redirecte til
     }
+
 
     @DeleteMapping("/wishlist/item/{id}")
     public ResponseEntity<String> deleteItem(@PathVariable("id") int itemId) {
@@ -144,4 +153,12 @@ public class WishListController {
 
         return "redirect:/view/" + shareToken;
     }
+
+    @GetMapping("/wishlist/item/{id}/edit")
+    public String showEditForm(@PathVariable("id") int itemId, Model model) {
+        ItemDTO item = wishListService.getItemById(itemId); // Du skal have denne metode i service
+        model.addAttribute("item", item);
+        return "edit-item";
+    }
+
 }
