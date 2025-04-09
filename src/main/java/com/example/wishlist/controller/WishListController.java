@@ -83,7 +83,6 @@ public class WishListController {
         if (wishlist == null) {
             return "error";
         }
-        // 🟢 Find token i shared_wishlists
         String shareToken = wishListService.getLatestShareTokenForWishlist(wishlistId);
         if (shareToken != null) {
             wishlist.setShareToken(shareToken);
@@ -116,11 +115,17 @@ public class WishListController {
         return "redirect:/wishlist/" + itemDTO.getWishlistId(); // eller hvor du vil redirecte til
     }
 
+    @PostMapping("/wishlist/{id}/delete")
+    public String deleteWishlist(@PathVariable("id") int id) {
+        wishListService.deleteWishlist(id);
+        return "redirect:/wishlists";
+    }
 
-    @DeleteMapping("/wishlist/item/{id}")
-    public ResponseEntity<String> deleteItem(@PathVariable("id") int itemId) {
+    @PostMapping("/wishlist/item/{id}/delete")
+    public String deleteItemPost(@PathVariable("id") int itemId) {
+        int wishlistId = wishListService.getItemById(itemId).getWishlistId().intValue();
         wishListService.deleteItem(itemId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Ønske slettet");
+        return "redirect:/wishlist/" + wishlistId;
     }
 
     @PutMapping("/wishlist/item/{id}/reserve")
@@ -142,7 +147,6 @@ public class WishListController {
         model.addAttribute("items", items);
         model.addAttribute("shareToken", share_token);
 
-        // 🛠 Tilføj denne linje:
         WishList wishlist = wishListService.findByShareToken(share_token);
         model.addAttribute("wishlist", wishlist);
 
@@ -175,7 +179,7 @@ public class WishListController {
 
     @GetMapping("/wishlist/item/{id}/edit")
     public String showEditForm(@PathVariable("id") int itemId, Model model) {
-        ItemDTO item = wishListService.getItemById(itemId); // Du skal have denne metode i service
+        ItemDTO item = wishListService.getItemById(itemId);
         model.addAttribute("item", item);
         return "edit-item";
     }

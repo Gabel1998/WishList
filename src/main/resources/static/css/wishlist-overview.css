@@ -8,7 +8,7 @@ body {
 
 .content-wrapper {
     flex: 1;
-    padding: 100px 0 60px;
+    padding: 50px 0 60px;
     background-color: var(--background-color);
     display: flex;
     flex-direction: column;
@@ -216,47 +216,6 @@ footer {
     width: 100%;
 }
 
-/* ===================== uiverse button ===================== */
-.button {
-    cursor: pointer;
-    position: relative;
-    padding: 8px 20px;
-    font-size: 14px;
-    color: white;
-    border: 2px solid #A6B1C2;
-    border-radius: 10px;
-    background-color: transparent;
-    font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-    overflow: hidden;
-    display: inline-block;
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    z-index: 1;
-}
-
-.button::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: #C4CCDA;
-    opacity: 0;
-    transition: opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-    z-index: -1;
-}
-
-.button:hover::before {
-    opacity: 1;
-}
-
-.button:hover {
-    color: #111111;
-    box-shadow: 0 0 0 5px rgba(166, 177, 194, 0.2);
-}
-
-.button:active {
-    scale: 0.97;
-}
 @media (max-width: 768px) {
     .wishlist-grid {
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));

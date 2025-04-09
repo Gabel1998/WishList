@@ -39,7 +39,7 @@
 .about-column {
     display: flex;
     justify-content: center;
-    align-items: stretch; /* Change from flex-start to stretch */
+    align-items: stretch;
     flex: 1 1 22%;
     min-width: 270px;
     max-width: 320px;
@@ -84,7 +84,7 @@
     width: 100px;
     font-weight: bold;
     text-align: right;
-    padding-right: 10px; /* Add padding to create space between label and value */
+    padding-right: 10px;
 }
 
 .about-infobox {

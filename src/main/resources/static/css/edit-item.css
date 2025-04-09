@@ -36,23 +36,6 @@ label {
     display: block;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="url"],
-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.2); /* Mørk baggrund */
-    color: var(--text-color); /* Lys tekst */
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.95rem;
-    transition: border 0.3s ease;
-    box-sizing: border-box;
-    max-width: 100%;
-}
-
 input:focus,
 textarea:focus {
     border-color: var(--primary-color);

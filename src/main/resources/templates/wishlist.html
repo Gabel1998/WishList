@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${wishlist.name}">Ønskeseddel</title>
-    <link rel="icon" type="image/png" href="images/icons/favicon.png">
+    <link rel="icon" type="image/png" href="../images/icons/favicon.png">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/wishlist-overview.css}">
     <link rel="stylesheet" th:href="@{/css/wishlist.css}">
@@ -15,7 +15,6 @@
 <div class="content-wrapper">
     <div class="wishlist-overview-container">
         <h2 th:text="${wishlist.name}">Min ønskeseddel</h2>
-<!--teeeeest-->
         <div class="share-section" th:if="${wishlist.shareToken != null}">
             <p>Del din ønskeseddel:</p>
             <div class="share-preview">
@@ -24,7 +23,7 @@
                        th:value="'http://localhost:8080/view/' + ${wishlist.shareToken}"
                        readonly
                        onclick="this.select()">
-                <button onclick="copyShareLink()">Kopier</button>
+                <button onclick="copyShareLink(document.getElementById('shareLinkInput').value)">Kopier</button>
             </div>
 
 
@@ -89,45 +88,7 @@
 
 <div th:replace="~{footer :: footer}"></div>
 
-<script>
-    function openAddItemPopup() {
-        document.getElementById('add-item-popup').classList.add('show');
-        document.getElementById('popup-overlay').classList.add('show');
-    }
-
-    function closeAddItemPopup() {
-        document.getElementById('add-item-popup').classList.remove('show');
-        document.getElementById('popup-overlay').classList.remove('show');
-    }
-
-    function deleteItem(itemId) {
-        if (confirm('Er du sikker på, at du vil slette dette produkt?')) {
-            fetch('/wishlist/item/' + itemId, {
-                method: 'DELETE'
-            })
-                .then(response => {
-                    if (response.ok) {
-                        window.location.reload();
-                    } else {
-                        alert('Der opstod en fejl ved sletning af produktet');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Der opstod en fejl ved sletning af produktet');
-                });
-        }
-    }
-
-    function copyShareLink() {
-        const input = document.getElementById("shareLinkInput");
-        input.select();
-        input.setSelectionRange(0, 99999); // For mobile
-        navigator.clipboard.writeText(input.value).then(function () {
-            alert("Link kopieret til udklipsholder!");
-        });
-    }
-</script>
+<script th:src="@{/js/wishlist-functions.js}"></script>
 
 </body>
 </html>

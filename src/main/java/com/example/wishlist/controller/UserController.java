@@ -51,17 +51,4 @@ public class UserController {
         return "redirect:/";
     }
 
-    /// til at bruger kan slette sin konto? eller måske bare have "kontakt support"?
-//    @GetMapping("/profile")
-//    public String showUserProfile(HttpSession session, Model model) {
-//        String email = (String) session.getAttribute("user");
-//        if (email == null) {
-//            return "redirect:/login";
-//        }
-//
-//        UserDTO user = userService.getUserByEmail(email);
-//        model.addAttribute("user", user);
-//        return "profile";
-//    }
-
 }

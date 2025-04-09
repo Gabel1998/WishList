@@ -39,7 +39,6 @@ a {
     color: inherit;
 }
 
-/* push content down from header */
 .content-wrapper {
     margin-top: 70px;
     padding-top: 20px;
@@ -48,7 +47,7 @@ a {
     z-index: 1;
 }
 
-/* push footer down */
+/* ned med footer */
 .page-container {
     flex: 1;
     display: flex;
@@ -70,7 +69,7 @@ header {
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(6px);
     padding: 10px 0;
-    height: 70px; /* AI debug */
+    height: 70px;
 }
 
 footer {
@@ -247,4 +246,28 @@ footer {
 
 .button:active {
     scale: 0.97;
+}
+/* ===================== global form  ===================== */
+input[type="text"],
+input[type="number"],
+input[type="url"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    transition: border 0.3s ease;
+    box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
 }
