@@ -66,7 +66,7 @@ public class WishListController {
     }
 
     // Behandler oprettelse og redirecter til /wishlist/{id}
-    @PostMapping("/Wishlist-form")
+    @PostMapping("/wishlist-form")
     public String handleWishListForm(@ModelAttribute WishList wishList, HttpSession session) {
         String email = (String) session.getAttribute("user");
 
