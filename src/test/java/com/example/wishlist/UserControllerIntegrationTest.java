@@ -2,132 +2,78 @@ package com.example.wishlist;
 
 import com.example.wishlist.Controller.UserController;
 import com.example.wishlist.DTO.UserDTO;
+import com.example.wishlist.Model.User;
 import com.example.wishlist.Repository.UserRepository;
-import com.example.wishlist.Service.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ExtendedModelMap;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.*;
 
-// Aktiverer Mockito til brug med JUnit 5
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@Sql(scripts = "classpath:h2init.sql")  // H2 script til at oprette tabellen
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Transactional
+@Rollback(true)
 public class UserControllerIntegrationTest {
 
-    // simulering af HTTP-anmodninger
-    private MockMvc mockMvc;
+    @Autowired
+    private UserController controller;
 
-    // mock af UserService
-    @Mock
-    private UserService userService;
-
-    // mock af UserRepository
-    @Mock
+    @Autowired
     private UserRepository userRepository;
 
-    // Injicerer mock-objekter i controlleren
-    @InjectMocks
-    private UserController userController;
+    @Test
+    void testShowRegisterForm_addsEmptyUserToModel() {
+        Model model = new ExtendedModelMap();
 
-    @BeforeEach
-    public void setup() {
-        // Initialiserer MockMvc med vores controller
-        this.mockMvc = MockMvcBuilders
-                .standaloneSetup(userController)
-                .build();
+        String viewName = controller.showRegisterForm(model);
+
+        assertEquals("register", viewName);
+        assertTrue(model.containsAttribute("user"));
+        assertTrue(model.getAttribute("user") instanceof UserDTO);
     }
 
     @Test
-    public void testRegisterUser() throws Exception {
-        // returnere false når emailExists kaldes
-        when(userService.emailExists("testuser@tester.io")).thenReturn(false);
-        // stubbe for testing
-        doNothing().when(userService).registerUser(any(UserDTO.class));
+    void testHandleRegisterForm_registersNewUser() {
+        UserDTO newUser = new UserDTO("Integration Test", "integration@test.io", "Test1234");
 
-        // Simulerer et POST-request til /register
-        mockMvc.perform(post("/register")
-                        .param("name", "Test User for Testing")
-                        .param("email", "testuser@tester.io")
-                        .param("password", "TestPassword@123"))
-                // Forventer redirection som svar
-                .andExpect(status().is3xxRedirection());
+        RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+        MockHttpSession session = new MockHttpSession();
 
-        // Bekræfter at registerUser blev kaldt [én gang]
-        verify(userService, times(1)).registerUser(any(UserDTO.class));
+        String result = controller.handleRegisterForm(newUser, redirectAttributes, session);
+
+        assertEquals("redirect:/register", result);
+        assertEquals("Bruger oprettet!", redirectAttributes.getFlashAttributes().get("successMessage"));
+        assertEquals("integration@test.io", session.getAttribute("user"));
+
+        // Metode der finder bruger
+        User user = userRepository.findByEmail("integration@test.io");
+        assertNotNull(user);
+        assertEquals("integration@test.io", user.getEmail());
     }
 
     @Test
-    public void testRegisterUserWithExistingEmail() throws Exception {
-        // returnere true - email findes allerede
-        when(userService.emailExists("testuser@tester.io")).thenReturn(true);
+    void testHandleRegisterForm_emailAlreadyExists() {
+        UserDTO existingUser = new UserDTO("Eksisterende Bruger", "email@test.dk", "Kodeord");
+        userRepository.insertUser(existingUser);
 
-        // registrering med eksisterende email
-        mockMvc.perform(post("/register")
-                        .param("name", "Test User for Testing")
-                        .param("email", "testuser@tester.io")
-                        .param("password", "TestPassword@123"))
-                // vores controlleren bruger omdirigering, ikke 400 Bad Request
-                .andExpect(status().is3xxRedirection());
 
-        // Bekræft at registerUser aldrig blev kaldt fordi emailen allerede findes
-        verify(userService, never()).registerUser(any(UserDTO.class));
-    }
+        UserDTO newUser = new UserDTO("Ny Bruger", "email@test.com", "Password");
+        RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+        MockHttpSession session = new MockHttpSession();
 
-    @Test
-    public void testRegisterUserWithInvalidEmailFormat() throws Exception {
-        // stubbe for testing
-        doNothing().when(userService).registerUser(any(UserDTO.class));
+        String result = controller.handleRegisterForm(newUser, redirectAttributes, session);
 
-        // Tester registrering med ugyldig email-format
-        mockMvc.perform(post("/register")
-                        .param("name", "Test User for Testing")
-                        .param("email", "invalid-email")
-                        .param("password", "TestPassword@123"))
-                .andExpect(status().is3xxRedirection());
-
-        // controller kalder registerUser selv med ugyldig email
-        verify(userService, times(1)).registerUser(any(UserDTO.class));
-    }
-
-    @Test
-    public void testRegisterUserWithWeakPassword() throws Exception {
-        // stubbe for testing
-        doNothing().when(userService).registerUser(any(UserDTO.class));
-
-        // registrering med for svagt kodeord
-        mockMvc.perform(post("/register")
-                        .param("name", "Test User for Testing")
-                        .param("email", "weakpassword@tester.io")
-                        .param("password", "123"))
-                .andExpect(status().is3xxRedirection());
-
-        // vores controller kalder registerUser selv med svagt kodeord
-        verify(userService, times(1)).registerUser(any(UserDTO.class));
-    }
-
-    @Test
-    public void testRegisterUserInDatabase() throws Exception {
-        // returnere false når emailExists kaldes
-        when(userService.emailExists("testdbuser@tester.io")).thenReturn(false);
-        // stubbe for testing
-        doNothing().when(userService).registerUser(any(UserDTO.class));
-
-        // Simulerer registrering af en bruger i databasen
-        mockMvc.perform(post("/register")
-                        .param("name", "Test DB User")
-                        .param("email", "testdbuser@tester.io")
-                        .param("password", "SecurePass123"))
-                .andExpect(status().is3xxRedirection());
-
-        // Bekræft at registerUser blev kaldt [én gang]
-        verify(userService, times(1)).registerUser(any(UserDTO.class));
+        assertEquals("redirect:/register", result);
+        assertEquals("Email findes allerede.", redirectAttributes.getFlashAttributes().get("errorMessage"));
     }
 }
