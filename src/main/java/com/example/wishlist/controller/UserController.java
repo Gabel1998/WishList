@@ -25,7 +25,7 @@ public class UserController {
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
        if (!model.containsAttribute("user")) {
-           model.addAttribute("user", new UserDTO());
+           model.addAttribute("user", new UserDTO("name", "email", "password"));
        }
         //noinspection SpringMVCViewInspection
         return "register";
