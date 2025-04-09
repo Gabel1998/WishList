@@ -39,7 +39,6 @@ a {
     color: inherit;
 }
 
-/* push content down from header */
 .content-wrapper {
     margin-top: 70px;
     padding-top: 20px;
@@ -48,7 +47,7 @@ a {
     z-index: 1;
 }
 
-/* push footer down */
+/* ned med footer */
 .page-container {
     flex: 1;
     display: flex;
@@ -70,7 +69,7 @@ header {
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(6px);
     padding: 10px 0;
-    height: 70px; /* AI debug */
+    height: 70px;
 }
 
 footer {
@@ -205,4 +204,70 @@ footer {
     background-color: #3a9e41;
     box-shadow: 0 0 0 5px rgba(76, 175, 80, 0.3);
     color: white;
+}
+
+/* ===================== uiverseButton ===================== */
+.button {
+    cursor: pointer;
+    position: relative;
+    padding: 8px 20px;
+    font-size: 14px;
+    color: white;
+    border: 2px solid #A6B1C2;
+    border-radius: 10px;
+    background-color: transparent;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    overflow: hidden;
+    display: inline-block;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    z-index: 1;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #C4CCDA;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: -1;
+}
+
+.button:hover::before {
+    opacity: 1;
+}
+
+.button:hover {
+    color: #111111;
+    box-shadow: 0 0 0 5px rgba(166, 177, 194, 0.2);
+}
+
+.button:active {
+    scale: 0.97;
+}
+/* ===================== global form  ===================== */
+input[type="text"],
+input[type="number"],
+input[type="url"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    transition: border 0.3s ease;
+    box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
 }

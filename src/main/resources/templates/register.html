@@ -1,12 +1,10 @@
-<!-- ======== Register Page ======== -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta charset="UTF-8">
     <title>Opret Profil</title>
-    <link rel="icon" type="image/png" href="images/icons/favicon.png">
+    <link rel="icon" type="image/png" href="../images/icons/favicon.png">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-<!--    <link rel="stylesheet" th:href="@{/css/register.css}">-->
     <link rel="stylesheet" th:href="@{/css/loginhandler.css}">
 </head>
 
@@ -16,7 +14,6 @@
 <div class="page-container">
 
     <!-- ======== FEEDBACK MESSAGES (FLASH) ======== -->
-    <!-- Display success or error messages from backend -->
     <div class="feedback-wrapper">
         <div th:if="${successMessage}" class="feedback success" th:text="${successMessage}"></div>
         <div th:if="${errorMessage}" class="feedback error" th:text="${errorMessage}"></div>

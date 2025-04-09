@@ -1,58 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <name>Ønskeseddel</name>
+    <title th:if="${wishlist != null}" th:text="${wishlist.name}">Ønskeseddel</title>
     <link rel="icon" type="image/png" href="images/icons/favicon.png">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/test/wishlist.css}">
+    <link rel="stylesheet" th:href="@{/css/wishlist-overview.css}">
+    <link rel="stylesheet" th:href="@{/css/wishlist.css}">
+    <link rel="stylesheet" th:href="@{/css/wishlist-readonly.css}">
 </head>
-
-<!-- ======== HEADER ======== -->
-<div th:replace="~{header :: header}"></div>
-
 <body>
 
-<!-- ======== WISHLIST (name) ======== -->
-<h1 th:if ="${wishlist != null}" th:text="${wishlist.name}">Ønskeseddel</h1>
+<div th:replace="~{header :: header}"></div>
 
-<!-- ======== WISHLIST (view) ======== -->
+<div class="content-wrapper">
+    <div class="wishlist-overview-container">
+        <h2 th:if="${wishlist != null}" th:text="${wishlist.name}">Ønskeseddel</h2>
 
-<!-- Besked efter reservation -->
-<div th:if="${message}">
-    <p th:text="${message}"></p>
-</div>
-
-<!-- Vis hvert ønske som et "kort" -->
-<div th:each="item : ${items}">
-    <div>
-        <h2 th:text="${item.name}">Ønskenavn</h2>
-        <p th:text="${item.description}">Beskrivelse</p>
-        <p>Pris: <span th:text="${item.price}">0.00</span></p>
-        <p>
-            <a th:href="${item.url}" target="_blank">Gå til link</a>
-        </p>
-
-        <!-- Vis reserver-knap kun hvis ikke reserveret -->
-        <div th:if="${!item.reserved}">
-            <form th:action="@{/reserve}" method="post">
-                <input type="hidden" name="itemId" th:value="${item.id}" />
-                <input type="hidden" name="shareToken" th:value="${shareToken}" />
-                <button type="submit">Reserver</button>
-            </form>
+        <!-- meddelelse, efter reservation -->
+        <div th:if="${message}" class="alert-message" id="reservation-message">
+            <p th:text="${message}">Confirmation message</p>
         </div>
-        <div th:if="${item.reserved}">
-            <p><strong>Allerede reserveret</strong></p>
+
+        <!-- Items container -->
+        <div class="items-container">
+            <div th:each="item : ${items}" th:id="'item-card-' + ${item.id}" th:class="${item.reserved ? 'item-card reserved' : 'item-card'}">
+                <!-- Reserved overlay -->
+                <div th:if="${item.reserved}" class="reserved-overlay">
+                    <span class="reserved-text">Reserveret</span>
+                </div>
+
+                <div class="wishlist-card-overlay">
+                    <h3 th:text="${item.name}">Ønskenavn</h3>
+                    <p th:text="${item.description}">Beskrivelse</p>
+                    <p th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 2, 'POINT')} + ' DKK'">0.00 DKK</p>
+                    <p th:if="${item.url != null && !item.url.isEmpty()}">
+                        <a th:href="${item.url}" target="_blank" class="button">Se produkt</a>
+                    </p>
+
+                    <!-- Reservation sektion -->
+                    <div th:if="${!item.reserved}" class="item-buttons">
+                        <form class="reserve-form" th:action="@{/reserve}" method="post" onsubmit="handleReservation(event, this)">
+                            <input type="hidden" name="itemId" th:value="${item.id}">
+                            <input type="hidden" name="shareToken" th:value="${shareToken}">
+                            <button type="submit" class="button reserve-button">Reserver</button>
+                        </form>
+                    </div>
+
+                    <!--  besked -->
+                    <div th:if="${item.reserved}" class="reserved-item">
+                        Allerede reserveret
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <hr/>
 </div>
 
-<!-- i stedet for at have pop-up, ville det være smart at lave "blur transition", når man har reserveret et ønske -->
-</body>
-
-<!-- ======== FOOTER ======== -->
 <div th:replace="~{footer :: footer}"></div>
 
+<script th:src="@{/js/wishlist-functions.js}"></script>
+
+</body>
 </html>

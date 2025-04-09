@@ -1,19 +1,24 @@
-/* ===================== Wishlist Overview Page ===================== */
 body {
     padding-top: 0 !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
 }
 
 .content-wrapper {
-    margin-top: 0;
-    padding: 100px 0 60px;
-    min-height: calc(100vh - 60px);
+    flex: 1;
+    padding: 50px 0 60px;
     background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
 }
 
 .wishlist-overview-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
 }
 
 /* ===================== Page Header ===================== */
@@ -56,6 +61,25 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
+.create-wishlist-link-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.create-wishlist-link {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    text-decoration: none;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.create-wishlist-link:hover {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    text-decoration: underline !important;;
+}
 
 /* ===================== Wishlist Grid ===================== */
 .wishlist-grid {
@@ -65,10 +89,11 @@ body {
     margin-top: 30px;
 }
 
-/* ===================== Blurred Card with Static Background ===================== */
 .wishlist-card {
     position: relative;
-    height: 200px;
+    height: auto;
+    min-height: 200px;
+    max-height: 300px;
     border-radius: 16px;
     overflow: hidden;
     background-image: url('../images/wishlist-icons/bg_dark.jpg');
@@ -99,13 +124,16 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 280px;
 }
 
 .wishlist-card-overlay h3 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: white;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .wishlist-card-overlay .btn {
@@ -119,7 +147,6 @@ body {
     border-radius: 30px;
     font-weight: 500;
     transition: all 0.3s ease;
-    text-decoration: none;
     overflow: hidden;
 }
 
@@ -146,65 +173,57 @@ body {
     color: rgba(232, 245, 233, 0.8);
 }
 
-/* ===================== uiverse button ===================== */
-/* From Uiverse.io by gharsh11032000 */
-.button {
-    cursor: pointer;
-    position: relative;
-    padding: 8px 20px;
-    font-size: 14px;
-    color: white;
-    border: 2px solid #A6B1C2;
-    border-radius: 10px;
-    background-color: transparent;
-    font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-    overflow: hidden;
-    display: inline-block;
+/* ===================== Små knapper ===================== */
+.item-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    width: 65%;
+}
+
+.item-buttons .button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    flex: 1; /* equal space */
     text-align: center;
-    font-family: 'Poppins', sans-serif;
-    z-index: 1;
+    width: 100%;
 }
 
-.button::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: #C4CCDA;
-    opacity: 0;
-    transition: opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-    z-index: -1;
+.item-buttons .delete-button {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: rgba(220, 53, 69, 0.5);
 }
 
-.button:hover::before {
-    opacity: 1;
+.item-buttons .delete-button:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
 }
 
-.button:hover {
-    color: #111111;
-    box-shadow: 0 0 0 5px rgba(166, 177, 194, 0.2);
+.item-buttons .share-button {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-color: rgba(76, 175, 80, 0.5);
 }
 
-.button:active {
-    scale: 0.97;
+.item-buttons .share-button:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
 }
-/* ===================== Responsive Adjustments ===================== */
+
+footer {
+    margin-top: auto;
+    width: 100%;
+}
+
 @media (max-width: 768px) {
     .wishlist-grid {
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    }
-
-    .wishlist-overview-container h2 {
-        font-size: 1.8rem;
     }
 }
 
 @media (max-width: 480px) {
     .wishlist-grid {
         grid-template-columns: 1fr;
-    }
-
-    .content-wrapper {
-        padding: 80px 0 40px;
     }
 }

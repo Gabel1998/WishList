@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <name>Dine ønskesedler</name>
   <link rel="icon" type="image/png" href="images/icons/favicon.png">
   <link rel="stylesheet" th:href="@{/css/styles.css}">
   <link rel="stylesheet" th:href="@{/css/wishlist-overview.css}">
@@ -12,10 +11,13 @@
 
 <!-- ======== HEADER TEMPLATE ======== -->
 <div th:replace="~{header :: header}"></div>
+
 <div class="content-wrapper">
   <div class="wishlist-overview-container">
     <h2>Dine ønskesedler</h2>
-    <a class="button" th:href="@{/wishlist-form}">+ Opret ønskeseddel</a>
+    <div class="create-wishlist-link-container">
+      <a class="create-wishlist-link" th:href="@{/wishlist-form}">+ Opret ønskeseddel</a>
+    </div>
     <!-- Hvis ingen ønskesedler findes -->
     <div th:if="${#lists.isEmpty(wishlists)}">
       <p>Du har endnu ingen ønskesedler.</p>
@@ -28,6 +30,12 @@
         <div class="wishlist-card-overlay">
           <h3 th:text="${wishlist.name}">Ønskeseddel Navn</h3>
           <a class="button" th:href="@{'/wishlist/' + ${wishlist.wishListId}}">Se ønskeseddel</a>
+          <div class="item-buttons">
+            <button class="button share-button"
+                    th:onclick="'copyShareLink(\'http://localhost:8080/view/' + ${wishlist.shareToken} + '\')'">Del</button>
+            <a href="#" class="button delete-button"
+               th:onclick="'deleteWishlist(' + ${wishlist.wishListId} + ')'">Slet</a>
+          </div>
         </div>
       </div>
     </div>
@@ -36,6 +44,8 @@
 
 <!-- ======== FOOTER TEMPLATE ======== -->
 <div th:replace="~{footer :: footer}"></div>
+
+<script th:src="@{/js/wishlist-functions.js}"></script>
 
 </body>
 </html>

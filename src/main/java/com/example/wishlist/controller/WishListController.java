@@ -52,8 +52,14 @@ public class WishListController {
     }
 
     // Formular til at oprette ønskeseddel
-    @GetMapping("/Wishlist-form")
-    public String showWishListForm(Model model) {
+
+    @GetMapping("/wishlist-form")
+    public String showWishListForm(Model model, HttpSession session) {
+        String email = (String) session.getAttribute("user");
+        if (email == null) {
+            return "redirect:/login";
+        }
+
         model.addAttribute("wishlist", new WishList());
         //noinspection SpringMVCViewInspection
         return "Wishlist-form";
@@ -116,11 +122,17 @@ public class WishListController {
         return "redirect:/wishlist/" + itemDTO.getWishlistId(); // eller hvor du vil redirecte til
     }
 
+    @PostMapping("/wishlist/{id}/delete")
+    public String deleteWishlist(@PathVariable("id") int id) {
+        wishListService.deleteWishlist(id);
+        return "redirect:/wishlists";
+    }
 
-    @DeleteMapping("/wishlist/item/{id}")
-    public ResponseEntity<String> deleteItem(@PathVariable("id") int itemId) {
+    @PostMapping("/wishlist/item/{id}/delete")
+    public String deleteItemPost(@PathVariable("id") int itemId) {
+        int wishlistId = wishListService.getItemById(itemId).getWishlistId().intValue();
         wishListService.deleteItem(itemId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Ønske slettet");
+        return "redirect:/wishlist/" + wishlistId;
     }
 
     @PutMapping("/wishlist/item/{id}/reserve")
@@ -143,7 +155,6 @@ public class WishListController {
         model.addAttribute("items", items);
         model.addAttribute("shareToken", share_token);
 
-        // 🛠 Tilføj denne linje:
         WishList wishlist = wishListService.findByShareToken(share_token);
         model.addAttribute("wishlist", wishlist);
 
@@ -177,7 +188,7 @@ public class WishListController {
 
     @GetMapping("/wishlist/item/{id}/edit")
     public String showEditForm(@PathVariable("id") int itemId, Model model) {
-        ItemDTO item = wishListService.getItemById(itemId); // Du skal have denne metode i service
+        ItemDTO item = wishListService.getItemById(itemId);
         model.addAttribute("item", item);
         //noinspection SpringMVCViewInspection
         return "edit-item";

@@ -202,6 +202,16 @@ public class WishListService {
         return wishListRepository.findLatestShareTokenForWishlist(wishlistId);
     }
 
+    public void deleteWishlist(int wishlistId) {
+        // Først, slå alle tilknyttede items
+        List<Item> items = wishListRepository.findItemsByWishListId(wishlistId);
+        for (Item item : items) {
+            wishListRepository.deleteItem(item.getItemId());
+        }
+
+        // Så, slet ønskesedlen
+        wishListRepository.deleteWishlist(wishlistId);
+    }
 }
 
 

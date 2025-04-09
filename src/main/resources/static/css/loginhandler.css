@@ -57,13 +57,6 @@ input {
     box-sizing: border-box;
 }
 
-/* ===================== Input Focus Effects ===================== */
-input:focus {
-    outline: none;
-    border-color: #388e3c;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-}
-
 /* ===================== Register Link ===================== */
 .register-link {
     color: var(--text-color);

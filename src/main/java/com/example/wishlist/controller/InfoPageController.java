@@ -32,8 +32,8 @@ public class InfoPageController {
         if (email == null) {
             return "redirect:/login";
         }
-
-        // denne her skal vi kigge på - metoden
+      
+        // Metode til at hente og vise delte ønskesedler
         //noinspection SpringMVCViewInspection
         return "shared-wishlists";
     }

@@ -1,19 +1,133 @@
-/* ===================== POPUP ===================== */
+.items-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.item-card {
+    position: relative;
+    height: auto;
+    min-height: 200px;
+    max-height: 300px;
+    border-radius: 16px;
+    overflow: hidden;
+    background-image: url('../images/wishlist-icons/bg_dark.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.item-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+}
+
+.item-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 5px;
+    width: 65%;
+}
+
+.item-buttons .button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-buttons .edit-button {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-color: rgba(255, 193, 7, 0.5);
+}
+
+.item-buttons .delete-button {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: rgba(220, 53, 69, 0.5);
+}
+
+.item-buttons .edit-button:hover {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.item-buttons .delete-button:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.wishlist-card-overlay {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    color: white;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 280px;
+}
+
+.wishlist-card-overlay p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.wishlist-card-overlay h3 {
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* ===================== POPUP STYLING ===================== */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(3px);
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.popup-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
 .popup {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.95);
-    opacity: 0;
-    background-color: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    background-image: url('../images/wishlist-icons/bg_dark.jpg');
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     z-index: 9999;
     max-width: 500px;
     width: 90%;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s ease;
+    opacity: 0;
 }
 
 .popup.show {
@@ -22,103 +136,22 @@
     transform: translate(-50%, -50%) scale(1);
 }
 
-.popup::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: -1;
-}
-
 .popup-content {
     position: relative;
-}
-
-.popup-content h2 {
-    text-align: center;
-    color: var(--button-color);
-    margin-bottom: 20px;
-    font-weight: 600;
-    font-size: 1.5rem;
-}
-
-/* ===================== POPUP OVERLAY ===================== */
-.popup-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 9998;
-}
-
-.popup-overlay.show {
-    display: block;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 26px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #555;
-}
-
-.close:hover {
-    color: #000;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="url"],
-textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.95rem;
-}
-
-/* ===================== SUBMIT BUTTON ===================== */
-button,
-.btn {
-    margin-top: 20px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 6px;
-    background-color: var(--primary-color);
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-button:hover,
-.btn:hover {
-    background-color: #3a9e41;
-    transform: translateY(-1px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* ===================== TITEL OVER WISHLIST ===================== */
-.wishlist-overview-container > h2 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 30px;
-    font-weight: 600;
-    position: relative;
-    padding-bottom: 15px;
+    padding: 30px;
     color: var(--text-color);
 }
 
-.wishlist-overview-container > h2::after {
+.popup-content h2 {
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.popup-content h2::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -130,161 +163,143 @@ button:hover,
     border-radius: 2px;
 }
 
-/* ===================== PLUS-KNAPPEN (TILFØJ ITEM) ===================== */
-.product-box {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 40px;
-}
-
-.product-box button {
-    font-size: 1.5rem;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 8px;
-    background-color: var(--primary-color);
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.product-box button:hover {
-    background-color: #3a9e41;
-}
-
-/* ===================== ITEMS CONTAINER ===================== */
-.items-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-/* ===================== INDIVIDUELLE ITEM-KORT ===================== */
-.item-card {
-    position: relative;
-    width: 300px;
-    height: auto;
-    border-radius: 16px;
-    background-image: url('../images/wishlist-icons/bg_dark.jpg');
-    background-size: cover;
-    background-position: center;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    padding: 20px;
-}
-
-.item-card::after {
-    content: "";
+.close {
     position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(6px);
-    z-index: 0;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: color 0.2s ease;
 }
 
-.item-card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+.close:hover {
+    color: var(--primary-color);
 }
 
-.item-card .wishlist-card-overlay {
-    position: relative;
-    z-index: 1;
-    color: white;
-    text-align: center;
-}
-
-.item-card h3 {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-}
-
-.item-card p {
-    font-size: 0.95rem;
-    margin: 5px 0;
-}
-
-.item-buttons {
-    margin-top: 15px;
+.popup-content form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
-.item-buttons .button {
-    display: inline-block;
-    padding: 8px 16px;
-    font-size: 0.9rem;
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(255, 255, 255, 0.07);
-    color: white;
-    text-align: center;
-    transition: all 0.3s ease;
+.popup-content .form-group {
+    margin-bottom: 15px;
+}
+
+.popup-content .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text-color);
     font-weight: 500;
 }
 
-.item-buttons .button:hover {
-    background-color: white;
-    color: black;
-    border-color: white;
-}
-
-.item-buttons .delete-button {
-    border-color: rgba(255, 0, 0, 0.3);
-    background-color: rgba(255, 0, 0, 0.1);
-}
-
-.item-buttons .delete-button:hover {
-    background-color: #ff4d4d;
+.popup-content button {
+    display: block;
+    margin: 25px auto 0;
+    padding: 10px 24px;
+    background-color: var(--primary-color);
     color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
+.popup-content button:hover {
+    background-color: #3a9e41;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
 
-/*DET HER TIL AT TESTE DELINGSKNAPPEN*/
+@media (max-width: 768px) {
+    .items-container {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .popup {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .items-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.share-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px auto;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.share-section p {
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
 .share-preview {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    max-width: 600px;
-    margin-bottom: 0.5rem;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 .share-preview input {
     flex: 1;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ccc;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 8px;
     font-size: 0.95rem;
-    background-color: #fff;
-    color: #333;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--text-color);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 .share-preview button {
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: #4CAF50;
+    padding: 12px 20px;
+    background-color: transparent;
+    border: 2px solid #A6B1C2;
     color: white;
-    font-weight: bold;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.share-preview button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #C4CCDA;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: -1;
+}
+
+.share-preview button:hover::before {
+    opacity: 1;
 }
 
 .share-preview button:hover {
-    background-color: #45a049;
+    color: #111111;
+    box-shadow: 0 0 0 5px rgba(166, 177, 194, 0.2);
 }
 
-
-.share-preview button:hover {
-    background-color: #45a049;
+.share-preview button:active {
+    scale: 0.97;
 }
