@@ -25,8 +25,9 @@ public class UserController {
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
        if (!model.containsAttribute("user")) {
-           model.addAttribute("user", new UserDTO());
+           model.addAttribute("user", new UserDTO("name", "email", "password"));
        }
+        //noinspection SpringMVCViewInspection
         return "register";
     }
 
@@ -43,7 +44,7 @@ public class UserController {
         /// Registrerer bruger i datab
         userService.registerUser(userDTO);
 
-        /// auto-login bruger efter registrering
+        /// Auto-login bruger efter registrering
         session.setAttribute("user", userDTO.getEmail());
 
         /// Gemmer en success-besked til visning efter redirect

@@ -35,11 +35,10 @@ public class UserRepository {
     //Tjekker om email eksisterer i databasen
     public User findByEmail(String email) {
         String sql = "SELECT * FROM tb_users WHERE email = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{email}, (rs, rowNum) -> {
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
             User user = new User();
             user.setEmail(rs.getString("email"));
-            user.setPassword(rs.getString("password"));
             return user;
-        });
+        }, email);
     }
 }
