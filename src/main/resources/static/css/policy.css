@@ -1,0 +1,105 @@
+html, body {
+    background-color: var(--background-color) !important;
+    color: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background-color: var(--background-color) !important;
+    padding-top: 70px;
+}
+
+main.page-container {
+    background-color: var(--background-color) !important;
+    padding: 2rem 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.policy-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--container-color) !important;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    color: var(--text-color);
+}
+
+/* Overskrifter */
+.policy-container h1 {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    border-left: 5px solid var(--primary-color);
+    padding-left: 1rem;
+}
+
+.policy-container h2 {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    border-left: 3px solid var(--primary-color);
+    padding-left: 0.8rem;
+}
+
+/* Tekst og lister */
+.policy-container p,
+.policy-container li {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.policy-container ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    list-style-type: disc;
+}
+
+.policy-container li strong {
+    color: var(--primary-color);
+}
+
+/* Links */
+.policy-container a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.policy-container a:hover {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .policy-container {
+        padding: 1.5rem 1rem;
+        margin: 1rem;
+    }
+
+    .policy-container h1 {
+        font-size: 1.6rem;
+    }
+
+    .policy-container h2 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .policy-container {
+        padding: 1rem 0.8rem;
+    }
+
+    .policy-container h1 {
+        font-size: 1.4rem;
+    }
+
+    .policy-container h2 {
+        font-size: 1.1rem;
+    }
+}

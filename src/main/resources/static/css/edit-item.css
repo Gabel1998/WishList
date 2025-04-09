@@ -1,0 +1,81 @@
+.wishlist-overview-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 40px 30px;
+    border-radius: 16px;
+    background-image: url('../images/wishlist-icons/bg_dark.jpg'); /* samme som popup */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+h2 {
+    text-align: center !important;
+}
+
+.wishlist-overview-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+}
+
+.wishlist-overview-container > * {
+    position: relative;
+    z-index: 1;
+}
+
+label {
+    color: white;
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 25px;
+}
+
+.form-actions .button {
+    padding: 10px 24px;
+    font-size: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-actions button[type="submit"] {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.form-actions button[type="submit"]:hover {
+    background-color: #3a9e41;
+}
+
+.form-actions a.button {
+    background-color: rgba(220, 53, 69, 0.15);
+    color: white;
+    border: 1px solid rgba(220, 53, 69, 0.5);
+}
+
+.form-actions a.button:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}

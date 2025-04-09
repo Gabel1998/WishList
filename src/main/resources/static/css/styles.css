@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* ===================== Root Colors ===================== */
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #dff4e3;            /* super soft Celadon-like tone */
+    --background-color: #1d2e26;           /* deep, muted green-black */
+    --text-color: #e8f5e9;                 /* soft off-white */
+    --button-color: #2a6e3f;               /* Elegant dark green */
+    --container-color: #2e4432;            /* nice dark container green */
+}
+
+/* ===================== Global ===================== */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+   padding-top: 70px; /* splitter til header */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.content-wrapper {
+    margin-top: 70px;
+    padding-top: 20px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* ned med footer */
+.page-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===================== Header & Footer ===================== */
+header, footer {
+    font-size: 0.9em;
+}
+
+header {
+    position: fixed; /* absolute */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    padding: 10px 0;
+    height: 70px;
+}
+
+footer {
+    background-color: #1a2720;
+    text-align: center;
+    margin-top: auto;
+    flex-shrink: 0;
+    padding: 5px 0;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    color: rgba(232, 245, 233, 0.7); /*  faded tekst */
+}
+
+.footer-links {
+    margin-top: 8px;
+}
+
+.footer-links a {
+    color: var(--text-color);
+    margin: 0 10px;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+}
+
+/* ===================== Header Components ===================== */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4vw;
+    height: 100%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    heigth: 100%;
+}
+
+.nav-logo {
+    height: 40px;
+    object-fit: contain;
+}
+
+.logo h1 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0;
+    line-height: 70px;
+    align-items: center;
+    height: 100%;
+}
+
+.main-nav {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu a {
+    font-weight: 500;
+    transition: color 0.2s ease;
+    color: var(--text-color);
+}
+
+.nav-menu a:hover {
+    color: #ddd;
+}
+
+.login-opret-bruger,
+.user-info {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.nav-button {
+    padding: 6px 12px;
+    border: 1px solid var(--text-color);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.nav-button:hover {
+    background: var(--text-color);
+    color: black;
+}
+
+.register-link {
+    color: var(--text-color);
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+/* ===================== Buttons ===================== */
+.btn {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 12px 22px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #3a9e41;
+    box-shadow: 0 0 0 5px rgba(76, 175, 80, 0.3);
+    color: white;
+}
+
+/* ===================== uiverseButton ===================== */
+.button {
+    cursor: pointer;
+    position: relative;
+    padding: 8px 20px;
+    font-size: 14px;
+    color: white;
+    border: 2px solid #A6B1C2;
+    border-radius: 10px;
+    background-color: transparent;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    overflow: hidden;
+    display: inline-block;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    z-index: 1;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #C4CCDA;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: -1;
+}
+
+.button:hover::before {
+    opacity: 1;
+}
+
+.button:hover {
+    color: #111111;
+    box-shadow: 0 0 0 5px rgba(166, 177, 194, 0.2);
+}
+
+.button:active {
+    scale: 0.97;
+}
+/* ===================== global form  ===================== */
+input[type="text"],
+input[type="number"],
+input[type="url"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    transition: border 0.3s ease;
+    box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}

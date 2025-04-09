@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${wishlist.name}">Ønskeseddel</title>
+    <link rel="icon" type="image/png" href="../images/icons/favicon.png">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/wishlist-overview.css}">
+    <link rel="stylesheet" th:href="@{/css/wishlist.css}">
+</head>
+<body>
+
+<div th:replace="~{header :: header}"></div>
+
+<div class="content-wrapper">
+    <div class="wishlist-overview-container">
+        <h2 th:text="${wishlist.name}">Min ønskeseddel</h2>
+        <div class="share-section" th:if="${wishlist.shareToken != null}">
+            <p>Del din ønskeseddel:</p>
+            <div class="share-preview">
+                <input type="text"
+                       id="shareLinkInput"
+                       th:value="'http://localhost:8080/view/' + ${wishlist.shareToken}"
+                       readonly
+                       onclick="this.select()">
+                <button onclick="copyShareLink(document.getElementById('shareLinkInput').value)">Kopier</button>
+            </div>
+
+
+            <p style="font-size: 0.8em; color: #888;">Kopier linket og send det til familie og venner</p>
+        </div>
+
+
+
+
+        <div class="create-wishlist-link-container">
+            <a href="#" class="create-wishlist-link" onclick="openAddItemPopup(); return false;">+ Tilføj produkt</a>
+        </div>
+
+        <div class="popup-overlay" id="popup-overlay"></div>
+
+        <div id="add-item-popup" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closeAddItemPopup()">&times;</span>
+                <h2>Tilføj produkt</h2>
+                <form th:action="@{'/wishlist/' + ${wishlist.wishListId} + '/item'}" method="post">
+                    <div class="form-group">
+                        <label for="name">Produkt navn</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Beskrivelse</label>
+                        <textarea id="description" name="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Pris (DKK)</label>
+                        <input type="number" id="price" name="price" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="url">Link til produkt</label>
+                        <input type="url" id="url" name="url">
+                    </div>
+                    <button type="submit" class="button">Gem produkt</button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- ITEMS -->
+        <div class="items-container">
+            <div th:each="item : ${wishlist.items}" class="item-card">
+                <div class="wishlist-card-overlay">
+                    <h3 th:text="${item.name}">Item name</h3>
+                    <p th:text="${item.description}">Item description</p>
+                    <p th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 2, 'POINT')} + ' DKK'">0.00 DKK</p>
+                    <p th:if="${item.url != null && !item.url.isEmpty()}">
+                        <a th:href="${item.url}" target="_blank" class="button">Se produkt</a>
+                    </p>
+                    <div class="item-buttons">
+                        <a th:href="@{'/wishlist/item/' + ${item.itemId} + '/edit'}" class="button edit-button">Rediger</a>
+                        <a href="#" class="button delete-button" th:onclick="'deleteItem(' + ${item.itemId} + ')'">Slet</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{footer :: footer}"></div>
+
+<script th:src="@{/js/wishlist-functions.js}"></script>
+
+</body>
+</html>

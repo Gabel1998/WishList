@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../images/icons/favicon.png">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/policy.css}">
+    <title>Privacy</title>
+</head>
+
+<body>
+<!-- ======== HEADER TEMPLATE ======== -->
+<div th:replace="~{header}"></div>
+
+<!--=========INDHOLD============-->
+<div class="policy-container">
+    <h1>Datapolitik</h1>
+    <p>Vi værner om dine personoplysninger og behandler dem i overensstemmelse med gældende databeskyttelseslovgivning, herunder EU’s generelle forordning om databeskyttelse (GDPR).</p>
+
+    <h2>Hvilke oplysninger indsamler vi?</h2>
+    <ul>
+        <li>Navn og e-mailadresse ved brugeroprettelse</li>
+        <li>Login oplysninger og sessionsdata</li>
+        <li>Ønskesedler og tilhørende indhold, som du opretter</li>
+        <li>Reservér-ønsker, der foretages via delte ønskesedler</li>
+    </ul>
+
+    <h2>Hvordan bruger vi dine oplysninger?</h2>
+    <p>Vi bruger dine oplysninger til at levere og forbedre vores tjeneste, herunder:</p>
+    <ul>
+        <li>At give adgang til din ønskeseddel og personlige funktioner</li>
+        <li>At muliggøre deling og reservation af ønsker</li>
+        <li>At sikre login og sessionsstyring</li>
+    </ul>
+
+    <h2>Retsgrundlag for behandling</h2>
+    <p>Vi behandler dine oplysninger med hjemmel i enten dit samtykke, en kontraktmæssig forpligtelse (f.eks. at levere en ønskeseddel-tjeneste), eller fordi det er nødvendigt for at overholde lovgivning.</p>
+
+    <h2>Deling af oplysninger</h2>
+    <p>Vi deler ikke dine oplysninger med tredjeparter, medmindre det er nødvendigt for at levere vores tjeneste, eller vi er juridisk forpligtet til det.</p>
+
+    <h2>Opbevaringsperiode</h2>
+    <p>Vi opbevarer dine data, så længe du har en bruger hos os, eller så længe det er nødvendigt for at overholde gældende lovgivning.</p>
+
+    <h2>Dine rettigheder</h2>
+    <p>Du har ret til:</p>
+    <ul>
+        <li>Indsigt i de oplysninger vi har om dig</li>
+        <li>At få rettet eller slettet dine oplysninger</li>
+        <li>At trække samtykke tilbage</li>
+        <li>At klage til Datatilsynet</li>
+    </ul>
+
+    <p>Kontakt os via kontaktformularen, hvis du ønsker at gøre brug af dine rettigheder.</p>
+
+    <p>Læs også vores <a th:href="@{/cookies}">cookiepolitik</a> for detaljer om brug af cookies.</p>
+
+    <p>Sidst opdateret: 3. april 2025</p>
+</div><!-- ======== FOOTER ======== -->
+<div th:replace="~{footer}"></div>
+
+
+<script th:src="@{/js/burgermenu.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../images/icons/favicon.png">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/policy.css}">
+</head>
+<body>
+
+<!-- ======== HEADER TEMPLATE ======== -->
+<div th:replace="~{header :: header}"></div>
+
+<!--=========INDHOLD============-->
+<main class="page-container">
+    <div class="policy-container">
+        <h1>Cookiepolitik</h1>
+        <p>Denne cookiepolitik forklarer, hvordan vi anvender cookies og lignende teknologier, når du besøger vores hjemmeside. Ved at bruge vores site accepterer du vores brug af cookies i overensstemmelse med denne politik.</p>
+
+        <h2>Hvad er cookies?</h2>
+        <p>Cookies er små tekstfiler, der gemmes på din computer eller mobilenhed, når du besøger en hjemmeside. De bruges bredt for at få hjemmesider til at fungere, eller fungere mere effektivt, samt til at give information til sidens ejere.</p>
+
+        <h2>Typer af cookies vi bruger</h2>
+        <ul>
+            <li><strong>Nødvendige cookies:</strong> Disse cookies er afgørende for, at hjemmesiden fungerer korrekt. De muliggør grundlæggende funktioner som navigation og adgang til sikre områder.</li>
+            <li><strong>Funktionelle cookies:</strong> Bruges til at huske dine valg og præferencer (såsom sprog eller region), for at forbedre din brugeroplevelse.</li>
+            <li><strong>Statistiske cookies:</strong> Indsamler anonym information om, hvordan besøgende bruger hjemmesiden – f.eks. hvilke sider der besøges mest.</li>
+            <li><strong>Marketing cookies:</strong> Bruges til at spore besøgende på tværs af websites og vise relevante annoncer.</li>
+        </ul>
+
+        <h2>Sådan kan du kontrollere cookies</h2>
+        <p>De fleste browsere giver dig mulighed for at administrere dine cookie-indstillinger. Du kan vælge at blokere eller slette cookies. Vær dog opmærksom på, at nogle funktioner på hjemmesiden muligvis ikke virker korrekt, hvis du fravælger cookies.</p>
+
+        <h2>Ændringer i cookiepolitikken</h2>
+        <p>Vi forbeholder os retten til at opdatere denne cookiepolitik løbende. Datoen for seneste ændring vil fremgå nederst på siden.</p>
+
+        <p>Sidst opdateret: 3. april 2025</p>
+
+        <p>Læs også vores <a th:href="@{/privacy}">datapolitik</a> for information om, hvordan vi håndterer dine personoplysninger.</p>
+    </div>
+</main>
+
+<!-- ======== FOOTER ======== -->
+<div th:replace="~{footer :: footer}"></div>
+
+<script th:src="@{/js/burgermenu.js}"></script>
+</body>
+</html>

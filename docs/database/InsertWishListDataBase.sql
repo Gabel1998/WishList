@@ -1,54 +1,33 @@
-INSERT INTO users (name, email, password)
-VALUES
-  ('Andreas Gabel', 'andreas@example.com', '1234'),
-  ('Rasmus Mellerkær', 'rasmus@example.com', '1234'),
-  ('Alexander Örn', 'alexander@example.com', '1234'),
-  ('Sofie Nakskov', 'sofie@example.com', '1234');
+-- === TESTDATA ===
 
--- Forudsætter at brugerne får ID 100–103
-INSERT INTO wishlists (user_id, name)
-VALUES
-  (100, 'Andreas’ Fødselsdag'),
-  (101, 'Rasmus’ Sommerønsker'),
-  (102, 'Alexanders Jul'),
-  (103, 'Sofies Indflytning');
+-- Brugere
+INSERT INTO tb_users (email, password, name)
+VALUES ('andreas@example.com', 'password123', 'Andreas Gabel'),
+       ('sofie@example.com', 'hunter2', 'Sofie Hansen');
 
--- Andreas
-INSERT INTO items (wishlist_id, name, description, price, quantity, link)
-VALUES
-  (1000, 'Bluetooth Speaker', 'Lang batteritid', 499.95, 1, 'https://example.com/speaker'),
-  (1000, 'Sokker', 'Uldsokker til vinter', 79.50, 3, 'https://example.com/socks');
+-- Ønskelister
+INSERT INTO tb_wishlists (wl_user_id, name, share_token)
+VALUES (100, 'Andreas’ Fødselsdagsliste', 'token-andreas'),
+       (101, 'Sofies Juleønsker', 'token-sofie');
 
--- Rasmus
-INSERT INTO items (wishlist_id, name, description, price, quantity, link)
-VALUES
-  (1001, 'Solbriller', 'Polariserede Ray-Ban', 899.00, 1, 'https://example.com/sunglasses'),
-  (1001, 'Campingstol', 'Foldbar og let', 249.00, 1, 'https://example.com/chair');
+-- Ønsker
+INSERT INTO tb_items (it_wishlist_id, name, description, price, url, reserved)
+VALUES (1000, 'PlayStation 5', 'Nyeste generation konsol', 4999.95, 'https://example.com/ps5', false),
+       (1000, 'Bose Headphones', 'Støjdæmpende høretelefoner', 2499.00, 'https://example.com/bose', false),
+       (1001, 'Harry Potter bogsæt', 'Alle 7 bøger', 699.00, 'https://example.com/hpbooks', false);
 
--- Alexander
-INSERT INTO items (wishlist_id, name, description, price, quantity, link)
-VALUES
-  (1002, 'PlayStation 5', 'Standard edition', 4499.00, 1, 'https://example.com/ps5'),
-  (1002, 'Gaming Headset', 'Til lange nætter', 799.00, 1, 'https://example.com/headset');
+-- Delte ønskelister
+INSERT INTO shared_wishlists (sw_wishlist_id, share_token)
+VALUES (1000, 'share-uuid-andreas'),
+       (1001, 'share-uuid-sofie');
 
--- Sofie
-INSERT INTO items (wishlist_id, name, description, price, quantity, link)
-VALUES
-  (1003, 'Køkkenknivsæt', 'Rustfrit stål', 599.00, 1, 'https://example.com/knives'),
-  (1003, 'Plante', 'Grøn og nem at passe', 129.00, 2, 'https://example.com/plant');
+-- Delte ønsker (kopi fra tb_items)
+INSERT INTO shared_items (si_shared_wishlist_id, original_item_id, name, description, price, url)
+VALUES (2000, 10000, 'PlayStation 5', 'Nyeste generation konsol', 4999.95, 'https://example.com/ps5'),
+       (2000, 10001, 'Bose Headphones', 'Støjdæmpende høretelefoner', 2499.00, 'https://example.com/bose'),
+       (2001, 10002, 'Harry Potter bogsæt', 'Alle 7 bøger', 699.00, 'https://example.com/hpbooks');
 
--- Husk: UUID() genererer en unik token hver gang
-INSERT INTO shared_wishlists (original_wishlist_id, share_token)
-VALUES (1000, UUID());
-
--- Kopi af Andreas' 2 ønsker fra wishlist_id 1000
-INSERT INTO shared_items (shared_wishlist_id, original_item_id, name, description, price, quantity, link)
-VALUES
-  (1000, 10000, 'Bluetooth Speaker', 'Lang batteritid', 499.95, 1, 'https://example.com/speaker'),
-  (1000, 10001, 'Sokker', 'Uldsokker til vinter', 79.50, 3, 'https://example.com/socks');
-
--- Antag shared_item_id 10000 og 10001
-INSERT INTO reservations (shared_item_id, reserved_quantity)
-VALUES
-  (10000, 1),  -- Bluetooth Speaker reserveret
-  (10001, 2);  -- 2 ud af 3 sokker reserveret
+-- Reservationer (fx en ven reserverer et ønske)
+INSERT INTO tb_reservations (rsv_items_id)
+VALUES (20000), -- PS5 fra Andreas' delt liste
+       (20002); -- Harry Potter bøger fra Sofies delt liste

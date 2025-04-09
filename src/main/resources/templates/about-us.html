@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Om Os</title>
+  <link rel="icon" type="image/png" href="../images/icons/favicon.png">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/css/about-us.css}">
+</head>
+<body>
+
+  <div th:replace="~{header :: header}"></div>
+
+
+<main>
+  <section class="about-description">
+    <h2>ARSA Interactive</h2>
+    <p>Vi er en virksomhed, der fokuserer på bæredygtighed og blablalabal.</p>
+  </section>
+
+  <section class="about-section">
+    <h2>Vores team</h2>
+    <div class="about-row">
+
+      <div class="about-column">
+        <div class="about-card">
+          <img src="/images/about-pics/Alexander.jpg" alt="Alexander">
+          <div class="about-content">
+            <h3>Alexander Örn</h3>
+            <p class="title">Developer</p>
+            <div class="about-infobox">
+              <p><span class="info-label">Fact:</span> Island</p>
+              <p><span class="info-label">Hobby:</span> Alt og ingenting</p>
+              <p><span class="info-label">Yndlingsdyr:</span> Hund</p>
+              <p class="email-text">Alexander@example.com</p>
+            </div>
+            <button class="about-button"><a href="https://pbs.twimg.com/media/FTnqgzWXEAA04kf.png">Contact</a></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-column">
+        <div class="about-card">
+          <img src="/images/about-pics/Andreas.jpg" alt="Andreas">
+          <div class="about-content">
+            <h3>Andreas Gabel</h3>
+            <p class="title">Scrum Master</p>
+            <div class="about-infobox">
+              <p><span class="info-label">Fact:</span> Søværnet</p>
+              <p><span class="info-label">Hobby:</span> Lykkeligt parforhold</p>
+              <p><span class="info-label">Yndlingsdyr:</span> En reje</p>
+              <p class="email-text">Andreas@example.com</p>
+            </div>
+            <button class="about-button"><a href="https://pbs.twimg.com/media/FTnqgzWXEAA04kf.png">Contact</a></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-column">
+        <div class="about-card">
+          <img src="/images/about-pics/Rasmus.jpg" alt="Rasmus">
+          <div class="about-content">
+            <h3>Rasmus Mellerkaer</h3>
+            <p class="title">Developer</p>
+            <div class="about-infobox">
+              <p><span class="info-label">Fact:</span> Navn staves med 2 s'er</p>
+              <p><span class="info-label">Hobby:</span> Træning</p>
+              <p><span class="info-label">Yndlingsdyr:</span> Los</p>
+              <p class="email-text">Rasmus@example.com</p>
+            </div>
+            <button class="about-button"><a href="https://pbs.twimg.com/media/FTnqgzWXEAA04kf.png">Contact</a></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-column">
+        <div class="about-card">
+          <img src="/images/about-pics/Sofie.jpg" alt="Sofie">
+          <div class="about-content">
+            <h3>Sofie Nakskov</h3>
+            <p class="title">Product Owner</p>
+            <div class="about-infobox">
+              <p><span class="info-label">Fact:</span> For mange hobbyer</p>
+              <p><span class="info-label">Hobby:</span> For mange</p>
+              <p><span class="info-label">Yndlingsdyr:</span> Vandrende pind</p>
+              <p class="email-text">Sofie@example.com</p>
+            </div>
+            <button class="about-button"><a href="https://pbs.twimg.com/media/FTnqgzWXEAA04kf.png">Contact</a></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+
+  <!-- ======== FOOTER ======== -->
+  <div th:replace="~{footer :: footer}"></div>
+  <script th:src="@{/js/burgermenu.js}"></script>
+
+</body>
+</html>

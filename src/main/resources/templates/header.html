@@ -1,0 +1,31 @@
+<header th:fragment="header">
+    <div class="header-container">
+
+        <div class="logo">
+            <a th:href="@{/}"><img th:src="@{/images/icons/favicon.png}" alt="Logo" class="nav-logo"></a>
+            <h1>WishList</h1>
+        </div>
+
+        <nav class="main-nav">
+            <ul class="nav-menu">
+                <li><a th:href="@{/}">Hjem</a></li>
+                <li><a th:href="@{/wishlists}">Ønskesedler</a></li>
+                <li><a th:href="@{/shared}">Delte ønskesedler</a></li>
+            </ul>
+        </nav>
+
+        <div class="user-controls">
+            <!-- Ikke logget ind -->
+            <div th:if="${session.user == null}" class="login-opret-bruger">
+                <a th:href="@{/login}" class="nav-button">Login</a>
+                <a th:href="@{/register}" class="register-link">Ny bruger?</a>
+            </div>
+
+            <!-- Logget ind -->
+            <div th:if="${session.user != null}" class="user-info">
+                <span th:text="${session.user}">Brugernavn</span>
+                <a th:href="@{/logout}" class="nav-button">Log ud</a>
+            </div>
+        </div>
+    </div>
+</header>

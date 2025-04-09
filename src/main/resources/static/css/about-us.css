@@ -1,0 +1,174 @@
+.about-description {
+    max-width: 1100px;
+    margin: 2rem auto 3rem auto;
+    border-left: 5px solid var(--primary-color);
+    padding-left: 1rem;
+}
+
+.about-description h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.about-description p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.about-section h2 {
+    max-width: 1100px;
+    margin: 2rem auto 3rem auto;
+    font-size: 2rem;
+    color: var(--text-color);
+    border-left: 5px solid var(--primary-color);
+    padding-left: 1rem;
+}
+
+.about-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    flex-wrap: wrap;
+}
+
+.about-column {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex: 1 1 22%;
+    min-width: 270px;
+    max-width: 320px;
+    height: 100%;
+}
+
+.about-card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-bottom: 80px;
+    padding-top: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%;
+    align-items: center;
+}
+
+.about-card img {
+    height: auto;
+    width: 150px;
+    max-width: 150px;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border-radius: 50%;
+}
+
+.about-card h3 {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.info-label {
+    display: inline-block;
+    width: 100px;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.about-infobox {
+    text-align: left;
+    width: 100%;
+}
+
+.about-infobox p {
+    margin: 5px 0;
+    text-align: left;
+}
+
+.about-infobox p:first-child {
+    text-align: left;
+}
+
+.about-content {
+    text-align: center;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.about-content p {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin: 5px 0;
+    line-height: 1.6;
+}
+
+.email-text {
+    text-align: right;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    padding: 5px;
+    color: var(--primary-color);
+}
+
+.about-button {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto; /* Center knap */
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+}
+
+.about-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.about-button:active {
+    transform: scale(0.98);
+}
+
+/* Responsive layout til de små :* */
+@media (max-width: 768px) {
+    .about-row {
+        justify-content: center;
+    }
+
+    .about-card {
+        flex-direction: column;
+        max-width: 100%;
+        align-items: center;
+    }
+
+    .about-card img {
+        width: 100%;
+        max-width: 150px;
+        height: auto;
+    }
+
+    .about-content {
+        text-align: center;
+    }
+}

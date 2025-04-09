@@ -1,7 +1,7 @@
 ---
 name: "Ny Issue"
 about: "Opret en ny issue med projektinformation"
-title: "[ISSUE] "
+name: "[ISSUE] "
 labels: ["To Do"]
 assignees: []
 ---

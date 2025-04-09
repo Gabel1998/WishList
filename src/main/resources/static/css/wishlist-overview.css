@@ -1,0 +1,229 @@
+body {
+    padding-top: 0 !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.content-wrapper {
+    flex: 1;
+    padding: 50px 0 60px;
+    background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.wishlist-overview-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+/* ===================== Page Header ===================== */
+.wishlist-overview-container h2 {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: var(--text-color);
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.wishlist-overview-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+/* ===================== Create Button ===================== */
+.wishlist-overview-container > .btn {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 40px;
+    background-color: #388e3c;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.wishlist-overview-container > .btn:hover {
+    background-color: #4CAF50;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.create-wishlist-link-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.create-wishlist-link {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    text-decoration: none;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.create-wishlist-link:hover {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    text-decoration: underline !important;;
+}
+
+/* ===================== Wishlist Grid ===================== */
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.wishlist-card {
+    position: relative;
+    height: auto;
+    min-height: 200px;
+    max-height: 300px;
+    border-radius: 16px;
+    overflow: hidden;
+    background-image: url('../images/wishlist-icons/bg_dark.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.wishlist-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+}
+
+.wishlist-card-overlay {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 280px;
+}
+
+.wishlist-card-overlay h3 {
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.wishlist-card-overlay .btn {
+    cursor: pointer;
+    position: relative;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    border-radius: 30px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.wishlist-card-overlay .btn:hover {
+    background-color: white;
+    color: black;
+    border-color: white;
+}
+
+.wishlist-card:hover {
+    transform: scale(1.015);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ===================== Empty State ===================== */
+.wishlist-overview-container > div:first-of-type {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.wishlist-overview-container > div:first-of-type p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    color: rgba(232, 245, 233, 0.8);
+}
+
+/* ===================== Små knapper ===================== */
+.item-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    width: 65%;
+}
+
+.item-buttons .button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    flex: 1; /* equal space */
+    text-align: center;
+    width: 100%;
+}
+
+.item-buttons .delete-button {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: rgba(220, 53, 69, 0.5);
+}
+
+.item-buttons .delete-button:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.item-buttons .share-button {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-color: rgba(76, 175, 80, 0.5);
+}
+
+.item-buttons .share-button:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+footer {
+    margin-top: auto;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .wishlist-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .wishlist-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,305 @@
+.items-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.item-card {
+    position: relative;
+    height: auto;
+    min-height: 200px;
+    max-height: 300px;
+    border-radius: 16px;
+    overflow: hidden;
+    background-image: url('../images/wishlist-icons/bg_dark.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.item-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+}
+
+.item-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 5px;
+    width: 65%;
+}
+
+.item-buttons .button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-buttons .edit-button {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-color: rgba(255, 193, 7, 0.5);
+}
+
+.item-buttons .delete-button {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: rgba(220, 53, 69, 0.5);
+}
+
+.item-buttons .edit-button:hover {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.item-buttons .delete-button:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.wishlist-card-overlay {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    color: white;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 280px;
+}
+
+.wishlist-card-overlay p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.wishlist-card-overlay h3 {
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* ===================== POPUP STYLING ===================== */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(3px);
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.popup-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    background-image: url('../images/wishlist-icons/bg_dark.jpg');
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    max-width: 500px;
+    width: 90%;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.popup.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.popup-content {
+    position: relative;
+    padding: 30px;
+    color: var(--text-color);
+}
+
+.popup-content h2 {
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.popup-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close:hover {
+    color: var(--primary-color);
+}
+
+.popup-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.popup-content .form-group {
+    margin-bottom: 15px;
+}
+
+.popup-content .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.popup-content button {
+    display: block;
+    margin: 25px auto 0;
+    padding: 10px 24px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.popup-content button:hover {
+    background-color: #3a9e41;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .items-container {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .popup {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .items-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.share-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px auto;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.share-section p {
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.share-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.share-preview input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--text-color);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.share-preview button {
+    padding: 12px 20px;
+    background-color: transparent;
+    border: 2px solid #A6B1C2;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.share-preview button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #C4CCDA;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: -1;
+}
+
+.share-preview button:hover::before {
+    opacity: 1;
+}
+
+.share-preview button:hover {
+    color: #111111;
+    box-shadow: 0 0 0 5px rgba(166, 177, 194, 0.2);
+}
+
+.share-preview button:active {
+    scale: 0.97;
+}

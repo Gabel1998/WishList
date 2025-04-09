@@ -1,0 +1,77 @@
+/* ===================== Global ===================== */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+}
+
+/* ===================== Login Container ===================== */
+.login-container, .register-container{
+    background-color: var(--container-color);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 450px;
+    margin: 10vh auto;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    z-index: 10;
+    transition: all 0.3s ease;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===================== Heading ===================== */
+h1 {
+    color: var(--text-color);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* ===================== Form Elements ===================== */
+input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #4CAF50;
+    background-color: #fff;
+    color: #333;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* ===================== Register Link ===================== */
+.register-link {
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.register-link:hover {
+    color: #388e3c;
+    text-decoration: underline;
+}
+
+/* ===================== Footer ===================== */
+footer {
+    display: none;
+}
